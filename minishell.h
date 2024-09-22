@@ -6,10 +6,12 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/09/22 20:23:12 by hamad            ###   ########.fr       */
+/*   Updated: 2024/09/22 20:31:47 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+#include "libft/libft.h"
+#include <signal.h>
 #endif
