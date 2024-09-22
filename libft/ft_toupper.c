@@ -1,15 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: truedeveloper <truedeveloper@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/09/22 20:23:12 by hamad            ###   ########.fr       */
+/*   Created: 2023/11/04 08:28:38 by hamalmar          #+#    #+#             */
+/*   Updated: 2023/11/09 10:21:30 by truedevelop      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-#endif
+int	ft_toupper(int c)
+{
+	if (c >= 0141 && c <= 0172)
+		return (c - 040);
+	return (c);
+}

@@ -1,15 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/09/22 20:23:12 by hamad            ###   ########.fr       */
+/*   Created: 2023/11/11 11:58:20 by hamalmar          #+#    #+#             */
+/*   Updated: 2023/12/01 22:55:27 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-#endif
+#include "libft.h"
+
+int	ft_lstsize(t_list *lst)
+{
+	int		size;
+
+	if (!lst)
+		return (0);
+	size = 1;
+	while (lst->next != 0)
+	{
+		size++;
+		lst = lst->next;
+	}
+	return (size);
+}

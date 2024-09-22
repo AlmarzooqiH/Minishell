@@ -1,15 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_isonlyspace.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/09/22 20:23:12 by hamad            ###   ########.fr       */
+/*   Created: 2024/09/19 15:13:59 by hamad             #+#    #+#             */
+/*   Updated: 2024/09/19 15:17:20 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-#endif
+#include "libft.h"
+
+int	ft_isonlyspace(const char *s)
+{
+	size_t	i;
+
+	if (!s || s[0] == '\0')
+		return (0);
+	i = 0;
+	while (ft_isspace(s[i]))
+		i++;
+	return (i == ft_strlen(s));
+}
