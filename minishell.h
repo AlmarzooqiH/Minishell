@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/09/23 17:57:30 by hamad            ###   ########.fr       */
+/*   Updated: 2024/09/23 20:55:32 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,16 @@
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# include "libft/libft.h"
+/*
+                /\__  _\                /\_ \              /\ \                  
+                \/_/\ \/     ___     ___\//\ \    __  __   \_\ \     __    ____  
+                   \ \ \   /' _ `\  /'___\\ \ \  /\ \/\ \  /'_` \  /'__`\ /',__\ 
+                    \_\ \__/\ \/\ \/\ \__/ \_\ \_\ \ \_\ \/\ \L\ \/\  __//\__, `\
+                    /\_____\ \_\ \_\ \____\/\____\\ \____/\ \___,_\ \____\/\____/
+                    \/_____/\/_/\/_/\/____/\/____/ \/___/  \/__,_ /\/____/\/___/
+*/
 # include <signal.h>
+# include <stdio.h>
 # include <readline/readline.h>
 # include <string.h>
 # include <fcntl.h>
@@ -33,4 +41,5 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include "error.h"
+# include "libft/libft.h"
 #endif
