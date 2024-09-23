@@ -1,6 +1,7 @@
 PROGRAM_NAME = minishell
 COMPILER = cc
 FLAGS = -Wall -Wextra -Werror
+READLINE_FLAG = -lreadline
 LIBFT_A = libft/libft.a
 MANDATORY = main.c
 MANDATORY_OBJS = $(MANDATORY:.c=.o)
@@ -8,7 +9,7 @@ MANDATORY_OBJS = $(MANDATORY:.c=.o)
 all: libft mandatory
 
 mandatory: $(MANDATORY_OBJS)
-	$(COMPILER) $(FLAGS) $(MANDATORY_OBJS) $(LIBFT_A) -o $(PROGRAM_NAME)
+	$(COMPILER) $(FLAGS) $(MANDATORY_OBJS) $(LIBFT_A) $(READLINE_FLAG) -o $(PROGRAM_NAME)
 
 $(MANDATORY_OBJS): $(MANDATORY)
 	$(COMPILER) $(FLAGS) -c $(MANDATORY)
