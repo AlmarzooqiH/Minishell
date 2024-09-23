@@ -1,19 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/22 20:41:00 by hamad             #+#    #+#             */
-/*   Updated: 2024/09/23 17:09:19 by hamad            ###   ########.fr       */
+/*   Created: 2024/09/23 17:06:14 by hamad             #+#    #+#             */
+/*   Updated: 2024/09/23 17:07:02 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int	main(void)
-{
-	ft_printf("TEST\n\0");
-	return (0);
-}
+#ifndef ERROR_H
+# define ERROR_H
+# define WRONG_INPUT "Wrong input\0"
+#endif
