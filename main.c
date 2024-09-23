@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:41:00 by hamad             #+#    #+#             */
-/*   Updated: 2024/09/23 17:09:19 by hamad            ###   ########.fr       */
+/*   Updated: 2024/09/23 20:57:05 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 
 int	main(void)
 {
-	ft_printf("TEST\n\0");
+	char	*line;
+
+	while (1)
+	{
+		line = readline("\e[32mMartho shell\e[0m# ");
+		if (line)
+			printf("%s", line);
+	}
 	return (0);
 }
