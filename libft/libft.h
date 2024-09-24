@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 08:27:04 by hamalmar          #+#    #+#             */
-/*   Updated: 2024/09/21 10:08:12 by hamalmar         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:12:27 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,5 @@ int					ft_print_unsigned_num(unsigned int n);
 int					ft_print_address(void *arg);
 long				ft_atol(const char *str);
 double				ft_atod(const char *s);
+size_t				count_split(char **argv);
 #endif
