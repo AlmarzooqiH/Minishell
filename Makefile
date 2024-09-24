@@ -3,7 +3,7 @@ COMPILER = cc
 FLAGS = -Wall -Wextra -Werror
 READLINE_FLAG = -lreadline
 LIBFT_A = libft/libft.a
-MANDATORY = main.c
+MANDATORY = main.c processing.c
 MANDATORY_OBJS = $(MANDATORY:.c=.o)
 
 all: libft mandatory
