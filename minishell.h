@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/09/23 20:55:32 by hamad            ###   ########.fr       */
+/*   Updated: 2024/09/24 12:32:48 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include "error.h"
+# include "commands.h"
 # include "libft/libft.h"
 #endif
