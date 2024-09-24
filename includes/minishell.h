@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/09/24 13:23:16 by hamad            ###   ########.fr       */
+/*   Updated: 2024/09/24 19:20:37 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include <signal.h>
 # include <stdio.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 # include <string.h>
 # include <fcntl.h>
 # include <sys/types.h>
@@ -42,7 +43,7 @@
 # include <termios.h>
 # include "error.h"
 # include "commands.h"
-# include "libft/libft.h"
+# include "../libft/libft.h"
 /*
  ____    __  __  __  __  ____    ______  ______   _____   __  __     
 /\  _`\ /\ \/\ \/\ \/\ \/\  _`\ /\__  _\/\__  _\ /\  __`\/\ \/\ \    

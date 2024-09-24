@@ -6,11 +6,11 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:03:10 by hamad             #+#    #+#             */
-/*   Updated: 2024/09/24 14:14:31 by hamad            ###   ########.fr       */
+/*   Updated: 2024/09/24 19:27:37 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "includes/minishell.h"
 
 void	process_input(const char *command)
 {

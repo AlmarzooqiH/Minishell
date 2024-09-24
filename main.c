@@ -6,11 +6,11 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:41:00 by hamad             #+#    #+#             */
-/*   Updated: 2024/09/24 14:19:27 by hamad            ###   ########.fr       */
+/*   Updated: 2024/09/24 19:27:30 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "includes/minishell.h"
 
 int	main(void)
 {
