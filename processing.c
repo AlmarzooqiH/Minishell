@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:03:10 by hamad             #+#    #+#             */
-/*   Updated: 2024/09/30 21:46:49 by hamad            ###   ########.fr       */
+/*   Updated: 2024/09/30 23:50:27 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	process_input(const char *command)
 
 	split = ft_split(command, ' ');
 	len = count_split(split);
-	if (!split || !*split || !len || len == 1)
+	if (!split || !*split || !len)
 	{
 		free_split(split);
 		return ;

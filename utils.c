@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:26:39 by hamad             #+#    #+#             */
-/*   Updated: 2024/09/30 21:33:55 by hamad            ###   ########.fr       */
+/*   Updated: 2024/09/30 23:42:26 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,9 @@ int	has_pipe(char **commands, size_t len)
 		i++;
 	}
 	return (0);
+}
+
+int		has_flag(char *flag, char *flag_in)
+{
+	return (ft_strcmp(flag_in, flag));
 }
