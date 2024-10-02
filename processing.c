@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:03:10 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/01 16:25:43 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/02 08:01:06 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	process_commands(char **commands, size_t len)
 {
 	if (ft_strcmp(commands[0], ECHO_COMMAND))
 		process_echo(commands, len);
+	else
+		execute_binary(commands);
 }
 
 /*
