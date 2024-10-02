@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/02 12:48:51 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/02 19:54:16 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	execute_binary(char	**commands)
 	char	**bdir;
 	pid_t	childpid;
 	size_t	i;
+	int		fd;
 
 	childpid = fork();
 	if (!childpid)
@@ -69,12 +70,12 @@ void	execute_binary(char	**commands)
 			exit(EXIT_FAILURE);
 		i = 0;
 		while (bdir[i])
-		{
-			ft_execute(bdir[i], commands);
-			i++;
-		}
+			ft_execute(bdir[i++], commands);
 		free_split(bdir);
+		close(fd);
+		return ;
 	}
 	else if (childpid > 0)
 		waitpid(childpid, NULL, 0);
+	close(fd);
 }
