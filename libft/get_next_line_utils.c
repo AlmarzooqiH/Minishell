@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/11 07:50:50 by hamalmar          #+#    #+#             */
-/*   Updated: 2024/10/02 08:19:33 by hamad            ###   ########.fr       */
+/*   Created: 2023/12/11 12:39:02 by hamalmar          #+#    #+#             */
+/*   Updated: 2024/10/02 13:26:41 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*copy_before_n(const char *buf)
 {
-	unsigned int	i;
-	unsigned int	j;
-	char			*new_s;
+	size_t	i;
 
-	new_s = malloc (sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
-	if (new_s == 0)
-		return (0);
+	if (!buf)
+		return (NULL);
 	i = 0;
-	while (s1[i] != '\0')
+	while (buf[i] != '\0')
 	{
-		new_s[i] = s1[i];
+		if (buf[i] == '\n')
+			break ;
 		i++;
 	}
-	j = 0;
-	while (s2[j] != '\0')
-	{
-		new_s[i] = s2[j];
+	if (buf[i] == '\n')
 		i++;
-		j++;
-	}
-	new_s[i] = '\0';
-	return (new_s);
+	return (ft_substr(buf, 0, i));
 }

@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 08:27:04 by hamalmar          #+#    #+#             */
-/*   Updated: 2024/09/24 13:12:27 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/02 13:28:45 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 
 # define UPPER "0123456789ABCDEF"
 # define LOWER "0123456789abcdef"
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 69
+# endif
 
 typedef struct s_list
 {
@@ -86,4 +89,10 @@ int					ft_print_address(void *arg);
 long				ft_atol(const char *str);
 double				ft_atod(const char *s);
 size_t				count_split(char **argv);
+char	*get_next_line(int fd);
+char	*read_line(int fd, char *buf);
+char	*copy_before_n(const char *buf);
+char	*copy_after_n(char *buf);
+int		check_for_n(char *buf);
+char	*join_and_free(char *buf1, char *buf2);
 #endif
