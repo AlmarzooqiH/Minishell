@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:26:39 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/01 16:26:13 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/02 12:48:56 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,28 @@ int	has_pipe(char **commands, size_t len)
 int	has_flag(char *flag, char *flag_in)
 {
 	return (ft_strcmp(flag_in, flag));
+}
+
+/*
+	@brief				This will execute the passed executable.
+	@param	pvar		This holds the path variable(PATH, HOME, USER, etc...).
+	@param	commands	This holds the commands that was passed.
+	@var	temp		This will hold the path of the PATH enviorment variable
+	@var	bpath		This will hold the exectuable/binary file path which is
+						temp/binary or temp/exectuable.
+*/
+void	ft_execute(char	*pvar, char **commands)
+{
+	char	*temp;
+	char	*bpath;
+
+	temp = ft_strjoin(pvar, "/");
+	if (!temp)
+		return ;
+	bpath = ft_strjoin(temp, commands[0]);
+	if (!bpath)
+		return ;
+	execve(bpath, commands, NULL);
+	free(temp);
+	free(bpath);
 }
