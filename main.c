@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:41:00 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/01 00:14:31 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/01 21:09:10 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 int	main(void)
 {
-	char		*line;
-	// HIST_ENTRY	**hist;
+	char	*line;
 
-	// hist = NULL;
 	while (1)
 	{
 		line = readline("\e[32mMartho shell\e[0m# ");
