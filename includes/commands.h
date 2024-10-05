@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:24:25 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/02 12:43:44 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/05 20:24:34 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@
 # define UNSET_COMMAND "unset\0"
 # define ENV_COMMAND "env\0"
 # define EXIT_COMMAND "exit\0"
+# define PIPE "|\0"
+# define REDICERTION_TO_FILE ">\0"
+# define REDIRECTION_TO_INPUT "<\0"
+# define APPEND_REDIRECTION ">>\0"
+# define HEREDOC_REDIRECTION "<<\0"
 /*
 				 ____    __       ______  ____    ____       
 				/\  _`\ /\ \     /\  _  \/\  _`\ /\  _`\     
