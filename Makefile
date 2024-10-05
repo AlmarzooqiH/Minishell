@@ -24,7 +24,7 @@ libft_fclean:
 	cd libft ; make fclean
 
 clean: libft_clean
-	rm -rf *.o *.out *.gch .vscode
+	rm -rf *.o *.out *.gch .vscode *.txt
 
 fclean: clean libft_fclean
 	rm -rf $(PROGRAM_NAME)
