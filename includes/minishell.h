@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/02 12:51:21 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/05 18:39:54 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,5 @@ int		has_flag(char *flag, char *flag_in);
 int		has_pipe(char **commands, size_t len);
 void	ft_execute(char	*pvar, char **commands);
 void	execute_binary(char	**commands);
+void  print_stdout(void);
 #endif
