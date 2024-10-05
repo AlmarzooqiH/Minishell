@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:26:39 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/02 12:48:56 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/05 20:42:44 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,13 @@
 int	has_pipe(char **commands, size_t len)
 {
 	size_t	i;
-	size_t	j;
 
 	if (!commands || !(*commands))
 		return (0);
 	while (i < len)
 	{
-		j = ft_skipspace(commands[i]);
-		while (commands[i][j])
-		{
-			if (commands[i][j] == '|')
-				return (1);
-			j++;
-		}
+		if (ft_strcmp(commands[i], PIPE))
+			return (1);
 		i++;
 	}
 	return (0);
@@ -71,4 +65,27 @@ void	ft_execute(char	*pvar, char **commands)
 	execve(bpath, commands, NULL);
 	free(temp);
 	free(bpath);
+}
+
+/*
+	@brief This function will print the content of stdout.
+	@var	s	Will hold each line of the stdout.
+	@var	fd	The file descriptor.
+*/
+void	print_stdout(void)
+{
+	char	*s;
+	int		fd;
+
+	fd = open("out.txt", O_RDONLY);
+	if (fd < 0)
+		return ;
+	s = get_next_line(fd);
+	while (s)
+	{
+		printf("%s", s);
+		free(s);
+		s = get_next_line(fd);
+	}
+	close(fd);
 }
