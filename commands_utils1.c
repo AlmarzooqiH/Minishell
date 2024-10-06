@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/02 19:54:16 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/06 22:30:27 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,12 @@ void	process_echo(char **commands, size_t len)
 	@brief				This function will process the passed executable name
 						based on the enviorment vairable(PATH).
 	@param	commands	This holds the commands that was passed.
+	@param	av			This holds the stdout data. It can be NULL also.
 	@var	bdir		This will hold the PATH executable paths
 	@var	childpid	This will hold the process id of the child.
 	@var	i			This will iterate over bdir.
 */
-void	execute_binary(char	**commands)
+void	execute_binary(char	**commands, char **av)
 {
 	char	**bdir;
 	pid_t	childpid;
@@ -63,14 +64,16 @@ void	execute_binary(char	**commands)
 	int		fd;
 
 	childpid = fork();
+	fd = open("out.txt", O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	if (!childpid)
 	{
 		bdir = ft_split(getenv("PATH"), ':');
+		dup2(fd, STDOUT_FILENO);
 		if (!bdir)
 			exit(EXIT_FAILURE);
 		i = 0;
 		while (bdir[i])
-			ft_execute(bdir[i++], commands);
+			ft_execute(bdir[i++], commands, av);
 		free_split(bdir);
 		close(fd);
 		return ;
