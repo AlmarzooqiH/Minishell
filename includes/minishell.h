@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/05 18:39:54 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/06 22:19:05 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,15 @@
 */
 void	process_input(const char *command);
 void	process_commands(char **commands, size_t len);
-void	process_commands_wp(char **commands, size_t len);
+void	process_commands_wp(char ***commands, size_t len);
 void	process_echo(char **commands, size_t len);
 int		has_flag(char *flag, char *flag_in);
-int		has_pipe(char **commands, size_t len);
-void	ft_execute(char	*pvar, char **commands);
-void	execute_binary(char	**commands);
-void  print_stdout(void);
+int		has_pipe(char *commands);
+void	ft_execute(char	*pvar, char **commands, char **av);
+void	execute_binary(char	**commands, char **av);
+void	print_stdout(void);
+char	**create_argv(void);
+long	count_lines(void);
+void	get_tokens(char *command, char ***tokens, char split);
+void	free_tokens(char ***tokens, int n_tokens);
 #endif

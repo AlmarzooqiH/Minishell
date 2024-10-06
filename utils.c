@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:26:39 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/05 20:42:44 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/06 22:47:51 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,24 @@
 						 a pipe('|').
 	@param	commands	This will hold all of the commands passed by the shell.
 	@param	len			This holds the length of the commands.
+	@return				The number of pipes found.
 */
-int	has_pipe(char **commands, size_t len)
+int	has_pipe(char *commands)
 {
-	size_t	i;
+	int	i;
+	int	n_pipes;
 
 	if (!commands || !(*commands))
 		return (0);
-	while (i < len)
+	i = 0;
+	n_pipes = 0;
+	while (commands[i])
 	{
-		if (ft_strcmp(commands[i], PIPE))
-			return (1);
+		if (commands[i] == '|')
+			n_pipes++;
 		i++;
 	}
-	return (0);
+	return (n_pipes);
 }
 
 /*
@@ -47,11 +51,13 @@ int	has_flag(char *flag, char *flag_in)
 	@brief				This will execute the passed executable.
 	@param	pvar		This holds the path variable(PATH, HOME, USER, etc...).
 	@param	commands	This holds the commands that was passed.
+	@param	av			This holds the stdout data. It can be NULL also.
 	@var	temp		This will hold the path of the PATH enviorment variable
 	@var	bpath		This will hold the exectuable/binary file path which is
 						temp/binary or temp/exectuable.
+	@return				Nothing.
 */
-void	ft_execute(char	*pvar, char **commands)
+void	ft_execute(char	*pvar, char **commands, char **av)
 {
 	char	*temp;
 	char	*bpath;
@@ -62,7 +68,10 @@ void	ft_execute(char	*pvar, char **commands)
 	bpath = ft_strjoin(temp, commands[0]);
 	if (!bpath)
 		return ;
-	execve(bpath, commands, NULL);
+	if (av)
+		execve(bpath, av, NULL);
+	else
+		execve(bpath, commands, NULL);
 	free(temp);
 	free(bpath);
 }
@@ -88,4 +97,36 @@ void	print_stdout(void)
 		s = get_next_line(fd);
 	}
 	close(fd);
+}
+
+/*
+	@brief	This function will read the stdout file and create argv to redirect
+			to the next command.
+	@return	This will return a char ** That contains the stdout.
+*/
+char	**create_argv(void)
+{
+	char		**av;
+	int			fd;
+	long		n_lines;
+	long		i;
+
+	fd = open("out.txt", O_RDONLY);
+	n_lines = count_lines();
+	if (fd < 0 || n_lines <= 0)
+		return (NULL);
+	av = (char **)malloc(sizeof(char *) * (n_lines + 1));
+	if (!av)
+		return (NULL);
+	i = 0;
+	while (i < n_lines)
+	{
+		av[i] = get_next_line(fd);
+		if (!av[i])
+			return (free_split(av), NULL);
+		i++;
+	}
+	av[i] = NULL;
+	close(fd);
+	return (av);
 }
