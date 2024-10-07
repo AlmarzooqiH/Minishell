@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:03:10 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/06 22:19:21 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/07 21:49:24 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,15 @@ void	process_commands(char **commands, size_t len)
 						-ontain pipes.
 	@param	commands	This holds the user input.
 	@param	len			This holds the length of the commands that was passed.
+	@var	temp_av		This will hold the stdout of the prevoius command temp-
+						-orarly.
+	@var	av			This will hold the second command + flags and the temp-
+						-_av which will be passed to execute_binary.
 */
 void	process_commands_wp(char ***commands, size_t len)
 {
 	size_t	i;
+	char	**temp_av;
 	char	**av;
 
 	i = 0;
@@ -43,11 +48,15 @@ void	process_commands_wp(char ***commands, size_t len)
 	{
 		process_commands(commands[i], count_split(commands[i]));
 		i++;
-		av = create_argv();
-		if (!av)
+		temp_av = create_argv();
+		if (!temp_av)
 			return ;
+		av = ft_join_split(commands[i], temp_av);
+		if (!av)
+			return (free_split(temp_av));
 		if (commands[i])
 			execute_binary(commands[i], av);
+		free_split(temp_av);
 		free_split(av);
 	}
 }

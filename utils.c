@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:26:39 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/06 22:47:51 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/07 21:14:23 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,23 +57,30 @@ int	has_flag(char *flag, char *flag_in)
 						temp/binary or temp/exectuable.
 	@return				Nothing.
 */
-void	ft_execute(char	*pvar, char **commands, char **av)
+int	ft_execute(char	*pvar, char **commands, char **av)
 {
 	char	*temp;
 	char	*bpath;
+	int		exit_status;
 
 	temp = ft_strjoin(pvar, "/");
 	if (!temp)
-		return ;
-	bpath = ft_strjoin(temp, commands[0]);
-	if (!bpath)
-		return ;
+		return (EXIT_FAILURE);
 	if (av)
-		execve(bpath, av, NULL);
+		bpath = ft_strjoin(temp, av[0]);
 	else
-		execve(bpath, commands, NULL);
+		bpath = ft_strjoin(temp, commands[0]);
+	if (!bpath)
+		return (EXIT_FAILURE);
+	if (av)
+		exit_status = execve(bpath, av, NULL);
+	else
+		exit_status = execve(bpath, commands, NULL);
 	free(temp);
 	free(bpath);
+	if (exit_status == -1)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 /*
@@ -107,6 +114,7 @@ void	print_stdout(void)
 char	**create_argv(void)
 {
 	char		**av;
+	char		*temp;
 	int			fd;
 	long		n_lines;
 	long		i;
@@ -114,19 +122,20 @@ char	**create_argv(void)
 	fd = open("out.txt", O_RDONLY);
 	n_lines = count_lines();
 	if (fd < 0 || n_lines <= 0)
-		return (NULL);
+		return (close(fd), NULL);
 	av = (char **)malloc(sizeof(char *) * (n_lines + 1));
 	if (!av)
 		return (NULL);
 	i = 0;
 	while (i < n_lines)
 	{
-		av[i] = get_next_line(fd);
-		if (!av[i])
+		temp = get_next_line(fd);
+		if (!temp)
+			return (free(temp), NULL);
+		av[i] = ft_strtrim(temp, "\n");
+		if (!av[i++])
 			return (free_split(av), NULL);
-		i++;
 	}
 	av[i] = NULL;
-	close(fd);
-	return (av);
+	return (close(fd), av);
 }
