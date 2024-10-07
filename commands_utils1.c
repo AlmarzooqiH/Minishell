@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/06 22:30:27 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/07 21:48:32 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ void	execute_binary(char	**commands, char **av)
 			exit(EXIT_FAILURE);
 		i = 0;
 		while (bdir[i])
-			ft_execute(bdir[i++], commands, av);
+			if (!ft_execute(bdir[i++], commands, av))
+				return (close(fd), free_split(bdir));
 		free_split(bdir);
 		close(fd);
 		return ;
