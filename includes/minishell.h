@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/06 22:19:05 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/07 21:50:09 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	process_commands_wp(char ***commands, size_t len);
 void	process_echo(char **commands, size_t len);
 int		has_flag(char *flag, char *flag_in);
 int		has_pipe(char *commands);
-void	ft_execute(char	*pvar, char **commands, char **av);
+int		ft_execute(char	*pvar, char **commands, char **av);
 void	execute_binary(char	**commands, char **av);
 void	print_stdout(void);
 char	**create_argv(void);
