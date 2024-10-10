@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:26:39 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/10 14:25:55 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/10 16:12:14 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	has_pipe(char *commands)
 	if (!commands || !(*commands))
 		return (0);
 	i = 0;
-	n_pipes = 0;
+	n_pipes = 1;
 	while (commands[i])
 	{
 		if (commands[i] == '|')
@@ -68,11 +68,9 @@ int	ft_execute(char	*pvar, char **commands)
 	bpath = ft_strjoin(temp, commands[0]);
 	if (!bpath)
 		return (1);
-	free(temp);
-	free(bpath);
 	if (execve(bpath, commands, NULL) == -1)
-		return (1);
-	return (0);
+		return (free(temp), free(bpath), 1);
+	return (free(temp), free(bpath), 0);
 }
 
 /*

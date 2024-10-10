@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/10 14:27:04 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/10 18:08:58 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	one_command(char **commands, char **bdir, int *fd)
 	{
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
 			return (perror("STDOUT dup2 failed"), exit(EXIT_FAILURE));
+		close_pipes(fd);
 		i = 0;
 		while (bdir[i])
 		{
@@ -94,13 +95,10 @@ void	one_command(char **commands, char **bdir, int *fd)
 				break ;
 			i++;
 		}
-		close_pipes(fd);
 		exit(EXIT_SUCCESS);
 	}
 	else if (childpid > 0)
 		waitpid(childpid, NULL, 0);
-	if (dup2(fd[0], STDIN_FILENO) == -1)
-		return (perror("STDIN dup2 failed"), exit(EXIT_FAILURE));
 	return (print_stdout(fd[0]));
 }
 
@@ -113,7 +111,7 @@ void	one_command(char **commands, char **bdir, int *fd)
 	@var	childpid	This will hold the process id of the child.
 	@var	i			This will iterate over bdir.
 */
-void	execute_binary2(char ***commands, size_t size)
+void	execute_binary(char ***commands, size_t size)
 {
 	int		fd[2];
 	char	**bdir;
@@ -139,5 +137,5 @@ void	execute_binary2(char ***commands, size_t size)
 			perror("Fork failed.");
 		i++;
 	}
-	free_split(bdir);
+	return (free_split(bdir), close_pipes(fd));
 }

@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:03:10 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/09 20:43:04 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/10 17:16:33 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	process_commands(char ***commands, size_t len)
 	if (ft_strcmp(commands[0][0], ECHO_COMMAND))
 		process_echo(commands[0], len);
 	else
-		execute_binary2(commands, len);
+		execute_binary(commands, len);
 }
 
 /*
@@ -39,7 +39,7 @@ void	process_commands(char ***commands, size_t len)
 */
 void	process_commands_wp(char ***commands, size_t len)
 {
-	execute_binary2(commands, len);
+	execute_binary(commands, len);
 }
 
 /*
@@ -54,8 +54,6 @@ void	process_input(const char *command)
 	int		n_pipes;
 
 	n_pipes = has_pipe((char *)command);
-	if (!n_pipes)
-		n_pipes = 1;
 	tokens = (char ***)malloc(sizeof(char **) * (n_pipes + 1));
 	if (!tokens)
 		return ;
