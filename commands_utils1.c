@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/10 13:29:22 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/10 14:27:04 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	process_child(char **bdir, char **commands, int *fd)
 	exit(EXIT_SUCCESS);
 }
 
-void	one_command(char	**commands, char **bdir, int *fd)
+void	one_command(char **commands, char **bdir, int *fd)
 {
 	int		i;
 	pid_t	childpid;
@@ -90,7 +90,6 @@ void	one_command(char	**commands, char **bdir, int *fd)
 		i = 0;
 		while (bdir[i])
 		{
-			printf("bdir[%d]: %s\n", i, bdir[i]);
 			if (!ft_execute(bdir[i], commands))
 				break ;
 			i++;
@@ -102,8 +101,7 @@ void	one_command(char	**commands, char **bdir, int *fd)
 		waitpid(childpid, NULL, 0);
 	if (dup2(fd[0], STDIN_FILENO) == -1)
 		return (perror("STDIN dup2 failed"), exit(EXIT_FAILURE));
-	print_stdout(fd[0]);
-	close_pipes(fd);
+	return (print_stdout(fd[0]));
 }
 
 /*

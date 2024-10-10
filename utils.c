@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:26:39 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/10 13:29:19 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/10 14:25:55 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,28 +55,24 @@ int	has_flag(char *flag, char *flag_in)
 	@var	temp		This will hold the path of the PATH enviorment variable
 	@var	bpath		This will hold the exectuable/binary file path which is
 						temp/binary or temp/exectuable.
-	@return				Nothing.
+	@return				0 if successful. 1 if failure.
 */
 int	ft_execute(char	*pvar, char **commands)
 {
 	char	*temp;
 	char	*bpath;
-	int		exit_status;
 
 	temp = ft_strjoin(pvar, "/");
 	if (!temp)
-		return (EXIT_FAILURE);
+		return (1);
 	bpath = ft_strjoin(temp, commands[0]);
 	if (!bpath)
-		return (EXIT_FAILURE);
-	for(size_t i = 0; i < count_split(commands); i++)
-		printf("bpath: %s\tcommands[%zu]: %s\n", bpath, i, commands[i]);
-	exit_status = execve(bpath, commands, NULL);
+		return (1);
 	free(temp);
 	free(bpath);
-	if (exit_status == -1)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	if (execve(bpath, commands, NULL) == -1)
+		return (1);
+	return (0);
 }
 
 /*
@@ -97,7 +93,6 @@ void	print_stdout(int fd)
 		free(s);
 		s = get_next_line(fd);
 	}
-	close(fd);
 }
 
 /*
