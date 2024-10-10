@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/07 21:48:32 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/10 13:29:22 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,65 @@ void	process_echo(char **commands, size_t len)
 		write(1, "\n", 1);
 }
 
+void	process_parent(char **bdir, char **commands, pid_t cpid, int *fd)
+{
+	int		i;
+	char	**out;
+
+	waitpid(cpid, NULL, 0);
+	out = create_argv(fd[0]);
+	if (!out)
+		return ;
+	i = 0;
+	while (bdir[i] && ft_execute(bdir[i], commands))
+		i++;
+	free_split(out);
+	// print_stdout(fd);
+	close_pipes(fd);
+}
+
+void	process_child(char **bdir, char **commands, int *fd)
+{
+	int	i;
+
+	if (dup2(fd[1], STDOUT_FILENO) == -1)
+		return (perror("dup2 failed"), exit(EXIT_FAILURE));
+	i = 0;
+	while (bdir[i] && ft_execute(bdir[i], commands))
+		i++;
+	close_pipes(fd);
+	exit(EXIT_SUCCESS);
+}
+
+void	one_command(char	**commands, char **bdir, int *fd)
+{
+	int		i;
+	pid_t	childpid;
+
+	childpid = fork();
+	if (!childpid)
+	{
+		if (dup2(fd[1], STDOUT_FILENO) == -1)
+			return (perror("STDOUT dup2 failed"), exit(EXIT_FAILURE));
+		i = 0;
+		while (bdir[i])
+		{
+			printf("bdir[%d]: %s\n", i, bdir[i]);
+			if (!ft_execute(bdir[i], commands))
+				break ;
+			i++;
+		}
+		close_pipes(fd);
+		exit(EXIT_SUCCESS);
+	}
+	else if (childpid > 0)
+		waitpid(childpid, NULL, 0);
+	if (dup2(fd[0], STDIN_FILENO) == -1)
+		return (perror("STDIN dup2 failed"), exit(EXIT_FAILURE));
+	print_stdout(fd[0]);
+	close_pipes(fd);
+}
+
 /*
 	@brief				This function will process the passed executable name
 						based on the enviorment vairable(PATH).
@@ -56,30 +115,31 @@ void	process_echo(char **commands, size_t len)
 	@var	childpid	This will hold the process id of the child.
 	@var	i			This will iterate over bdir.
 */
-void	execute_binary(char	**commands, char **av)
+void	execute_binary2(char ***commands, size_t size)
 {
+	int		fd[2];
 	char	**bdir;
 	pid_t	childpid;
 	size_t	i;
-	int		fd;
 
-	childpid = fork();
-	fd = open("out.txt", O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	if (!childpid)
-	{
-		bdir = ft_split(getenv("PATH"), ':');
-		dup2(fd, STDOUT_FILENO);
-		if (!bdir)
-			exit(EXIT_FAILURE);
-		i = 0;
-		while (bdir[i])
-			if (!ft_execute(bdir[i++], commands, av))
-				return (close(fd), free_split(bdir));
-		free_split(bdir);
-		close(fd);
+	if (pipe(fd) == -1)
 		return ;
+	bdir = ft_split(getenv("PATH"), ':');
+	if (!bdir)
+		return ;
+	i = 0;
+	if (size == 1)
+		return (one_command(commands[0], bdir, fd), close_pipes(fd));
+	while (i < size)
+	{
+		childpid = fork();
+		if (!childpid)
+			return (process_child(bdir, commands[i], fd));
+		else if (childpid > 0)
+			process_parent(bdir, commands[i], childpid, fd);
+		else if (childpid < 0)
+			perror("Fork failed.");
+		i++;
 	}
-	else if (childpid > 0)
-		waitpid(childpid, NULL, 0);
-	close(fd);
+	free_split(bdir);
 }

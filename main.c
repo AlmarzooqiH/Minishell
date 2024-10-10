@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:41:00 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/07 19:11:20 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/09 19:50:41 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ int	main(void)
 			add_history(line);
 			free(line);
 		}
-		print_stdout();
-		unlink("out.txt");
 	}
 	return (0);
 }

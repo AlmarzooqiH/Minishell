@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:26:39 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/07 21:14:23 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/10 13:29:19 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	has_flag(char *flag, char *flag_in)
 						temp/binary or temp/exectuable.
 	@return				Nothing.
 */
-int	ft_execute(char	*pvar, char **commands, char **av)
+int	ft_execute(char	*pvar, char **commands)
 {
 	char	*temp;
 	char	*bpath;
@@ -66,16 +66,12 @@ int	ft_execute(char	*pvar, char **commands, char **av)
 	temp = ft_strjoin(pvar, "/");
 	if (!temp)
 		return (EXIT_FAILURE);
-	if (av)
-		bpath = ft_strjoin(temp, av[0]);
-	else
-		bpath = ft_strjoin(temp, commands[0]);
+	bpath = ft_strjoin(temp, commands[0]);
 	if (!bpath)
 		return (EXIT_FAILURE);
-	if (av)
-		exit_status = execve(bpath, av, NULL);
-	else
-		exit_status = execve(bpath, commands, NULL);
+	for(size_t i = 0; i < count_split(commands); i++)
+		printf("bpath: %s\tcommands[%zu]: %s\n", bpath, i, commands[i]);
+	exit_status = execve(bpath, commands, NULL);
 	free(temp);
 	free(bpath);
 	if (exit_status == -1)
@@ -88,16 +84,14 @@ int	ft_execute(char	*pvar, char **commands, char **av)
 	@var	s	Will hold each line of the stdout.
 	@var	fd	The file descriptor.
 */
-void	print_stdout(void)
+void	print_stdout(int fd)
 {
 	char	*s;
-	int		fd;
 
-	fd = open("out.txt", O_RDONLY);
 	if (fd < 0)
 		return ;
 	s = get_next_line(fd);
-	while (s)
+	while (s != NULL)
 	{
 		printf("%s", s);
 		free(s);
@@ -111,16 +105,14 @@ void	print_stdout(void)
 			to the next command.
 	@return	This will return a char ** That contains the stdout.
 */
-char	**create_argv(void)
+char	**create_argv(int fd)
 {
 	char		**av;
 	char		*temp;
-	int			fd;
 	long		n_lines;
 	long		i;
 
-	fd = open("out.txt", O_RDONLY);
-	n_lines = count_lines();
+	n_lines = count_lines(fd);
 	if (fd < 0 || n_lines <= 0)
 		return (close(fd), NULL);
 	av = (char **)malloc(sizeof(char *) * (n_lines + 1));

@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/07 21:50:09 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/10 11:20:28 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,20 @@
 
 */
 void	process_input(const char *command);
-void	process_commands(char **commands, size_t len);
+void	process_commands(char ***commands, size_t len);
 void	process_commands_wp(char ***commands, size_t len);
 void	process_echo(char **commands, size_t len);
 int		has_flag(char *flag, char *flag_in);
 int		has_pipe(char *commands);
-int		ft_execute(char	*pvar, char **commands, char **av);
-void	execute_binary(char	**commands, char **av);
-void	print_stdout(void);
-char	**create_argv(void);
-long	count_lines(void);
+int		ft_execute(char	*pvar, char **commands);
+// void	execute_binary(char	**commands, char **av);
+void	print_stdout(int fd);
+char	**create_argv(int fd);
+long	count_lines(int fd);
 void	get_tokens(char *command, char ***tokens, char split);
 void	free_tokens(char ***tokens, int n_tokens);
+void	execute_binary2(char ***commands, size_t size);
+void	process_child(char **bdir, char **commands, int *fd);
+void	process_parent(char **bdir, char **commands, pid_t cpid, int *fd);
+void	close_pipes(int *fd);
 #endif

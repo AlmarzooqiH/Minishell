@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:23:52 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/07 14:05:20 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/10 11:22:18 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,11 @@
 	@return	On success it will return the number of lines.
 	@return	On failure it will return -1.
 */
-long	count_lines(void)
+long	count_lines(int fd)
 {
 	char	*s;
-	int		fd;
 	size_t	size;
 
-	fd = open("out.txt", O_RDONLY);
 	if (fd < 0)
 		return (-1);
 	size = 0;
@@ -89,6 +87,8 @@ void	free_tokens(char ***tokens, int n_tokens)
 {
 	int	i;
 
+	if (!tokens || !tokens[0])
+		return ;
 	i = 0;
 	while (i < n_tokens)
 	{
@@ -96,4 +96,17 @@ void	free_tokens(char ***tokens, int n_tokens)
 		i++;
 	}
 	free(tokens);
+}
+
+/*
+	@brief		This function will close the pipeline between the processes.
+	@param	fd	This will hold the file descriptors.
+	@return		Void.
+*/
+void	close_pipes(int *fd)
+{
+	if (fd[0] >= 0)
+		close(fd[0]);
+	if (fd[1] >= 0)
+		close(fd[1]);
 }

@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:03:10 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/07 21:49:24 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/09 20:43:04 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
 	@param	commands	This holds the user input.
 	@param	len			This holds the length of the commands that was passed.
 */
-void	process_commands(char **commands, size_t len)
+void	process_commands(char ***commands, size_t len)
 {
-	if (ft_strcmp(commands[0], ECHO_COMMAND))
-		process_echo(commands, len);
+	if (ft_strcmp(commands[0][0], ECHO_COMMAND))
+		process_echo(commands[0], len);
 	else
-		execute_binary(commands, NULL);
+		execute_binary2(commands, len);
 }
 
 /*
@@ -39,26 +39,7 @@ void	process_commands(char **commands, size_t len)
 */
 void	process_commands_wp(char ***commands, size_t len)
 {
-	size_t	i;
-	char	**temp_av;
-	char	**av;
-
-	i = 0;
-	while (commands[i] && i < len)
-	{
-		process_commands(commands[i], count_split(commands[i]));
-		i++;
-		temp_av = create_argv();
-		if (!temp_av)
-			return ;
-		av = ft_join_split(commands[i], temp_av);
-		if (!av)
-			return (free_split(temp_av));
-		if (commands[i])
-			execute_binary(commands[i], av);
-		free_split(temp_av);
-		free_split(av);
-	}
+	execute_binary2(commands, len);
 }
 
 /*
@@ -70,26 +51,21 @@ void	process_commands_wp(char ***commands, size_t len)
 void	process_input(const char *command)
 {
 	char	***tokens;
-	char	**temp_split;
 	int		n_pipes;
 
 	n_pipes = has_pipe((char *)command);
-	if (n_pipes >= 1)
+	if (!n_pipes)
+		n_pipes = 1;
+	tokens = (char ***)malloc(sizeof(char **) * (n_pipes + 1));
+	if (!tokens)
+		return ;
+	get_tokens((char *)command, tokens, '|');
+	if (n_pipes > 1)
 	{
-		tokens = (char ***)malloc(sizeof(char **) * (n_pipes + 1));
-		if (!tokens)
-			return ;
-		get_tokens((char *)command, tokens, '|');
 		process_commands_wp(tokens, n_pipes);
-		free_tokens(tokens, n_pipes);
 		tokens = NULL;
 	}
 	else
-	{
-		temp_split = ft_split((char *)command, ' ');
-		if (!temp_split || !temp_split[0])
-			return ;
-		process_commands(temp_split, count_split(temp_split));
-		free_split(temp_split);
-	}
+		process_commands(tokens, n_pipes);
+	free_tokens(tokens, n_pipes);
 }
