@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/10 18:08:58 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/11 15:49:47 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ void	process_parent(char **bdir, char **commands, pid_t cpid, int *fd)
 	while (bdir[i] && ft_execute(bdir[i], commands))
 		i++;
 	free_split(out);
-	// print_stdout(fd);
 	close_pipes(fd);
 }
 
 void	process_child(char **bdir, char **commands, int *fd)
 {
+	printf("Processing child\n");
 	int	i;
 
 	if (dup2(fd[1], STDOUT_FILENO) == -1)
@@ -73,11 +73,17 @@ void	process_child(char **bdir, char **commands, int *fd)
 	i = 0;
 	while (bdir[i] && ft_execute(bdir[i], commands))
 		i++;
-	close_pipes(fd);
 	exit(EXIT_SUCCESS);
 }
 
-void	one_command(char **commands, char **bdir, int *fd)
+/*
+	@brief				This function will be executed only if the user has pa-
+						-ssed one command e.g.: ls, touch, nano, etc...
+	@param	commands	This holds the command we want to pass.
+	@param	bdir		This holds the binary file path.
+	@return				void (Nothing).
+*/
+void	one_command(char **commands, char **bdir)
 {
 	int		i;
 	pid_t	childpid;
@@ -85,21 +91,13 @@ void	one_command(char **commands, char **bdir, int *fd)
 	childpid = fork();
 	if (!childpid)
 	{
-		if (dup2(fd[1], STDOUT_FILENO) == -1)
-			return (perror("STDOUT dup2 failed"), exit(EXIT_FAILURE));
-		close_pipes(fd);
 		i = 0;
-		while (bdir[i])
-		{
-			if (!ft_execute(bdir[i], commands))
-				break ;
+		while (bdir[i] && ft_execute(bdir[i], commands))
 			i++;
-		}
 		exit(EXIT_SUCCESS);
 	}
 	else if (childpid > 0)
 		waitpid(childpid, NULL, 0);
-	return (print_stdout(fd[0]));
 }
 
 /*
@@ -122,20 +120,20 @@ void	execute_binary(char ***commands, size_t size)
 		return ;
 	bdir = ft_split(getenv("PATH"), ':');
 	if (!bdir)
-		return ;
+		return (close_pipes(fd));
 	i = 0;
 	if (size == 1)
-		return (one_command(commands[0], bdir, fd), close_pipes(fd));
+		return (one_command(commands[0], bdir), close_pipes(fd));
 	while (i < size)
 	{
 		childpid = fork();
 		if (!childpid)
-			return (process_child(bdir, commands[i], fd));
+			process_child(bdir, commands[i], fd);
 		else if (childpid > 0)
 			process_parent(bdir, commands[i], childpid, fd);
 		else if (childpid < 0)
 			perror("Fork failed.");
 		i++;
 	}
-	return (free_split(bdir), close_pipes(fd));
+	return (free_split(bdir), print_stdout(fd[0]), close_pipes(fd));
 }
