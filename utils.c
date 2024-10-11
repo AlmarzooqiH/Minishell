@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:26:39 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/10 16:12:14 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/11 15:43:35 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	ft_execute(char	*pvar, char **commands)
 		return (1);
 	bpath = ft_strjoin(temp, commands[0]);
 	if (!bpath)
-		return (1);
+		return (free(temp), 1);
 	if (execve(bpath, commands, NULL) == -1)
 		return (free(temp), free(bpath), 1);
 	return (free(temp), free(bpath), 0);
@@ -91,6 +91,7 @@ void	print_stdout(int fd)
 		free(s);
 		s = get_next_line(fd);
 	}
+	close(fd);
 }
 
 /*
