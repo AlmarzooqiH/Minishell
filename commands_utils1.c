@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/11 15:49:47 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/11 19:05:35 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@
 						-rint what the user has entered.
 	@param	commands	This holds the user input.
 	@param	len			This holds the length of the commands that was passed.
+	@return				void (Nothing).
 */
 void	process_echo(char **commands, size_t len)
 {
 	size_t	i;
 	size_t	j;
-
+	
 	if (has_flag(NL_FLAG, commands[1]))
 		i = 2;
 	else
@@ -45,35 +46,6 @@ void	process_echo(char **commands, size_t len)
 	}
 	if (!has_flag(NL_FLAG, commands[1]))
 		write(1, "\n", 1);
-}
-
-void	process_parent(char **bdir, char **commands, pid_t cpid, int *fd)
-{
-	int		i;
-	char	**out;
-
-	waitpid(cpid, NULL, 0);
-	out = create_argv(fd[0]);
-	if (!out)
-		return ;
-	i = 0;
-	while (bdir[i] && ft_execute(bdir[i], commands))
-		i++;
-	free_split(out);
-	close_pipes(fd);
-}
-
-void	process_child(char **bdir, char **commands, int *fd)
-{
-	printf("Processing child\n");
-	int	i;
-
-	if (dup2(fd[1], STDOUT_FILENO) == -1)
-		return (perror("dup2 failed"), exit(EXIT_FAILURE));
-	i = 0;
-	while (bdir[i] && ft_execute(bdir[i], commands))
-		i++;
-	exit(EXIT_SUCCESS);
 }
 
 /*
@@ -101,6 +73,52 @@ void	one_command(char **commands, char **bdir)
 }
 
 /*
+	@brief				This function will process the secondary command and w-
+						-ill redirect the prevoius output to this current one.
+	@param	commands	This holds the command we want to pass.
+	@param	bdir		This holds the binary file path.
+	@param	cpid		Child process id.
+	@param	fd			This will hold the pipeline file descriptors.
+	@return				void (Nothing).
+*/
+void	process_parent(char **bdir, char **commands, pid_t cpid, int *fd)
+{
+	int		i;
+	char	**out;
+
+	waitpid(cpid, NULL, 0);
+	out = create_argv(fd[0]);
+	if (!out)
+		return ;
+	i = 0;
+	while (bdir[i] && ft_execute(bdir[i], commands))
+		i++;
+	free_split(out);
+	close_pipes(fd);
+}
+
+/*
+	@brief				This function will process that child process.
+	@param	commands	This holds the command we want to pass.
+	@param	bdir		This holds the binary file path.
+	@param	fd			This will hold the pipeline file descriptors.
+	@return				void (Nothing).
+*/
+void	process_child(char **bdir, char **commands, int *fd)
+{
+	printf("Processing child\n");
+	int	i;
+
+	if (dup2(fd[1], STDOUT_FILENO) == -1)
+		return (perror("dup2 failed"), exit(EXIT_FAILURE));
+	i = 0;
+	while (bdir[i] && ft_execute(bdir[i], commands))
+		i++;
+	exit(EXIT_SUCCESS);
+}
+
+
+/*
 	@brief				This function will process the passed executable name
 						based on the enviorment vairable(PATH).
 	@param	commands	This holds the commands that was passed.
@@ -108,6 +126,7 @@ void	one_command(char **commands, char **bdir)
 	@var	bdir		This will hold the PATH executable paths
 	@var	childpid	This will hold the process id of the child.
 	@var	i			This will iterate over bdir.
+	@return				void (Nothing).
 */
 void	execute_binary(char ***commands, size_t size)
 {
@@ -116,14 +135,14 @@ void	execute_binary(char ***commands, size_t size)
 	pid_t	childpid;
 	size_t	i;
 
-	if (pipe(fd) == -1)
-		return ;
 	bdir = ft_split(getenv("PATH"), ':');
 	if (!bdir)
-		return (close_pipes(fd));
-	i = 0;
+		return ;
 	if (size == 1)
-		return (one_command(commands[0], bdir), close_pipes(fd));
+		return (one_command(commands[0], bdir), free_split(bdir));
+	if (pipe(fd) == -1)
+		return ;
+	i = 0;
 	while (i < size)
 	{
 		childpid = fork();

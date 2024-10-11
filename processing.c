@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:03:10 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/11 15:58:16 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/11 16:21:05 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 void	process_commands(char ***commands, size_t len)
 {
 	if (ft_strcmp(commands[0][0], ECHO_COMMAND))
-		process_echo(commands[0], len);
+		process_echo(commands[0], count_split(commands[0]));
 	else
 		execute_binary(commands, len);
 }
@@ -53,6 +53,8 @@ void	process_input(const char *command)
 	char	***tokens;
 	int		n_pipes;
 
+	if (command[0] == '\0')
+		return ;
 	n_pipes = has_pipe((char *)command);
 	tokens = (char ***)malloc(sizeof(char **) * (n_pipes + 1));
 	if (!tokens)
