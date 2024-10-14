@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:23:52 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/11 19:00:43 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/14 21:28:27 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,30 @@ void	close_pipes(int *fd)
 		close(fd[0]);
 	if (fd[1] >= 0)
 		close(fd[1]);
+}
+
+char	**trim_command(char	**commands)
+{
+	char	**new;
+	char	*tmp;
+	size_t	i;
+	size_t	size;
+
+	if (!commands || !commands[0])
+		return (NULL);
+	size = count_split(commands);
+	new = (char **)malloc(sizeof(char *) * (size + 1));
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (i < size)
+	{
+		tmp = ft_strtrim(commands[i], "\"");
+		if (!tmp)
+			return (free_split(new), NULL);
+		new[i] = tmp;
+		i++;
+	}
+	new[i] = NULL;
+	return (new);
 }
