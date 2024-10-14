@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/11 19:05:35 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/14 21:30:26 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,19 @@ void	process_echo(char **commands, size_t len)
 	@param	bdir		This holds the binary file path.
 	@return				void (Nothing).
 */
-void	one_command(char **commands, char **bdir)
+void	one_command(char **bdir, char **commands, int *fd)
 {
 	int		i;
 	pid_t	childpid;
-
 	childpid = fork();
 	if (!childpid)
 	{
+		if (fd)
+		{
+			if (dup2(fd[1], STDOUT_FILENO) == -1)
+				perror("stdout dup2 failed");
+			close_pipes(fd);
+		}
 		i = 0;
 		while (bdir[i] && ft_execute(bdir[i], commands))
 			i++;
@@ -81,42 +86,33 @@ void	one_command(char **commands, char **bdir)
 	@param	fd			This will hold the pipeline file descriptors.
 	@return				void (Nothing).
 */
-void	process_parent(char **bdir, char **commands, pid_t cpid, int *fd)
+void	process_parent(char **bdir, char **commands, int *fd)
 {
 	int		i;
-	char	**out;
+	pid_t	ppid;
+	char	**new_commands;
 
-	waitpid(cpid, NULL, 0);
-	out = create_argv(fd[0]);
-	if (!out)
-		return ;
 	i = 0;
-	while (bdir[i] && ft_execute(bdir[i], commands))
-		i++;
-	free_split(out);
-	close_pipes(fd);
+	ppid = fork();
+	if (!ppid)
+	{
+		if (dup2(fd[0], STDIN_FILENO) == -1)
+			exit(EXIT_FAILURE);
+		close_pipes(fd);
+		new_commands = trim_command(commands);
+		if (!new_commands)
+			exit(EXIT_FAILURE);
+		while (bdir[i] && ft_execute(bdir[i],  new_commands))
+			i++;
+		free_split(new_commands);
+		exit(EXIT_SUCCESS);
+	}
+	if (ppid > 0)
+	{
+		close_pipes(fd);
+		waitpid(ppid, NULL, 0);
+	}
 }
-
-/*
-	@brief				This function will process that child process.
-	@param	commands	This holds the command we want to pass.
-	@param	bdir		This holds the binary file path.
-	@param	fd			This will hold the pipeline file descriptors.
-	@return				void (Nothing).
-*/
-void	process_child(char **bdir, char **commands, int *fd)
-{
-	printf("Processing child\n");
-	int	i;
-
-	if (dup2(fd[1], STDOUT_FILENO) == -1)
-		return (perror("dup2 failed"), exit(EXIT_FAILURE));
-	i = 0;
-	while (bdir[i] && ft_execute(bdir[i], commands))
-		i++;
-	exit(EXIT_SUCCESS);
-}
-
 
 /*
 	@brief				This function will process the passed executable name
@@ -125,34 +121,24 @@ void	process_child(char **bdir, char **commands, int *fd)
 	@param	av			This holds the stdout data. It can be NULL also.
 	@var	bdir		This will hold the PATH executable paths
 	@var	childpid	This will hold the process id of the child.
-	@var	i			This will iterate over bdir.
+	@var	i			This will iterate over the commands param.
 	@return				void (Nothing).
 */
+//Figure out how to pipe two processes then proceed with the multiple pipes.
 void	execute_binary(char ***commands, size_t size)
 {
-	int		fd[2];
+	int		fd[2]; 
 	char	**bdir;
-	pid_t	childpid;
-	size_t	i;
+	// size_t	i;
 
 	bdir = ft_split(getenv("PATH"), ':');
 	if (!bdir)
 		return ;
 	if (size == 1)
-		return (one_command(commands[0], bdir), free_split(bdir));
+		return (one_command(bdir, commands[0], NULL), free_split(bdir));
 	if (pipe(fd) == -1)
-		return ;
-	i = 0;
-	while (i < size)
-	{
-		childpid = fork();
-		if (!childpid)
-			process_child(bdir, commands[i], fd);
-		else if (childpid > 0)
-			process_parent(bdir, commands[i], childpid, fd);
-		else if (childpid < 0)
-			perror("Fork failed.");
-		i++;
-	}
-	return (free_split(bdir), print_stdout(fd[0]), close_pipes(fd));
+		return (free_split(bdir));
+	one_command(bdir, commands[0], fd);
+	process_parent(bdir, commands[1], fd);
+	return (free_split(bdir));
 }
