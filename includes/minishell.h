@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/11 19:01:12 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/14 21:29:24 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	get_tokens(char *command, char ***tokens, char split);
 void	free_tokens(char ***tokens, int n_tokens);
 void	execute_binary(char ***commands, size_t size);
 void	process_child(char **bdir, char **commands, int *fd);
-void	process_parent(char **bdir, char **commands, pid_t cpid, int *fd);
+void	process_parent(char **bdir, char **commands, int *fd);
 void	close_pipes(int *fd);
+char  **trim_command(char	**commands);
 #endif
