@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 08:27:04 by hamalmar          #+#    #+#             */
-/*   Updated: 2024/10/07 14:25:40 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/14 17:32:46 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define UPPER "0123456789ABCDEF"
 # define LOWER "0123456789abcdef"
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 69
+#  define BUFFER_SIZE 1024
 # endif
 
 typedef struct s_list
@@ -96,4 +96,5 @@ char				*copy_after_n(char *buf);
 int					check_for_n(char *buf);
 char				*join_and_free(char *buf1, char *buf2);
 char				**ft_join_split(char **split1, char **split2);
+void				print_split(char **s);
 #endif
