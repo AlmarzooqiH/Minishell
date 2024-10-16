@@ -6,13 +6,13 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:23:52 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/14 21:28:27 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/16 22:54:56 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-/*
+/**
 	@brief	This function will count the number of lines in stdout.
 	@return	On success it will return the number of lines.
 	@return	On failure it will return -1.
@@ -98,19 +98,42 @@ void	free_tokens(char ***tokens, int n_tokens)
 	free(tokens);
 }
 
-/*
-	@brief		This function will close the pipeline between the processes.
-	@param	fd	This will hold the file descriptors.
-	@return		Void.
+/**
+	@brief			This function will close the pipeline between the processes.
+	@param	fd		This will hold the file descriptors.
+	@param	which	0 will close the read end; 1 will close the write end; 2 w-
+					-ill close both.
+	@return			Void.
 */
-void	close_pipes(int *fd)
+void	close_pipe(int *fd, int which)
 {
-	if (fd[0] >= 0)
-		close(fd[0]);
-	if (fd[1] >= 0)
-		close(fd[1]);
+	if (which == 2)
+	{
+		if (fd[0] >= 0)
+			close(fd[0]);
+		if (fd[1] >= 0)
+			close(fd[1]);
+	}
+	else if (which == 0)
+	{
+		if (fd[0] >= 0)
+			close(fd[0]);
+	}
+	else if (which == 1)
+	{
+		if (fd[1] >= 0)
+			close(fd[1]);
+	}
 }
 
+/*
+	@brief				This function will take the commands and trim any \" t-
+						-hat are in the commands so it can process them withou-
+						-t any issues. e.g ls | grep -o "main" will be returne-
+						-d as grep -o main.
+	@param	commands	This will hold the commands passed by the user.
+	@return				char ** with trimmed qoutes \".
+*/
 char	**trim_command(char	**commands)
 {
 	char	**new;
