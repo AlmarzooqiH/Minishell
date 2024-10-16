@@ -6,13 +6,13 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:24:25 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/06 17:40:16 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/16 20:29:12 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMANDS_H
 # define COMMANDS_H
-/*
+/**
 		 ____     _____                     ______  __  __  ____    ____       
 		/\  _`\  /\  __`\  /'\_/`\  /'\_/`\/\  _  \/\ \/\ \/\  _`\ /\  _`\     
 		\ \ \/\_\\ \ \/\ \/\      \/\      \ \ \L\ \ \ `\\ \ \ \/\ \ \,\L\_\   
@@ -28,12 +28,11 @@
 # define UNSET_COMMAND "unset\0"
 # define ENV_COMMAND "env\0"
 # define EXIT_COMMAND "exit\0"
-# define PIPE "|\0"
 # define REDICERTION_TO_FILE ">\0"
 # define REDIRECTION_TO_INPUT "<\0"
 # define APPEND_REDIRECTION ">>\0"
 # define HEREDOC_REDIRECTION "<<\0"
-/*
+/**
 				 ____    __       ______  ____    ____       
 				/\  _`\ /\ \     /\  _  \/\  _`\ /\  _`\     
 				\ \ \L\_\ \ \    \ \ \L\ \ \ \L\_\ \,\L\_\   
@@ -43,7 +42,8 @@
 				    \/_/    \/___/   \/_/\/_/\/___/  \/_____/
 */
 # define NL_FLAG "-n\0"
-/*
+
+/**
 				 ____    __  __  __  __           ____       
 				/\  _`\ /\ \/\ \/\ \/\ \  /'\_/`\/\  _`\     
 				\ \ \L\_\ \ `\\ \ \ \ \ \/\      \ \,\L\_\   
