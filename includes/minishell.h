@@ -6,11 +6,11 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/14 21:29:24 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/16 21:56:13 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
+/**
              /'\_/`\  __          __         /\ \            /\_ \  /\_ \     
             /\      \/\_\    ___ /\_\    ____\ \ \___      __\//\ \ \//\ \    
             \ \ \__\ \/\ \ /' _ `\/\ \  /',__\\ \  _ `\  /'__`\\ \ \  \ \ \   
@@ -21,7 +21,7 @@
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-/*
+/**
                 /\__  _\                /\_ \              /\ \                  
                 \/_/\ \/     ___     ___\//\ \    __  __   \_\ \     __    ____  
                    \ \ \   /' _ `\  /'___\\ \ \  /\ \/\ \  /'_` \  /'__`\ /',__\ 
@@ -44,7 +44,7 @@
 # include "error.h"
 # include "commands.h"
 # include "../libft/libft.h"
-/*
+/**
  ____    __  __  __  __  ____    ______  ______   _____   __  __     
 /\  _`\ /\ \/\ \/\ \/\ \/\  _`\ /\__  _\/\__  _\ /\  __`\/\ \/\ \    
 \ \ \L\_\ \ \ \ \ \ `\\ \ \ \/\_\/_/\ \/\/_/\ \/ \ \ \/\ \ \ `\\ \   
@@ -76,8 +76,11 @@ long	count_lines(int fd);
 void	get_tokens(char *command, char ***tokens, char split);
 void	free_tokens(char ***tokens, int n_tokens);
 void	execute_binary(char ***commands, size_t size);
-void	process_child(char **bdir, char **commands, int *fd);
-void	process_parent(char **bdir, char **commands, int *fd);
-void	close_pipes(int *fd);
-char  **trim_command(char	**commands);
+void	one_command(char **bdir, char **commands, int fd[][2], size_t cpipe);
+void	process_parent(char **bdir, char **commands, int fd[][2], int cpipe);
+void	close_pipes(int fd[][2], size_t npipes);
+void	close_pipe(int *fd, int which);
+char 	**trim_command(char	**commands);
+int		dup_pipes(int *fd, int to);
+int		init_pipes(int fd[][2], size_t size);
 #endif
