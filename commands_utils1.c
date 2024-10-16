@@ -6,13 +6,13 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/14 21:30:26 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/16 23:07:25 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-/*
+/**
 	@brief				This function will execute the echo command and will p-
 						-rint what the user has entered.
 	@param	commands	This holds the user input.
@@ -48,28 +48,30 @@ void	process_echo(char **commands, size_t len)
 		write(1, "\n", 1);
 }
 
-/*
+/**
 	@brief				This function will be executed only if the user has pa-
 						-ssed one command e.g.: ls, touch, nano, etc...
 	@param	commands	This holds the command we want to pass.
 	@param	bdir		This holds the binary file path.
+	@param	cpipe		This holds the value of the current pipe. (0 - npipes).
 	@return				void (Nothing).
 */
-void	one_command(char **bdir, char **commands, int *fd)
+void	one_command(char **bdir, char **commands, int fd[][2], size_t cpipe)
 {
 	int		i;
 	pid_t	childpid;
+	char	**new_commands;
+
 	childpid = fork();
 	if (!childpid)
 	{
 		if (fd)
-		{
-			if (dup2(fd[1], STDOUT_FILENO) == -1)
-				perror("stdout dup2 failed");
-			close_pipes(fd);
-		}
+			dup_pipes(fd[cpipe], 1);
 		i = 0;
-		while (bdir[i] && ft_execute(bdir[i], commands))
+		new_commands = trim_command(commands);
+		if (!new_commands)
+			exit(EXIT_FAILURE);
+		while (bdir[i] && ft_execute(bdir[i],  new_commands))
 			i++;
 		exit(EXIT_SUCCESS);
 	}
@@ -77,68 +79,72 @@ void	one_command(char **bdir, char **commands, int *fd)
 		waitpid(childpid, NULL, 0);
 }
 
-/*
+/**
 	@brief				This function will process the secondary command and w-
 						-ill redirect the prevoius output to this current one.
 	@param	commands	This holds the command we want to pass.
 	@param	bdir		This holds the binary file path.
 	@param	cpid		Child process id.
 	@param	fd			This will hold the pipeline file descriptors.
+	@param	cpipe		This holds the value of the current pipe. (0 - npipes).
 	@return				void (Nothing).
 */
-void	process_parent(char **bdir, char **commands, int *fd)
+void	process_parent(char **bdir, char **commands, int fd[][2], int cpipe)
 {
 	int		i;
 	pid_t	ppid;
 	char	**new_commands;
 
+	if (!commands)
+		return ;
 	i = 0;
 	ppid = fork();
 	if (!ppid)
 	{
-		if (dup2(fd[0], STDIN_FILENO) == -1)
-			exit(EXIT_FAILURE);
-		close_pipes(fd);
+		dup_pipes(fd[cpipe], 0);
+		close_pipe(fd[cpipe], 1);
 		new_commands = trim_command(commands);
 		if (!new_commands)
 			exit(EXIT_FAILURE);
 		while (bdir[i] && ft_execute(bdir[i],  new_commands))
 			i++;
-		free_split(new_commands);
-		exit(EXIT_SUCCESS);
+		return (free_split(new_commands), exit(EXIT_SUCCESS));
 	}
 	if (ppid > 0)
 	{
-		close_pipes(fd);
+		close_pipe(fd[cpipe], 2);
 		waitpid(ppid, NULL, 0);
 	}
 }
 
-/*
+/**
 	@brief				This function will process the passed executable name
 						based on the enviorment vairable(PATH).
 	@param	commands	This holds the commands that was passed.
-	@param	av			This holds the stdout data. It can be NULL also.
+	@param	size		This holds the size of the commands.
 	@var	bdir		This will hold the PATH executable paths
-	@var	childpid	This will hold the process id of the child.
 	@var	i			This will iterate over the commands param.
 	@return				void (Nothing).
 */
-//Figure out how to pipe two processes then proceed with the multiple pipes.
 void	execute_binary(char ***commands, size_t size)
 {
-	int		fd[2]; 
+	int		fd[size][2];
 	char	**bdir;
-	// size_t	i;
+	size_t	i;
 
 	bdir = ft_split(getenv("PATH"), ':');
 	if (!bdir)
 		return ;
 	if (size == 1)
-		return (one_command(bdir, commands[0], NULL), free_split(bdir));
-	if (pipe(fd) == -1)
+		return (one_command(bdir, commands[0], NULL, 0), free_split(bdir));
+	if (init_pipes(fd, size) == -1)
 		return (free_split(bdir));
-	one_command(bdir, commands[0], fd);
-	process_parent(bdir, commands[1], fd);
+	one_command(bdir, commands[0], fd, 0);
+	i = 0;
+	while (i < (size - 1))
+	{
+		process_parent(bdir, commands[i + 1], fd, i);
+		i++;
+	}
 	return (free_split(bdir));
 }
