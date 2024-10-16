@@ -6,11 +6,12 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:26:39 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/14 21:16:11 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/16 19:45:49 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
 /*
 	@brief				This function will check if the passed commands contain
 						 a pipe('|').
@@ -93,7 +94,7 @@ void	print_stdout(int fd)
 	}
 }
 
-/*
+/**
 	@brief	This function will read the stdout file and create argv to redirect
 			to the next command.
 	@return	This will return a char ** That contains the stdout.
