@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/16 21:56:13 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/18 20:22:38 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ void	get_tokens(char *command, char ***tokens, char split);
 void	free_tokens(char ***tokens, int n_tokens);
 void	execute_binary(char ***commands, size_t size);
 void	one_command(char **bdir, char **commands, int fd[][2], size_t cpipe);
-void	process_parent(char **bdir, char **commands, int fd[][2], int cpipe);
+void	process_parent(char **bdir, char **commands, int fd[][2], size_t cpipe);
 void	close_pipes(int fd[][2], size_t npipes);
 void	close_pipe(int *fd, int which);
 char 	**trim_command(char	**commands);
-int		dup_pipes(int *fd, int to);
+int	dup_pipes(int fd[][2], size_t cpipe, int to);
 int		init_pipes(int fd[][2], size_t size);
 #endif
