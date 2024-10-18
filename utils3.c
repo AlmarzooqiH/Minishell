@@ -6,39 +6,39 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:13:43 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/16 22:15:42 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/18 20:22:13 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
 /**
-	@brief		This function will dup2 to stdin(0), stdout(1) or both to = 2.
+	@brief		This function will dup2 to stdin(0), stdout(1) or both(2).
 	@param	fd	This holds the file descriptors.
 	@param	to	This accepts 3 values 0, 1, 2.
 	@return		If duplication was successful 1 will be returned else -1.
 */
-int	dup_pipes(int *fd, int to)
+int	dup_pipes(int fd[][2], size_t cpipe, int to)
 {
 	if (!fd || to < 0)
 		return (-1);
 	if (to == 2)
 	{
-		if (dup2(fd[1], STDOUT_FILENO) < 0 || dup2(fd[0], STDIN_FILENO) < 0)
+		if (dup2(fd[cpipe + 1][1], STDOUT_FILENO) < 0 || dup2(fd[cpipe][0], STDIN_FILENO) < 0)
 			return (-1);
-		return (close_pipe(fd, to), 1);
+		return (close_pipe(fd[cpipe], 0), close_pipe(fd[cpipe], 1), 1);
 	}
 	if (to == 0)
 	{
-		if (dup2(fd[0], STDIN_FILENO) < 0)
+		if (dup2(fd[cpipe][0], STDIN_FILENO) < 0)
 			return (-1);
-		return (close_pipe(fd, to), 1);
+		return (close_pipe(fd[cpipe], to), 1);
 	}
 	if (to == 1)
 	{
-		if (dup2(fd[1], STDOUT_FILENO) < 0)
+		if (dup2(fd[cpipe][1], STDOUT_FILENO) < 0)
 			return (-1);
-		return (close_pipe(fd, to), 1);
+		return (close_pipe(fd[cpipe], to), 1);
 	}
 	return (-1);
 }
