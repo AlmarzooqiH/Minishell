@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/16 23:07:25 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/18 20:24:22 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	process_echo(char **commands, size_t len)
 {
 	size_t	i;
 	size_t	j;
-	
+
 	if (has_flag(NL_FLAG, commands[1]))
 		i = 2;
 	else
@@ -62,21 +62,25 @@ void	one_command(char **bdir, char **commands, int fd[][2], size_t cpipe)
 	pid_t	childpid;
 	char	**new_commands;
 
+	if (!commands)
+		return ;
 	childpid = fork();
 	if (!childpid)
 	{
-		if (fd)
-			dup_pipes(fd[cpipe], 1);
+		if (fd && dup_pipes(fd, cpipe, 1))
+			close_pipe(fd[cpipe], 0);
 		i = 0;
 		new_commands = trim_command(commands);
 		if (!new_commands)
 			exit(EXIT_FAILURE);
-		while (bdir[i] && ft_execute(bdir[i],  new_commands))
+		while (bdir[i] && ft_execute(bdir[i], new_commands))
 			i++;
 		exit(EXIT_SUCCESS);
 	}
 	else if (childpid > 0)
 		waitpid(childpid, NULL, 0);
+	if (fd && childpid > 0)
+		close_pipe(fd[cpipe], 1);
 }
 
 /**
@@ -89,7 +93,7 @@ void	one_command(char **bdir, char **commands, int fd[][2], size_t cpipe)
 	@param	cpipe		This holds the value of the current pipe. (0 - npipes).
 	@return				void (Nothing).
 */
-void	process_parent(char **bdir, char **commands, int fd[][2], int cpipe)
+void	process_parent(char **bdir, char **commands, int fd[][2], size_t cpipe)
 {
 	int		i;
 	pid_t	ppid;
@@ -101,12 +105,41 @@ void	process_parent(char **bdir, char **commands, int fd[][2], int cpipe)
 	ppid = fork();
 	if (!ppid)
 	{
-		dup_pipes(fd[cpipe], 0);
+		dup_pipes(fd, cpipe, 2);
+		close_pipe(fd[cpipe + 1], 0);
+		new_commands = trim_command(commands);
+		if (!new_commands)
+			exit(EXIT_FAILURE);
+		while (bdir[i] && ft_execute(bdir[i], new_commands))
+			i++;
+		return (free_split(new_commands), exit(EXIT_SUCCESS));
+	}
+	if (ppid > 0)
+	{
+		close_pipe(fd[cpipe], 2);
+		close_pipe(fd[cpipe + 1], 1);
+		waitpid(ppid, NULL, 0);
+	}
+}
+
+void	last_command(char **bdir, char **commands, int fd[][2], size_t cpipe)
+{
+	int		i;
+	pid_t	ppid;
+	char	**new_commands;
+
+	if (!commands)
+		return ;
+	i = 0;
+	ppid = fork();
+	if (!ppid)
+	{
+		dup_pipes(fd, cpipe, 0);
 		close_pipe(fd[cpipe], 1);
 		new_commands = trim_command(commands);
 		if (!new_commands)
 			exit(EXIT_FAILURE);
-		while (bdir[i] && ft_execute(bdir[i],  new_commands))
+		while (bdir[i] && ft_execute(bdir[i], new_commands))
 			i++;
 		return (free_split(new_commands), exit(EXIT_SUCCESS));
 	}
@@ -126,9 +159,11 @@ void	process_parent(char **bdir, char **commands, int fd[][2], int cpipe)
 	@var	i			This will iterate over the commands param.
 	@return				void (Nothing).
 */
+//Revise this in your free time. It processes cmd1 | cmd2 but not cmd1 | cmd2 | cmd3 | ... | cmdN.
+//Fix the issue.
 void	execute_binary(char ***commands, size_t size)
 {
-	int		fd[size][2];
+	int		fd[size - 1][2];
 	char	**bdir;
 	size_t	i;
 
@@ -137,14 +172,15 @@ void	execute_binary(char ***commands, size_t size)
 		return ;
 	if (size == 1)
 		return (one_command(bdir, commands[0], NULL, 0), free_split(bdir));
-	if (init_pipes(fd, size) == -1)
+	if (init_pipes(fd, size - 1) == -1)
 		return (free_split(bdir));
-	one_command(bdir, commands[0], fd, 0);
 	i = 0;
 	while (i < (size - 1))
 	{
-		process_parent(bdir, commands[i + 1], fd, i);
-		i++;
+		process_parent(bdir, commands[i], fd, i - 1);
+		i++;;
 	}
+	if (i < size)
+		last_command(bdir, commands[i], fd, i - 1);
 	return (free_split(bdir));
 }
