@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:24:25 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/16 20:29:12 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/23 16:21:53 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@
 */
 enum	e_operations
 {
-	e_pipe,
 	e_redirection_to_file,
 	e_redirection_to_input,
 	e_append_redirection,
