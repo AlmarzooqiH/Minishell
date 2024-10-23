@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 08:27:04 by hamalmar          #+#    #+#             */
-/*   Updated: 2024/10/14 17:32:46 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/23 21:07:57 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,5 @@ int					check_for_n(char *buf);
 char				*join_and_free(char *buf1, char *buf2);
 char				**ft_join_split(char **split1, char **split2);
 void				print_split(char **s);
+char				**ft_subsplit(char **split, char *delimeter);
 #endif
