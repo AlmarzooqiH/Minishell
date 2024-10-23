@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:23:52 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/16 22:54:56 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/20 22:04:21 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,34 +96,6 @@ void	free_tokens(char ***tokens, int n_tokens)
 		i++;
 	}
 	free(tokens);
-}
-
-/**
-	@brief			This function will close the pipeline between the processes.
-	@param	fd		This will hold the file descriptors.
-	@param	which	0 will close the read end; 1 will close the write end; 2 w-
-					-ill close both.
-	@return			Void.
-*/
-void	close_pipe(int *fd, int which)
-{
-	if (which == 2)
-	{
-		if (fd[0] >= 0)
-			close(fd[0]);
-		if (fd[1] >= 0)
-			close(fd[1]);
-	}
-	else if (which == 0)
-	{
-		if (fd[0] >= 0)
-			close(fd[0]);
-	}
-	else if (which == 1)
-	{
-		if (fd[1] >= 0)
-			close(fd[1]);
-	}
 }
 
 /*
