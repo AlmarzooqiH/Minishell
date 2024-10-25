@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:23:52 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/20 22:04:21 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/24 17:44:39 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,6 @@ char	**trim_command(char	**commands)
 		i++;
 	}
 	new[i] = NULL;
+	free_split(commands); //This could cause an issue. If an issue occoured remove this line.
 	return (new);
 }
