@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/23 16:55:33 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/25 23:12:43 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,41 +58,23 @@ void	process_echo(char **commands, size_t len)
 */
 void	one_command(char **bdir, char **commands, int fd[][2], size_t cpipe)
 {
-	int		i;
 	int		redirection;
-	pid_t	childpid;
-	char	**new_commands;
 
+	(void)fd;
+	(void)cpipe;
 	if (!commands)
 		return ;
 	redirection = is_redirection(commands, count_split(commands));
 	if (redirection == e_redirection_to_file)
-		return (redierct_to_file(bdir, commands, fd, cpipe));
+		return (redierct_to_file(bdir, commands, O_TRUNC));
 	else if (redirection == e_redirection_to_input)
-		return (redierct_to_input(bdir, commands, fd, cpipe));
+		return (redierct_to_input(bdir, commands));
 	else if (redirection == e_append_redirection)
-		return (append_to_file(bdir, commands, fd, cpipe));
+		return (redierct_to_file(bdir, commands, O_APPEND));
 	else if (redirection == e_heredoc_redirection)
-		return (herdoc_to_input(bdir, commands, fd, cpipe));
-	// else
-		// return (normal_process(bdir, commands, fd, cpipe));
-	childpid = fork();
-	if (!childpid)
-	{
-		if (fd && dup_pipes(fd, cpipe, 1))
-			close_pipe(fd[cpipe], 0);
-		i = 0;
-		new_commands = trim_command(commands);
-		if (!new_commands)
-			exit(EXIT_FAILURE);
-		while (bdir[i] && ft_execute(bdir[i], new_commands))
-			i++;
-		exit(EXIT_SUCCESS);
-	}
-	else if (childpid > 0)
-		waitpid(childpid, NULL, 0);
-	if (fd && childpid > 0)
-		close_pipe(fd[cpipe], 1);
+		return (heredoc_to_input(bdir, commands));
+	else
+		return (normal_process(bdir, commands, NULL, NULL));
 }
 
 /**
