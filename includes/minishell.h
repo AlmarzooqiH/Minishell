@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/23 21:15:34 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/25 23:12:31 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ char 	**trim_command(char	**commands);
 int	dup_pipes(int fd[][2], size_t cpipe, int to);
 int		init_pipes(int fd[][2], size_t size);
 int     is_redirection(char **command, size_t split_size);
-void	redierct_to_file(char **bdir, char **commands);
-void	redierct_to_input(char **bdir, char **commands, int fd[][2], size_t cpipe);
-void	append_to_file(char **bdir, char **commands);
-void	herdoc_to_input(char **bdir, char **commands, int fd[][2], size_t cpipe);
+void  redierct_to_file(char **bdir, char **commands, int troa);
+void  redierct_to_input(char **bdir, char **commands);
+void  heredoc_to_input(char **bdir, char **commands);
+void  normal_process(char **bdir, char **commands, char *fname, char *delimeter);
 #endif
