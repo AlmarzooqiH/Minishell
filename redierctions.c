@@ -6,7 +6,7 @@
 /*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 22:06:08 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/26 13:40:59 by hamalmar         ###   ########.fr       */
+/*   Updated: 2024/10/26 18:46:28 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,19 @@
  * @param	bdir	This holds the executable path.
  * @param	commands	This holds the command that was passed in.
  * @param	troa		Truncate or append.
+ * @param	dlmtr		This holds the delimeter that will be passed to ft_sub-
+ * 						-split(commands, dlmtr).
  * @return	void
  */
-void	redierct_to_file(char **bdir, char **commands, int troa)
+void	redierct_to_file(char **bdir, char **commands, int troa, char *dlmtr)
 {
 	int		fd;
 	int		childpid;
 	char	**tmp;
 	size_t	i;
 
-	fd = open(commands[count_split(commands) - 1], O_WRONLY | O_CREAT | troa, 0664);
+	fd = open(commands[count_split(commands) - 1], O_WRONLY | O_CREAT | troa,
+			FILE_PERMISSIONS);
 	if (fd < 0)
 		return ;
 	childpid = fork();
@@ -35,10 +38,7 @@ void	redierct_to_file(char **bdir, char **commands, int troa)
 	{
 		tmp = NULL;
 		i = 0;
-		if (troa == O_TRUNC)
-			tmp = trim_command(ft_subsplit(commands, REDICERTION_TO_FILE));
-		else if (troa == O_APPEND)
-			tmp = trim_command(ft_subsplit(commands, APPEND_REDIRECTION));
+		tmp = trim_command(ft_subsplit(commands, dlmtr));
 		if (!tmp || dup2(fd, STDOUT_FILENO) == -1)
 			exit(EXIT_FAILURE);
 		while (bdir[i])
@@ -49,13 +49,14 @@ void	redierct_to_file(char **bdir, char **commands, int troa)
 		waitpid(childpid, NULL, 0);
 	close(fd);
 }
+
 /**
  * @brief	This function will redirect a file or some data to the input of th-
  * 			-e passed command.
  * @param	bdir	This will hold the path of the executable.
  * @param	commands	This holds the command that was passed by the user.
  * @return	Void.
-*/
+ */
 void	redierct_to_input(char **bdir, char **commands)
 {
 	int		fd;
@@ -81,6 +82,7 @@ void	redierct_to_input(char **bdir, char **commands)
 		waitpid(childpid, NULL, 0);
 	close(fd);
 }
+
 /**
  * @brief	This function will mimic the behavior of heredoc.
  * @param	bdir	This will hold the path of the executable.
@@ -115,6 +117,7 @@ void	heredoc_to_input(char **bdir, char **commands)
 	normal_process(bdir, commands, TEMP_FILE, HEREDOC_REDIRECTION);
 	unlink(TEMP_FILE);
 }
+
 /**
  * @brief	This function will process a normal command passed by the user.
  * @param	bdir		This will hold the path of the executable.
@@ -163,7 +166,7 @@ void	normal_process(char **bdir, char **commands, char *fname, char *dlmtr)
  * @return	e_redirection_to_input if the command had '<'.
  * @return	e_append_redirection if the command had '>>'.
  * @return	e_heredoc_redirection if the command had '<<'.
-*/
+ */
 int	is_redirection(char **command, size_t split_size)
 {
 	size_t	i;

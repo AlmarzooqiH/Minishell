@@ -3,12 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 16:28:31 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/23 16:28:39 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/26 18:26:52 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-

@@ -6,7 +6,7 @@
 /*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/26 15:08:17 by hamalmar         ###   ########.fr       */
+/*   Updated: 2024/10/26 18:48:28 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	process_echo(char **commands, size_t len)
 */
 void	one_command(char **bdir, char **commands, int (*fd)[2], size_t cpipe)
 {
-	int		redirection;
+	int	redirection;
 
 	(void)fd;
 	(void)cpipe;
@@ -66,11 +66,11 @@ void	one_command(char **bdir, char **commands, int (*fd)[2], size_t cpipe)
 		return ;
 	redirection = is_redirection(commands, count_split(commands));
 	if (redirection == e_redirection_to_file)
-		return (redierct_to_file(bdir, commands, O_TRUNC));
+		return (redierct_to_file(bdir, commands, O_TRUNC, REDICERTION_TO_FILE));
 	else if (redirection == e_redirection_to_input)
 		return (redierct_to_input(bdir, commands));
 	else if (redirection == e_append_redirection)
-		return (redierct_to_file(bdir, commands, O_APPEND));
+		return (redierct_to_file(bdir, commands, O_APPEND, APPEND_REDIRECTION));
 	else if (redirection == e_heredoc_redirection)
 		return (heredoc_to_input(bdir, commands));
 	else
@@ -155,9 +155,9 @@ void	last_command(char **bdir, char **commands, int (*fd)[2], size_t cpipe)
 */
 void	execute_binary(char ***commands, size_t size)
 {
-	int		(*fd)[2];
 	char	**bdir;
 	size_t	i;
+	int		(*fd)[2];
 
 	fd = NULL;
 	bdir = ft_split(getenv("PATH"), ':');
@@ -171,7 +171,7 @@ void	execute_binary(char ***commands, size_t size)
 	while (i < (size - 1))
 	{
 		process_parent(bdir, commands[i], fd, i - 1);
-		i++;;
+		i++;
 	}
 	if (i < size)
 		last_command(bdir, commands[i], fd, i - 1);

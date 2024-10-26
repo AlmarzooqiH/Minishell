@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:23:52 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/24 17:44:39 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/26 16:35:37 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,6 @@ char	**trim_command(char	**commands)
 		i++;
 	}
 	new[i] = NULL;
-	free_split(commands); //This could cause an issue. If an issue occoured remove this line.
+	free_split(commands);
 	return (new);
 }

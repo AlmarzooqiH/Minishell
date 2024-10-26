@@ -6,12 +6,11 @@
 /*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:13:43 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/26 14:35:24 by hamalmar         ###   ########.fr       */
+/*   Updated: 2024/10/26 17:19:55 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
 
 /**
 	@brief			This function will close the pipeline between the processes.
@@ -53,7 +52,8 @@ int	dup_pipes(int (*fd)[2], size_t cpipe, int to)
 		return (-1);
 	if (to == 2)
 	{
-		if (dup2(fd[cpipe + 1][1], STDOUT_FILENO) < 0 || dup2(fd[cpipe][0], STDIN_FILENO) < 0)
+		if (dup2(fd[cpipe + 1][1], STDOUT_FILENO) < 0 || dup2(fd[cpipe][0],
+				STDIN_FILENO) < 0)
 			return (-1);
 		return (close_pipe(fd[cpipe], 0), close_pipe(fd[cpipe], 1), 1);
 	}
@@ -76,24 +76,24 @@ int	dup_pipes(int (*fd)[2], size_t cpipe, int to)
  * @brief			This function will initialize all pipes up to size pipes.
  * @param	fd		This holds the number of pipelines needed.
  * @param	size	This holds the number of pipelines we have.
- * @return			Upon success 1; Failure -1.
+ * @return (Upon success 1); Failure -1.
  */
 
-int init_pipes(int (**fd)[2], size_t size)
+int	init_pipes(int (**fd)[2], size_t size)
 {
-    size_t i;
+	size_t	i;
 
-    *fd = malloc(sizeof(int[2]) * size);
-    if (!fd)
-        return (-1);
-    i = 0;
-   while (i <= size)
-   {
+	*fd = malloc(sizeof(int [2]) * size);
+	if (!fd)
+		return (-1);
+	i = 0;
+	while (i <= size)
+	{
 		if (pipe((*fd)[i]) == -1)
 			return (close_pipes((*fd), size), -1);
 		i++;
-   }
-    return (1);
+	}
+	return (1);
 }
 
 /**
@@ -102,7 +102,7 @@ int init_pipes(int (**fd)[2], size_t size)
 	@param	npipes	This holds the number of pipelines that got.
 	@return			Void.
 */
-void	close_pipes(int (*fd)[2], size_t	npipes)
+void	close_pipes(int (*fd)[2], size_t npipes)
 {
 	size_t	i;
 
