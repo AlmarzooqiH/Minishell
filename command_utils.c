@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/25 23:12:43 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/26 15:08:17 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	process_echo(char **commands, size_t len)
 	@param	cpipe		This holds the value of the current pipe. (0 - npipes).
 	@return				void (Nothing).
 */
-void	one_command(char **bdir, char **commands, int fd[][2], size_t cpipe)
+void	one_command(char **bdir, char **commands, int (*fd)[2], size_t cpipe)
 {
 	int		redirection;
 
@@ -87,7 +87,7 @@ void	one_command(char **bdir, char **commands, int fd[][2], size_t cpipe)
 	@param	cpipe		This holds the value of the current pipe. (0 - npipes).
 	@return				void (Nothing).
 */
-void	process_parent(char **bdir, char **commands, int fd[][2], size_t cpipe)
+void	process_parent(char **bdir, char **commands, int (*fd)[2], size_t cpipe)
 {
 	int		i;
 	pid_t	ppid;
@@ -116,7 +116,7 @@ void	process_parent(char **bdir, char **commands, int fd[][2], size_t cpipe)
 	}
 }
 
-void	last_command(char **bdir, char **commands, int fd[][2], size_t cpipe)
+void	last_command(char **bdir, char **commands, int (*fd)[2], size_t cpipe)
 {
 	int		i;
 	pid_t	ppid;
@@ -145,28 +145,27 @@ void	last_command(char **bdir, char **commands, int fd[][2], size_t cpipe)
 }
 
 /**
-	@brief				This function will process the passed executable name
+*	@brief				This function will process the passed executable name
 						based on the enviorment vairable(PATH).
-	@param	commands	This holds the commands that was passed.
-	@param	size		This holds the size of the commands.
-	@var	bdir		This will hold the PATH executable paths
-	@var	i			This will iterate over the commands param.
-	@return				void (Nothing).
+*	@param	commands	This holds the commands that was passed.
+*	@param	size		This holds the size of the commands.
+*	@var	bdir		This will hold the PATH executable paths
+*	@var	i			This will iterate over the commands param.
+*	@return				void (Nothing).
 */
-//Revise this in your free time. It processes cmd1 | cmd2 but not cmd1 | cmd2 | cmd3 | ... | cmdN.
-//Fix the issue.
 void	execute_binary(char ***commands, size_t size)
 {
-	int		fd[size - 1][2];
+	int		(*fd)[2];
 	char	**bdir;
 	size_t	i;
 
+	fd = NULL;
 	bdir = ft_split(getenv("PATH"), ':');
 	if (!bdir)
 		return ;
 	if (size == 1)
 		return (one_command(bdir, commands[0], NULL, 0), free_split(bdir));
-	if (init_pipes(fd, size - 1) == -1)
+	if (init_pipes(&fd, size) == -1)
 		return (free_split(bdir));
 	i = 0;
 	while (i < (size - 1))
@@ -176,5 +175,5 @@ void	execute_binary(char ***commands, size_t size)
 	}
 	if (i < size)
 		last_command(bdir, commands[i], fd, i - 1);
-	return (free_split(bdir));
+	return (close_pipes(fd, size - 1), free_split(bdir));
 }
