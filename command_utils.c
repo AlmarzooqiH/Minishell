@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/26 18:48:28 by hamalmar         ###   ########.fr       */
+/*   Updated: 2024/10/26 19:31:04 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,15 @@ void	process_parent(char **bdir, char **commands, int (*fd)[2], size_t cpipe)
 	}
 }
 
+/**
+	@brief				This function will process the N-th command.
+	@param	commands	This holds the command we want to pass.
+	@param	bdir		This holds the binary file path.
+	@param	cpid		Child process id.
+	@param	fd			This will hold the pipeline file descriptors.
+	@param	cpipe		This holds the value of the current pipe. (0 - npipes).
+	@return				void (Nothing).
+*/
 void	last_command(char **bdir, char **commands, int (*fd)[2], size_t cpipe)
 {
 	int		i;
