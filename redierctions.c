@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redierctions.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 22:06:08 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/25 23:54:49 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/26 13:40:59 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	redierct_to_file(char **bdir, char **commands, int troa)
 	childpid = fork();
 	if (!childpid)
 	{
+		tmp = NULL;
 		i = 0;
 		if (troa == O_TRUNC)
 			tmp = trim_command(ft_subsplit(commands, REDICERTION_TO_FILE));
