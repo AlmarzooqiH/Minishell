@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/25 23:12:31 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/26 14:31:11 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,23 +67,23 @@ void	process_input(const char *command);
 void	process_commands(char ***commands, size_t len);
 void	process_commands_wp(char ***commands, size_t len);
 void	process_echo(char **commands, size_t len);
-int		has_flag(char *flag, char *flag_in);
-int		has_pipe(char *commands);
-int		ft_execute(char	*pvar, char **commands);
+int   has_flag(char *flag, char *flag_in);
+int   has_pipe(char *commands);
+int   ft_execute(char	*pvar, char **commands);
 void	print_stdout(int fd);
 char	**create_argv(int fd);
 long	count_lines(int fd);
 void	get_tokens(char *command, char ***tokens, char split);
 void	free_tokens(char ***tokens, int n_tokens);
 void	execute_binary(char ***commands, size_t size);
-void	one_command(char **bdir, char **commands, int fd[][2], size_t cpipe);
-void	process_parent(char **bdir, char **commands, int fd[][2], size_t cpipe);
-void	close_pipes(int fd[][2], size_t npipes);
+void	one_command(char **bdir, char **commands, int (*fd)[2], size_t cpipe);
+void	process_parent(char **bdir, char **commands, int (*fd)[2], size_t cpipe);
+void	close_pipes(int (*fd)[2], size_t npipes);
 void	close_pipe(int *fd, int which);
 char 	**trim_command(char	**commands);
-int	dup_pipes(int fd[][2], size_t cpipe, int to);
-int		init_pipes(int fd[][2], size_t size);
-int     is_redirection(char **command, size_t split_size);
+int	dup_pipes(int (*fd)[2], size_t cpipe, int to);
+int   init_pipes(int (**fd)[2], size_t size);
+int   is_redirection(char **command, size_t split_size);
 void  redierct_to_file(char **bdir, char **commands, int troa);
 void  redierct_to_input(char **bdir, char **commands);
 void  heredoc_to_input(char **bdir, char **commands);
