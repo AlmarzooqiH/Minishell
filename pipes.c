@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:13:43 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/20 22:04:35 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/26 14:35:24 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	close_pipe(int *fd, int which)
 	@param	to	This accepts 3 values 0, 1, 2.
 	@return		If duplication was successful 1 will be returned else -1.
 */
-int	dup_pipes(int fd[][2], size_t cpipe, int to)
+int	dup_pipes(int (*fd)[2], size_t cpipe, int to)
 {
 	if (!fd || to < 0)
 		return (-1);
@@ -79,20 +79,21 @@ int	dup_pipes(int fd[][2], size_t cpipe, int to)
  * @return			Upon success 1; Failure -1.
  */
 
-int	init_pipes(int fd[][2], size_t size)
+int init_pipes(int (**fd)[2], size_t size)
 {
-	size_t	i;
+    size_t i;
 
-	if (!fd)
-		return (-1);
-	i = 0;
-	while (i < size)
-	{
-		if (pipe(fd[i]) == -1)
-			return (close_pipes(fd, size), -1);
+    *fd = malloc(sizeof(int[2]) * size);
+    if (!fd)
+        return (-1);
+    i = 0;
+   while (i <= size)
+   {
+		if (pipe((*fd)[i]) == -1)
+			return (close_pipes((*fd), size), -1);
 		i++;
-	}
-	return (1);
+   }
+    return (1);
 }
 
 /**
@@ -101,7 +102,7 @@ int	init_pipes(int fd[][2], size_t size)
 	@param	npipes	This holds the number of pipelines that got.
 	@return			Void.
 */
-void	close_pipes(int fd[][2], size_t	npipes)
+void	close_pipes(int (*fd)[2], size_t	npipes)
 {
 	size_t	i;
 
@@ -114,4 +115,5 @@ void	close_pipes(int fd[][2], size_t	npipes)
 			close(fd[i][1]);
 		i++;
 	}
+	free(fd);
 }
