@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/26 19:31:04 by hamad            ###   ########.fr       */
+/*   Updated: 2024/10/29 17:05:53 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,15 @@ void	process_echo(char **commands, size_t len)
 */
 void	one_command(char **bdir, char **commands, int (*fd)[2], size_t cpipe)
 {
-	int	redirection;
+	int		redirection;
+	size_t	n_redirections;
 
 	(void)fd;
 	(void)cpipe;
+	(void)n_redirections;
 	if (!commands)
 		return ;
+	n_redirections = count_redirections(commands, count_split(commands));
 	redirection = is_redirection(commands, count_split(commands));
 	if (redirection == e_redirection_to_file)
 		return (redierct_to_file(bdir, commands, O_TRUNC, REDICERTION_TO_FILE));

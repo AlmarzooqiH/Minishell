@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/26 16:30:27 by hamalmar         ###   ########.fr       */
+/*   Updated: 2024/10/26 20:09:54 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,5 @@ void	redierct_to_input(char **bdir, char **commands);
 void	heredoc_to_input(char **bdir, char **commands);
 void	normal_process(char **bdir, char **commands, char *fname,
 			char *delimeter);
+size_t	count_redirections(char **command, size_t len);
 #endif
