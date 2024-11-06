@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 20:05:16 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/29 17:06:50 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/06 08:25:18 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@
  * @brief	This function will count the number of redirections that are prese-
  * 			-nt within the command.
  * @param	command This holds the command that was passed.
- * @param	len		This holds the length of the command.
  * @return	Will return the number of redirections within the command.
  */
-size_t	count_redirections(char **command, size_t len)
+size_t	count_redirections(char **command)
 {
 	size_t	n;
 	size_t	i;
@@ -28,7 +27,7 @@ size_t	count_redirections(char **command, size_t len)
 		return (0);
 	i = 0;
 	n = 0;
-	while (i < len)
+	while (command[i] != NULL)
 	{
 		if (ft_strcmp(command[i], REDICERTION_TO_FILE))
 			n++;
@@ -41,4 +40,26 @@ size_t	count_redirections(char **command, size_t len)
 		i++;
 	}
 	return (n);
+}
+/**
+ * @brief	This function will process any rediection based on the user input.
+ * @param	bdir	Binary/executable path.
+ * @param	command	This will hold in the current command.
+ * @param	fname	This will hold the filename(Can be NULL).
+ * @param	re		This holds the type of redierction we got. If -1 this mean-
+ * -s there are no redierections and will be processed normally.
+ * @return Void.
+*/
+void	process_redirection(char **bdir, char **command, char *fname, int re)
+{
+	if (re == e_redirection_to_file)
+		return (redierct_to_file(bdir, command, fname, O_TRUNC));
+	else if (re == e_redirection_to_input)
+		return (redierct_to_input(bdir, command, fname));
+	else if (re == e_append_redirection)
+		return (redierct_to_file(bdir, command, fname, O_APPEND));
+	else if (re == e_heredoc_redirection)
+		return (heredoc_to_input(bdir, command, fname));
+	else
+		return (normal_process(bdir, command, NULL));
 }
