@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redierctions.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 22:06:08 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/26 18:46:28 by hamalmar         ###   ########.fr       */
+/*   Updated: 2024/11/06 08:23:06 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,32 +18,28 @@
  * @param	bdir	This holds the executable path.
  * @param	commands	This holds the command that was passed in.
  * @param	troa		Truncate or append.
- * @param	dlmtr		This holds the delimeter that will be passed to ft_sub-
- * 						-split(commands, dlmtr).
  * @return	void
  */
-void	redierct_to_file(char **bdir, char **commands, int troa, char *dlmtr)
+void	redierct_to_file(char **bdir, char **commands, char *file_name, int troa)
 {
 	int		fd;
 	int		childpid;
-	char	**tmp;
 	size_t	i;
 
-	fd = open(commands[count_split(commands) - 1], O_WRONLY | O_CREAT | troa,
-			FILE_PERMISSIONS);
+	if (!file_name)
+		return (perror("Please provide a file name"));
+	fd = open(file_name, O_WRONLY | O_CREAT | troa, FILE_PERMISSIONS);
 	if (fd < 0)
-		return ;
+		return (perror("Bad file descriptor"));
 	childpid = fork();
 	if (!childpid)
 	{
-		tmp = NULL;
 		i = 0;
-		tmp = trim_command(ft_subsplit(commands, dlmtr));
-		if (!tmp || dup2(fd, STDOUT_FILENO) == -1)
+		if (dup2(fd, STDOUT_FILENO) == -1)
 			exit(EXIT_FAILURE);
 		while (bdir[i])
-			ft_execute(bdir[i++], tmp);
-		return (free_split(tmp), close(fd), exit(EXIT_SUCCESS));
+			ft_execute(bdir[i++], commands);
+		return (close(fd), exit(EXIT_SUCCESS));
 	}
 	else if (childpid > 0)
 		waitpid(childpid, NULL, 0);
@@ -57,26 +53,24 @@ void	redierct_to_file(char **bdir, char **commands, int troa, char *dlmtr)
  * @param	commands	This holds the command that was passed by the user.
  * @return	Void.
  */
-void	redierct_to_input(char **bdir, char **commands)
+void	redierct_to_input(char **bdir, char **commands, char *fname)
 {
 	int		fd;
 	int		childpid;
-	char	**tmp;
 	size_t	i;
 
-	fd = open(commands[count_split(commands) - 1], O_RDONLY);
+	fd = open(fname, O_RDONLY);
 	if (fd < 0)
-		return ;
+		return (perror("Bad file descriptor"));
 	childpid = fork();
 	if (!childpid)
 	{
-		tmp = trim_command(ft_subsplit(commands, REDIRECTION_TO_INPUT));
-		if (!tmp || dup2(fd, STDIN_FILENO) == -1)
-			exit(EXIT_FAILURE);
+		if (dup2(fd, STDIN_FILENO) == -1)
+			return (perror("Dup failed"), exit(EXIT_FAILURE));
 		i = 0;
 		while (bdir[i])
-			ft_execute(bdir[i++], tmp);
-		return (free_split(tmp), close(fd), exit(EXIT_SUCCESS));
+			ft_execute(bdir[i++], commands);
+		return (close(fd), exit(EXIT_SUCCESS));
 	}
 	else if (childpid > 0)
 		waitpid(childpid, NULL, 0);
@@ -89,18 +83,16 @@ void	redierct_to_input(char **bdir, char **commands)
  * @param	commands	This holds the command that was passed by the user.
  * @return	Void.
  */
-void	heredoc_to_input(char **bdir, char **commands)
+void	heredoc_to_input(char **bdir, char **commands, char *dlmtr)
 {
 	char	*line;
-	char	*delimeter;
 	int		fd;
 
-	delimeter = commands[count_split(commands) - 1];
-	if (!delimeter || ft_strcmp(delimeter, HEREDOC_REDIRECTION))
+	if (!dlmtr || ft_strcmp(dlmtr, HEREDOC_REDIRECTION))
 		return (perror("Bad delimeter"));
 	fd = open(TEMP_FILE, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	line = readline("> ");
-	while (1 && fd > 0 && !ft_strcmp(line, delimeter))
+	while (1 && fd > 0 && !ft_strcmp(line, dlmtr))
 	{
 		if (line)
 		{
@@ -111,10 +103,8 @@ void	heredoc_to_input(char **bdir, char **commands)
 	}
 	if (line && !line[0])
 		free(line);
-	if (delimeter && !delimeter[0])
-		free(delimeter);
 	close(fd);
-	normal_process(bdir, commands, TEMP_FILE, HEREDOC_REDIRECTION);
+	normal_process(bdir, commands, TEMP_FILE);
 	unlink(TEMP_FILE);
 }
 
@@ -127,10 +117,9 @@ void	heredoc_to_input(char **bdir, char **commands)
  * 						- NULL).
  * @return				Void.
  */
-void	normal_process(char **bdir, char **commands, char *fname, char *dlmtr)
+void	normal_process(char **bdir, char **commands, char *fname)
 {
 	int		childpid;
-	char	**tmp;
 	size_t	i;
 	int		fd;
 
@@ -138,19 +127,16 @@ void	normal_process(char **bdir, char **commands, char *fname, char *dlmtr)
 	if (!childpid)
 	{
 		i = 0;
-		if (fname && fname[0] && dlmtr)
+		if (fname && fname[0])
 		{
-			tmp = trim_command(ft_subsplit(commands, dlmtr));
 			fd = open(fname, O_RDONLY);
 			if (fd < 0 || dup2(fd, STDIN_FILENO) == -1)
-				return (perror("bad file descriptor"), exit(EXIT_FAILURE));
+				return (perror("Bad file descriptor"), exit(EXIT_FAILURE));
 			close(fd);
 		}
-		else
-			tmp = trim_command(commands);
-		while (tmp && tmp[0] && bdir[i])
-			ft_execute(bdir[i++], tmp);
-		return (free_split(tmp), exit(EXIT_SUCCESS));
+		while (bdir[i])
+			ft_execute(bdir[i++], commands);
+		return (exit(EXIT_SUCCESS));
 	}
 	else if (childpid > 0)
 		waitpid(childpid, NULL, 0);
@@ -160,29 +146,21 @@ void	normal_process(char **bdir, char **commands, char *fname, char *dlmtr)
  * @brief	This function will check if the passed command contained any redir-
  * 			-ection operators('>', '<', '>>', '<<').
  * @param	commad		This will hold the passed in command.
- * @param	split_size	This holds the size of the command.
  * @return	-1 if there is no redirections
  * @return	e_redirection_to_file if the command had '>'.
  * @return	e_redirection_to_input if the command had '<'.
  * @return	e_append_redirection if the command had '>>'.
  * @return	e_heredoc_redirection if the command had '<<'.
  */
-int	is_redirection(char **command, size_t split_size)
+int	is_redirection(char *command)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < split_size)
-	{
-		if (ft_strcmp(command[i], REDICERTION_TO_FILE))
-			return (e_redirection_to_file);
-		else if (ft_strcmp(command[i], REDIRECTION_TO_INPUT))
-			return (e_redirection_to_input);
-		else if (ft_strcmp(command[i], APPEND_REDIRECTION))
-			return (e_append_redirection);
-		else if (ft_strcmp(command[i], HEREDOC_REDIRECTION))
-			return (e_heredoc_redirection);
-		i++;
-	}
+	if (ft_strcmp(command, REDICERTION_TO_FILE) || ft_isprefix(command, REDICERTION_TO_FILE))
+		return (e_redirection_to_file);
+	else if (ft_strcmp(command, REDIRECTION_TO_INPUT) || ft_isprefix(command, REDIRECTION_TO_INPUT))
+		return (e_redirection_to_input);
+	else if (ft_strcmp(command, APPEND_REDIRECTION) || ft_isprefix(command, APPEND_REDIRECTION))
+		return (e_append_redirection);
+	else if (ft_strcmp(command, HEREDOC_REDIRECTION) || ft_isprefix(command, HEREDOC_REDIRECTION))
+		return (e_heredoc_redirection);
 	return (-1);
 }
