@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:13:43 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/26 17:19:55 by hamalmar         ###   ########.fr       */
+/*   Updated: 2024/11/06 08:52:49 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ int	init_pipes(int (**fd)[2], size_t size)
 {
 	size_t	i;
 
+	if (size <= 0)
+		return (-1);
 	*fd = malloc(sizeof(int [2]) * size);
 	if (!fd)
 		return (-1);
