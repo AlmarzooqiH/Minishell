@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/26 20:09:54 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/06 08:58:47 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <termios.h>
-
+//If we decide to add clear function, we just need to printf this: \033[H\033[J
 void	process_input(const char *command);
 void	process_commands(char ***commands, size_t len);
 void	process_commands_wp(char ***commands, size_t len);
@@ -49,11 +49,14 @@ void	close_pipe(int *fd, int which);
 char	**trim_command(char **commands);
 int		dup_pipes(int (*fd)[2], size_t cpipe, int to);
 int		init_pipes(int (**fd)[2], size_t size);
-int		is_redirection(char **command, size_t split_size);
-void	redierct_to_file(char **bdir, char **commands, int troa, char *dlmtr);
-void	redierct_to_input(char **bdir, char **commands);
-void	heredoc_to_input(char **bdir, char **commands);
-void	normal_process(char **bdir, char **commands, char *fname,
-			char *delimeter);
-size_t	count_redirections(char **command, size_t len);
+int		is_redirection(char *command);
+void	redierct_to_file(char **bdir, char **commands, char *file_name, int troa);
+void	redierct_to_input(char **bdir, char **commands, char *fname);
+void	heredoc_to_input(char **bdir, char **commands, char *dlmtr);
+void	normal_process(char **bdir, char **commands, char *fname);
+size_t	count_redirections(char **command);
+int		is_bashsyntax(char **command);
+void	process_bash(char **bdir, char **command, int fd[2]);
+void	process_redirection(char **bdir, char **command, char *fname, int re);
+char	*get_filename(char *command, int redirection);
 #endif
