@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/08 00:48:57 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/08 21:39:32 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,15 @@ void	one_command(char **bdir, char **commands, int (*fd)[2], size_t cpipe)
 	// redirection = is_redirection(commands[0]);
 	// printf("%d\n%zu\n", redirection, n_redirections);
 	if (redirection == e_redirection_to_file)
-		return (redierct_to_file(bdir, commands, NULL, O_TRUNC, NULL, -1));
+		return (redierct_to_file(bdir, commands, NULL, O_TRUNC));
 	else if (redirection == e_redirection_to_input)
-		return (redierct_to_input(bdir, commands, NULL, NULL, -1));
+		return (redierct_to_input(bdir, commands, NULL, NULL, NULL));
 	else if (redirection == e_append_redirection)
-		return (redierct_to_file(bdir, commands, NULL, O_APPEND, NULL, -1));
+		return (redierct_to_file(bdir, commands, NULL, O_APPEND));
 	else if (redirection == e_heredoc_redirection)
-		return (heredoc_to_input(bdir, commands, NULL, NULL, -1));
+		return (heredoc_to_input(bdir, commands, NULL));
 	else
-		return (normal_process(bdir, commands, NULL, NULL, -1));
+		return (normal_process(bdir, commands, NULL));
 }
 
 /**
@@ -172,24 +172,25 @@ void	execute_binary(char ***commands, size_t size)
 	char	**bdir;
 	size_t	i;
 	int		(*fd)[2];
+	int		cpipe;
 
 	fd = NULL;
 	bdir = ft_split(getenv("PATH"), ':');
 	if (!bdir)
 		return ;
-	// if (size == 1)
-	// 	return (one_command(bdir, commands[0], NULL, 0), free_split(bdir));
-	// if (init_pipes(&fd, size - 1) == -1)
-	// 	return (free_split(bdir), perror("Failed to init pipes"));
+	if ( ((size - 1) + get_total_rediractions(commands)) == 0)
+		return (one_command(bdir, commands[0], NULL, 0), free_split(bdir));
+	if (init_pipes(&fd, ((size - 1) + get_total_rediractions(commands))) == -1)
+		return (free_split(bdir), perror("Failed to init pipes"));
 	i = 0;
+	cpipe = 0;
 	while (i < size)
 	{
 		if (is_bashsyntax(commands[i]))
-			process_bash(bdir, commands[i], fd);
+			process_bash(bdir, commands[i], fd, &cpipe);
 		else
 			one_command(bdir, commands[i], fd, i);
 		i++;
 	}
-	//Add this to the return statement when done: close_pipes(fd, size)
-	return (free_split(bdir));
+	return (close_pipes(fd, ((size - 1) + get_total_rediractions(commands))), free_split(bdir));
 }
