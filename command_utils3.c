@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 07:43:57 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/06 07:56:53 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/07 21:06:36 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char *get_filename(char *command, int redirection)
 		i = 2;
 	else if (redirection == e_heredoc_redirection)
 		i = 2;
-	if (i == 0)
+	if (!i)
 		return (NULL);
 	filename = ft_substr(command, i, ft_strlen(command));
 	if (!filename)

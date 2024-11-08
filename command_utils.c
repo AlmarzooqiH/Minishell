@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/06 08:58:00 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/08 00:48:57 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,20 @@ void	one_command(char **bdir, char **commands, int (*fd)[2], size_t cpipe)
 	(void)n_redirections;
 	if (!commands)
 		return ;
-	n_redirections = count_redirections(commands);
-	redirection = is_redirection(commands[0]);
+	redirection = -1;
+	// n_redirections = count_redirections(commands);
+	// redirection = is_redirection(commands[0]);
+	// printf("%d\n%zu\n", redirection, n_redirections);
 	if (redirection == e_redirection_to_file)
-		return (redierct_to_file(bdir, commands, NULL, O_TRUNC));
+		return (redierct_to_file(bdir, commands, NULL, O_TRUNC, NULL, -1));
 	else if (redirection == e_redirection_to_input)
-		return (redierct_to_input(bdir, commands, NULL));
+		return (redierct_to_input(bdir, commands, NULL, NULL, -1));
 	else if (redirection == e_append_redirection)
-		return (redierct_to_file(bdir, commands, NULL, O_APPEND));
+		return (redierct_to_file(bdir, commands, NULL, O_APPEND, NULL, -1));
 	else if (redirection == e_heredoc_redirection)
-		return (heredoc_to_input(bdir, commands, NULL));
+		return (heredoc_to_input(bdir, commands, NULL, NULL, -1));
 	else
-		return (normal_process(bdir, commands, NULL));
+		return (normal_process(bdir, commands, NULL, NULL, -1));
 }
 
 /**
@@ -177,17 +179,17 @@ void	execute_binary(char ***commands, size_t size)
 		return ;
 	// if (size == 1)
 	// 	return (one_command(bdir, commands[0], NULL, 0), free_split(bdir));
-	if (init_pipes(&fd, size - 1) == -1)
-		return (free_split(bdir), perror("Failed to init pipes"));
+	// if (init_pipes(&fd, size - 1) == -1)
+	// 	return (free_split(bdir), perror("Failed to init pipes"));
 	i = 0;
 	while (i < size)
 	{
 		if (is_bashsyntax(commands[i]))
-			process_bash(bdir, commands[i], fd[i]);
+			process_bash(bdir, commands[i], fd);
 		else
 			one_command(bdir, commands[i], fd, i);
 		i++;
 	}
 	//Add this to the return statement when done: close_pipes(fd, size)
-	return (close_pipes(fd, size - 1), free_split(bdir));
+	return (free_split(bdir));
 }

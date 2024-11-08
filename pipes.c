@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:13:43 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/06 08:52:49 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/07 18:56:23 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 */
 void	close_pipe(int *fd, int which)
 {
+	if (!fd)
+		return ;
 	if (which == 2)
 	{
 		if (fd[0] >= 0)
@@ -78,7 +80,6 @@ int	dup_pipes(int (*fd)[2], size_t cpipe, int to)
  * @param	size	This holds the number of pipelines we have.
  * @return (Upon success 1); Failure -1.
  */
-
 int	init_pipes(int (**fd)[2], size_t size)
 {
 	size_t	i;
@@ -89,12 +90,14 @@ int	init_pipes(int (**fd)[2], size_t size)
 	if (!fd)
 		return (-1);
 	i = 0;
+	printf("%zu\n", size);
 	while (i <= size)
 	{
 		if (pipe((*fd)[i]) == -1)
 			return (close_pipes((*fd), size), -1);
 		i++;
 	}
+	
 	return (1);
 }
 

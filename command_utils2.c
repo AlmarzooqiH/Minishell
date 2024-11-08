@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:31:03 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/06 08:55:49 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/07 22:50:43 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	is_alone(char *s)
  * 						-ed to process_redirection.
  * @return	Void.
 */
-void	process_alone(char **bdir, char **command, size_t *i, int redirection)
+void	process_alone(char **bdir, char **command, size_t *i, int redirection, int (*rfd)[2])
 {
 	size_t	j;
 	char	**sub_command;
@@ -65,7 +65,7 @@ void	process_alone(char **bdir, char **command, size_t *i, int redirection)
 	sub_command = trim_command(ft_subnsplit(command, (*i) + 1, j - 1));
 	if (!sub_command)
 		return (perror("Failed to get subcommand."));
-	process_redirection(bdir, sub_command, command[*i], redirection);
+	process_redirection(bdir, sub_command, command[*i], redirection, rfd, *i);
 	free_split(sub_command);
 	*i = j;
 }
@@ -81,7 +81,7 @@ void	process_alone(char **bdir, char **command, size_t *i, int redirection)
  * 						-ed to process_redirection.
  * @return	Void.
 */
-void	process_not_alone(char **bdir, char **command, size_t *i, int redirection)
+void	process_not_alone(char **bdir, char **command, size_t *i, int redirection, int (*rfd)[2])
 {
 	size_t	j;
 	char	**sub_command;
@@ -96,28 +96,32 @@ void	process_not_alone(char **bdir, char **command, size_t *i, int redirection)
 	sub_command = trim_command(ft_subnsplit(command, (*i) + 1, j - 1));
 	if (!sub_command)
 		return (perror("Failed to get subcommand."));
-	process_redirection(bdir, sub_command, fname, redirection);
+	process_redirection(bdir, sub_command, fname, redirection, rfd, *i);
 	free_split(sub_command);
 	*i = j;
 	free(fname);
 }
 
-void	process_bash(char **bdir, char **command, int fd[2])
+void	process_bash(char **bdir, char **command, int (*fd)[2])
 {
 	size_t	i;
 	int		redirection;
+	int		(*rfd)[2];
 
 	(void)fd;
 	if (!command)
 		return ;
+	if (init_pipes(&rfd, count_redirections(command)) == -1)
+		return (perror("Failed to init pipes"));
 	i = 0;
 	while (command[i] != NULL && i < count_split(command))
-	{
+	{ 
 		redirection = is_redirection(command[i]);
 		if (redirection >= 0 && is_alone(command[i]))
-			process_alone(bdir, command, &i, redirection);
+			process_alone(bdir, command, &i, redirection, rfd);
 		else if (redirection >= 0 && !is_alone(command[i]))
-			process_not_alone(bdir, command, &i, redirection);
+			process_not_alone(bdir, command, &i, redirection, rfd);
 		i++;
 	}
+	close_pipes(rfd, count_redirections(command));
 }

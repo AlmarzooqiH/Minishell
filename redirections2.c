@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 20:05:16 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/06 08:25:18 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/06 17:28:11 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,14 @@ size_t	count_redirections(char **command)
 	n = 0;
 	while (command[i] != NULL)
 	{
-		if (ft_strcmp(command[i], REDICERTION_TO_FILE))
-			n++;
-		else if (ft_strcmp(command[i], REDIRECTION_TO_INPUT))
-			n++;
-		else if (ft_strcmp(command[i], APPEND_REDIRECTION))
-			n++;
-		else if (ft_strcmp(command[i], HEREDOC_REDIRECTION))
-			n++;
-		i++;
+	if (ft_strcmp(command[i], REDICERTION_TO_FILE) || ft_isprefix(command[i], REDICERTION_TO_FILE))
+		n++;
+	else if (ft_strcmp(command[i], REDIRECTION_TO_INPUT) || ft_isprefix(command[i], REDIRECTION_TO_INPUT))
+		n++;
+	else if (ft_strcmp(command[i], APPEND_REDIRECTION) || ft_isprefix(command[i], APPEND_REDIRECTION))
+		n++;
+	else if (ft_strcmp(command[i], HEREDOC_REDIRECTION) || ft_isprefix(command[i], HEREDOC_REDIRECTION))
+		n++;
 	}
 	return (n);
 }
@@ -50,16 +49,16 @@ size_t	count_redirections(char **command)
  * -s there are no redierections and will be processed normally.
  * @return Void.
 */
-void	process_redirection(char **bdir, char **command, char *fname, int re)
+void	process_redirection(char **bdir, char **command, char *fname, int re, int (*fd)[2], int cpipe)
 {
 	if (re == e_redirection_to_file)
-		return (redierct_to_file(bdir, command, fname, O_TRUNC));
+		return (redierct_to_file(bdir, command, fname, O_TRUNC, fd, cpipe));
 	else if (re == e_redirection_to_input)
-		return (redierct_to_input(bdir, command, fname));
+		return (redierct_to_input(bdir, command, fname, fd, cpipe));
 	else if (re == e_append_redirection)
-		return (redierct_to_file(bdir, command, fname, O_APPEND));
+		return (redierct_to_file(bdir, command, fname, O_APPEND, fd, cpipe));
 	else if (re == e_heredoc_redirection)
-		return (heredoc_to_input(bdir, command, fname));
+		return (heredoc_to_input(bdir, command, fname, fd, cpipe));
 	else
-		return (normal_process(bdir, command, NULL));
+		return (normal_process(bdir, command, NULL, fd, cpipe));
 }
