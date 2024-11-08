@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 22:06:08 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/08 00:50:00 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/08 23:09:02 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * @param	troa		Truncate or append.
  * @return	void
  */
-void	redierct_to_file(char **bdir, char **commands, char *file_name, int troa, int (*rfd)[2], int cpipe)
+void	redierct_to_file(char **bdir, char **commands, char *file_name, int troa)
 {
 	int		fd;
 	int		childpid;
@@ -35,15 +35,15 @@ void	redierct_to_file(char **bdir, char **commands, char *file_name, int troa, i
 	if (!childpid)
 	{
 		i = 0;
-		if (dup2(fd, STDOUT_FILENO) == -1 || dup_pipes(rfd, cpipe, 2) == -1)
+		if (dup2(fd, STDOUT_FILENO) == -1)
 			exit(EXIT_FAILURE);
 		while (bdir[i])
 			ft_execute(bdir[i++], commands);
-		return (close(fd), close_pipe(rfd[cpipe + 1], 0), exit(EXIT_SUCCESS));
+		return (close(fd), exit(EXIT_SUCCESS));
 	}
 	else if (childpid > 0)
 		waitpid(childpid, NULL, 0);
-	return(close(fd), close_pipe(rfd[cpipe + 1], 1));
+	close(fd);
 }
 
 /**
@@ -53,28 +53,29 @@ void	redierct_to_file(char **bdir, char **commands, char *file_name, int troa, i
  * @param	commands	This holds the command that was passed by the user.
  * @return	Void.
  */
-void	redierct_to_input(char **bdir, char **commands, char *fname, int (*rfd)[2], int cpipe)
+void	redierct_to_input(char **bdir, char **commands, char *fname, int (*fd)[2], int *cpipe)
 {
-	int		fd;
+	int		file;
 	int		childpid;
 	size_t	i;
 
-	fd = open(fname, O_RDONLY);
-	if (fd < 0)
+	file = open(fname, O_RDONLY);
+	printf("file: %s\n", fname);
+	if (file < 0)
 		return (perror("Bad file descriptor"));
 	childpid = fork();
 	if (!childpid)
 	{
-		if (dup2(fd, STDIN_FILENO) == -1 || dup_pipes(rfd, cpipe, 2) == -1)
+		if (dup2(file, STDIN_FILENO) == -1 || (fd && dup_pipes(fd, *cpipe, 1) == -1))
 			return (perror("Dup failed"), exit(EXIT_FAILURE));
 		i = 0;
 		while (bdir[i])
 			ft_execute(bdir[i++], commands);
-		return (close(fd), close_pipe(rfd[cpipe + 1], 0), exit(EXIT_SUCCESS));
+		return (close(file), close_pipe(fd[*cpipe], 1), exit(EXIT_SUCCESS));
 	}
 	else if (childpid > 0)
 		waitpid(childpid, NULL, 0);
-	return(close(fd), close_pipe(rfd[cpipe + 1], 1));
+	close(file);
 }
 
 /**
@@ -83,7 +84,7 @@ void	redierct_to_input(char **bdir, char **commands, char *fname, int (*rfd)[2],
  * @param	commands	This holds the command that was passed by the user.
  * @return	Void.
  */
-void	heredoc_to_input(char **bdir, char **commands, char *dlmtr, int (*rfd)[2], int cpipe)
+void	heredoc_to_input(char **bdir, char **commands, char *dlmtr)
 {
 	char	*line;
 	int		fd;
@@ -104,7 +105,7 @@ void	heredoc_to_input(char **bdir, char **commands, char *dlmtr, int (*rfd)[2], 
 	if (line && !line[0])
 		free(line);
 	close(fd);
-	normal_process(bdir, commands, TEMP_FILE, rfd, cpipe);
+	normal_process(bdir, commands, TEMP_FILE);
 	unlink(TEMP_FILE);
 }
 
@@ -117,7 +118,7 @@ void	heredoc_to_input(char **bdir, char **commands, char *dlmtr, int (*rfd)[2], 
  * 						- NULL).
  * @return				Void.
  */
-void	normal_process(char **bdir, char **commands, char *fname, int (*rfd)[2], int cpipe)
+void	normal_process(char **bdir, char **commands, char *fname)
 {
 	int		childpid;
 	size_t	i;
@@ -134,15 +135,12 @@ void	normal_process(char **bdir, char **commands, char *fname, int (*rfd)[2], in
 				return (perror("Bad file descriptor"), exit(EXIT_FAILURE));
 			close(fd);
 		}
-		if (rfd && dup_pipes(rfd, cpipe, 2) == -1)
-			return (perror("Failed to dup rpipe pipes"), exit(EXIT_FAILURE));
 		while (bdir[i])
 			ft_execute(bdir[i++], commands);
-		return (close_pipe(rfd[cpipe + 1], 0), exit(EXIT_SUCCESS));
+		return (exit(EXIT_SUCCESS));
 	}
 	else if (childpid > 0)
 		waitpid(childpid, NULL, 0);
-	return(close_pipe(rfd[cpipe + 1], 1));
 }
 
 /**
@@ -157,13 +155,13 @@ void	normal_process(char **bdir, char **commands, char *fname, int (*rfd)[2], in
  */
 int	is_redirection(char *command)
 {
-	if (ft_strcmp(command, REDICERTION_TO_FILE) || ft_isprefix(command, REDICERTION_TO_FILE))
-		return (e_redirection_to_file);
-	else if (ft_strcmp(command, REDIRECTION_TO_INPUT) || ft_isprefix(command, REDIRECTION_TO_INPUT))
-		return (e_redirection_to_input);
-	else if (ft_strcmp(command, APPEND_REDIRECTION) || ft_isprefix(command, APPEND_REDIRECTION))
+	if (ft_strcmp(command, APPEND_REDIRECTION) || ft_isprefix(command, APPEND_REDIRECTION))
 		return (e_append_redirection);
 	else if (ft_strcmp(command, HEREDOC_REDIRECTION) || ft_isprefix(command, HEREDOC_REDIRECTION))
 		return (e_heredoc_redirection);
+	else if (ft_strcmp(command, REDICERTION_TO_FILE) || ft_isprefix(command, REDICERTION_TO_FILE))
+		return (e_redirection_to_file);
+	else if (ft_strcmp(command, REDIRECTION_TO_INPUT) || ft_isprefix(command, REDIRECTION_TO_INPUT))
+		return (e_redirection_to_input);
 	return (-1);
 }
