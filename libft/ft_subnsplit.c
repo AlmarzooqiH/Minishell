@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_subnsplit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 06:58:43 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/05 09:25:44 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/08 22:32:59 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	**ft_subnsplit(char **split, size_t start, size_t end)
 	if (!new_s)
 		return (NULL);
 	i = 0;
-	while (start < count_split(split) && start <= end)
+	while (start < count_split(split) && start < end)
 	{
 		new_s[i] = ft_strdup(split[start]);
 		if (!new_s[i])
