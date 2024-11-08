@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/06 17:54:54 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/08 23:07:47 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,17 @@ char	**trim_command(char **commands);
 int		dup_pipes(int (*fd)[2], size_t cpipe, int to);
 int		init_pipes(int (**fd)[2], size_t size);
 int		is_redirection(char *command);
-void	redierct_to_file(char **bdir, char **commands, char *file_name, int troa, int (*rfd)[2], int cpipe);
-void	redierct_to_input(char **bdir, char **commands, char *fname, int (*rfd)[2], int cpipe);
-void	heredoc_to_input(char **bdir, char **commands, char *dlmtr, int (*rfd)[2], int cpipe);
-void	normal_process(char **bdir, char **commands, char *fname, int (*rfd)[2], int cpipe);
+void	redierct_to_file(char **bdir, char **commands, char *file_name, int troa);
+void	redierct_to_input(char **bdir, char **commands, char *fname, int (*fd)[2], int *cpipe);
+void	heredoc_to_input(char **bdir, char **commands, char *dlmtr);
+void	normal_process(char **bdir, char **commands, char *fname);
 size_t	count_redirections(char **command);
 int		is_bashsyntax(char **command);
-void	process_bash(char **bdir, char **command, int (*fd)[2]);
-void	process_redirection(char **bdir, char **command, char *fname, int re, int (*fd)[2], int cpipe);
-void	process_alone(char **bdir, char **command, size_t *i, int redirection, int (*rfd)[2]);
-void	process_not_alone(char **bdir, char **command, size_t *i, int redirection, int (*rfd)[2]);
+void	process_bash(char **bdir, char **command, int (*fd)[2], int *cpipe);
+void	process_redirection(char **bdir, char **command, char *fname, int re, int *cflag, int (*fd)[2], int *cpipe);
+void	process_alone(char **bdir, char **command, size_t *i, int redirection, int *cflag, int (*fd)[2], int *cpipe);
+void	process_not_alone(char **bdir, char **command, size_t *i, int redirection);
 char	*get_filename(char *command, int redirection);
+size_t	get_total_rediractions(char ***commands);
+void	redierct_to_files(char *fname, int re, int (*fd)[2], int *cpipe);
 #endif
