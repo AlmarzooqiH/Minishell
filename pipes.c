@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:13:43 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/07 18:56:23 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/08 22:35:50 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int	init_pipes(int (**fd)[2], size_t size)
 	if (!fd)
 		return (-1);
 	i = 0;
-	printf("%zu\n", size);
 	while (i <= size)
 	{
 		if (pipe((*fd)[i]) == -1)
@@ -111,6 +110,8 @@ void	close_pipes(int (*fd)[2], size_t npipes)
 {
 	size_t	i;
 
+	if (!fd)
+		return ;
 	i = 0;
 	while (i < npipes)
 	{
