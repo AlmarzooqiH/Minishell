@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:23:52 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/08 22:25:45 by hamalmar         ###   ########.fr       */
+/*   Updated: 2024/11/13 21:06:50 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	free_tokens(char ***tokens, int n_tokens)
 	i = 0;
 	while (i < n_tokens)
 	{
-		free_split(tokens[i]);
+		free_split(1, tokens[i]);
 		i++;
 	}
 	free(tokens);
@@ -124,11 +124,43 @@ char	**trim_command(char	**commands)
 	{
 		tmp = ft_strtrim(commands[i], "\"");
 		if (!tmp)
-			return (free_split(new), NULL);
+			return (free_split(1, new), NULL);
 		new[i] = tmp;
 		i++;
 	}
 	new[i] = NULL;
-	free_split(commands);
+	free_split(1, commands);
 	return (new);
+}
+
+/**
+	@brief	This function will read the stdout file and create argv to redirect
+			to the next command.
+	@return	This will return a char ** That contains the stdout.
+*/
+char	**create_argv(int fd)
+{
+	char		**av;
+	char		*temp;
+	long		n_lines;
+	long		i;
+
+	n_lines = count_lines(fd);
+	if (fd < 0 || n_lines <= 0)
+		return (close(fd), NULL);
+	av = (char **)malloc(sizeof(char *) * (n_lines + 1));
+	if (!av)
+		return (NULL);
+	i = 0;
+	while (i < n_lines)
+	{
+		temp = get_next_line(fd);
+		if (!temp)
+			return (free(temp), NULL);
+		av[i] = ft_strtrim(temp, "\n");
+		if (!av[i++])
+			return (free_split(1, av), NULL);
+	}
+	av[i] = NULL;
+	return (close(fd), av);
 }

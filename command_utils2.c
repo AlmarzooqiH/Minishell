@@ -3,15 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:31:03 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/08 23:12:44 by hamalmar         ###   ########.fr       */
+/*   Updated: 2024/11/16 17:15:26 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
+/**
+ * @brief This command will check if the command in in bash syntax or not e.g.:
+ * <filein command or <<delimeter command.
+ * @param	command	This holds the command we want to check.
+ * @return 1 if the command is in bash syntax, 0 otherwise.
+ */
 int	is_bashsyntax(char **command)
 {
 	if (!command)
@@ -26,7 +32,12 @@ int	is_bashsyntax(char **command)
 		return (1);
 	return (0);
 }
-
+/**
+ * @brief This function will check if the current input is a redirection but a-
+ * -lone like this: cat < filein or < file in cat -e
+ * @param	s	This holds the current string we want to check.
+ * @return	1 if the input is a redirection alone, 0 otherwise.
+ */
 int	is_alone(char *s)
 {
 	if (!s)
@@ -53,33 +64,23 @@ int	is_alone(char *s)
  * 						-ed to process_redirection.
  * @return	Void.
 */
-void	process_alone(char **bdir, char **command, size_t *i, int redirection, int *cflag, int (*fd)[2], int *cpipe)
+void	process_alone(char **bdir, char **command, size_t *i, int redirection, int *cflag, int (*fd)[2], size_t *cpipe)
 {
 	size_t	j;
-	size_t	k;
 	char	**sub_command;
-	size_t	nredirections;
 
 	*i = *i + 1;
-	k = *i;
-	sub_command = NULL;
-	nredirections = count_redirections(command);
-	j = 0;
-	while (j < nredirections)
-	{
-		while (command[k] != NULL && !(is_redirection(command[k]) >= 0))
-			k++;
-		if (*cflag)
-			sub_command = trim_command(ft_subnsplit(command, (*i) + 1, k));
-		if (*cflag && !sub_command)
-			return (perror("Failed to get subcommand."));
-		process_redirection(bdir, sub_command, command[*i], redirection, cflag, fd, cpipe);
-		if (*cflag && sub_command)
-			free_split(sub_command);
-		*i = k;
+	j = *i;
+	while (command[j] != NULL && !(is_redirection(command[j]) >= 0))
 		j++;
-	}
-	*cpipe = *cpipe + 1;
+	if (*cflag)
+		sub_command = trim_command(ft_subnsplit(command, (*i) + 1, j));
+	if (*cflag && !sub_command)
+		return (perror("Failed to get subcommand."));
+	process_redirection(bdir, sub_command, command[*i], redirection, cflag, fd, cpipe);
+	if (*cflag && sub_command)
+		free_split(1, sub_command);
+	*i = j;
 }
 
 /**
@@ -93,7 +94,7 @@ void	process_alone(char **bdir, char **command, size_t *i, int redirection, int 
  * 						-ed to process_redirection.
  * @return	Void.
 */
-void	process_not_alone(char **bdir, char **command, size_t *i, int redirection)
+void	process_not_alone(char **bdir, char **command, size_t *i, int redirection, int *cflag, int (*fd)[2], size_t *cpipe)
 {
 	size_t	j;
 	char	**sub_command;
@@ -102,19 +103,21 @@ void	process_not_alone(char **bdir, char **command, size_t *i, int redirection)
 	fname = get_filename(command[(*i)], redirection);
 	if (!fname)
 		return (perror("Invalid file name"));
-	j = *i;
+	j = *i + 1;
 	while (command[j] != NULL && !(is_redirection(command[j]) >= 0))
 		j++;
-	sub_command = trim_command(ft_subnsplit(command, (*i) + 1, j - 1));
-	if (!sub_command)
+	if (*cflag)
+		sub_command = trim_command(ft_subnsplit(command, (*i) + 1, j));
+	if (*cflag && !sub_command)
 		return (perror("Failed to get subcommand."));
-	process_redirection(bdir, sub_command, fname, redirection, 0, NULL, NULL);
-	free_split(sub_command);
+	process_redirection(bdir, sub_command, fname, redirection, cflag, fd, cpipe);
+	if (*cflag && sub_command)
+		free_split(1, sub_command);
 	*i = j;
 	free(fname);
 }
 
-void	process_bash(char **bdir, char **command, int (*fd)[2], int *cpipe)
+void	process_bash(char **bdir, char **command, int (*fd)[2], size_t *cpipe, size_t npipes)
 {
 	size_t	i;
 	int		redirection;
@@ -124,15 +127,13 @@ void	process_bash(char **bdir, char **command, int (*fd)[2], int *cpipe)
 		return ;
 	i = 0;
 	cflag = 1;
-	while (command[i] != NULL && i < count_split(command))
+	(void)npipes;
+	while (command[i] != NULL && i < count_split(command) && *cpipe < npipes)
 	{
 		redirection = is_redirection(command[i]);
 		if (redirection >= 0 && is_alone(command[i]))
-		{
 			process_alone(bdir, command, &i, redirection, &cflag, fd, cpipe);
-		}
 		else if (redirection >= 0 && !is_alone(command[i]))
-			process_not_alone(bdir, command, &i, redirection);
-		i++;
+			process_not_alone(bdir, command, &i, redirection, &cflag, fd, cpipe);
 	}
 }

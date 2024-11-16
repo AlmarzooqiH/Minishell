@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:03:10 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/06 08:44:22 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/16 17:13:28 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	process_commands_wp(char ***commands, size_t len)
 */
 void	process_input(const char *command)
 {
-	char	***tokens;
-	int		n_pipes;
+	char		***tokens;
+	int			n_pipes;
 
 	if (command[0] == '\0')
 		return ;

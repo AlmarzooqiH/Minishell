@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:26:39 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/05 13:52:45 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/13 21:02:55 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,45 @@ int	has_flag(char *flag, char *flag_in)
 	return (ft_strcmp(flag_in, flag));
 }
 
+/**
+ * @brief This function will process the command that was passed in where the
+ * command that was passed in had the entire path of the executable e.g:/bin/ls
+ * @param	commands	This holds the command that was passed.
+ * @return	0 if successful. 1 if failure.
+ * @note	Might rewrite it later. It is too messy rn.
+ */
+int	ft_execute2(char **commands)
+{
+	char	*b;
+	char	**t;
+	char	**y;
+	char	**u;
+	char	**s;
+
+	b = ft_strdup(commands[0]);
+	if (!b)
+		return (1);
+	t = ft_split(b, '/');
+	if (!t)
+		return (free(b), 1);
+	y = ft_subnsplit(t, count_split(t) - 1, count_split(t));
+	if (!y)
+		return (free_split(1, t), free(b), 1);
+	u = ft_subnsplit(commands, 1, count_split(commands));
+	if (!u)
+		return (free_split(2, t, y), free(b), 1);
+	s = ft_join_split(y, u);
+	if (!s)
+		return (free_split(3, t, y, u), free(b), 1);
+	if (!access(b, F_OK) && execve(b, s, NULL) == -1)
+		return (perror("execve failed"), free_split(4, t, y, u, s), free(b), 1);
+	return (free_split(4, t, y, u, s), free(b), 0);
+}
+
 /*
 	@brief				This will execute the passed executable.
 	@param	pvar		This holds the path variable(PATH, HOME, USER, etc...).
 	@param	commands	This holds the commands that was passed.
-	@param	av			This holds the stdout data. It can be NULL also.
 	@var	temp		This will hold the path of the PATH enviorment variable
 	@var	bpath		This will hold the exectuable/binary file path which is
 						temp/binary or temp/exectuable.
@@ -63,15 +97,19 @@ int	ft_execute(char	*pvar, char **commands)
 	char	*temp;
 	char	*bpath;
 
-	temp = ft_strjoin(pvar, "/");
-	if (!temp)
-		return (1);
-	bpath = ft_strjoin(temp, commands[0]);
-	if (!bpath)
-		return (free(temp), 1);
-	if (execve(bpath, commands, NULL) == -1)
-		return (free(temp), free(bpath), 1);
-	return (free(temp), free(bpath), 0);
+	if (!ft_contains(commands[0], '/'))
+	{
+		temp = ft_strjoin(pvar, "/");
+		if (!temp)
+			return (1);
+		bpath = ft_strjoin(temp, commands[0]);
+		if (!bpath)
+			return (free(temp), 1);
+		if (!access(bpath, F_OK) && execve(bpath, commands, NULL) == -1)
+			return (perror("execve failed"), free(temp), free(bpath), 1);
+		return (free(temp), free(bpath), 0);
+	}
+	return (ft_execute2(commands));
 }
 
 /*
@@ -92,36 +130,4 @@ void	print_stdout(int fd)
 		free(s);
 		s = get_next_line(fd);
 	}
-}
-
-/**
-	@brief	This function will read the stdout file and create argv to redirect
-			to the next command.
-	@return	This will return a char ** That contains the stdout.
-*/
-char	**create_argv(int fd)
-{
-	char		**av;
-	char		*temp;
-	long		n_lines;
-	long		i;
-
-	n_lines = count_lines(fd);
-	if (fd < 0 || n_lines <= 0)
-		return (close(fd), NULL);
-	av = (char **)malloc(sizeof(char *) * (n_lines + 1));
-	if (!av)
-		return (NULL);
-	i = 0;
-	while (i < n_lines)
-	{
-		temp = get_next_line(fd);
-		if (!temp)
-			return (free(temp), NULL);
-		av[i] = ft_strtrim(temp, "\n");
-		if (!av[i++])
-			return (free_split(av), NULL);
-	}
-	av[i] = NULL;
-	return (close(fd), av);
 }

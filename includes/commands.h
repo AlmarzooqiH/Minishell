@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:24:25 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/26 18:46:34 by hamalmar         ###   ########.fr       */
+/*   Updated: 2024/11/16 17:13:13 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,26 @@
 # define APPEND_REDIRECTION ">>\0"
 # define HEREDOC_REDIRECTION "<<\0"
 # define NL_FLAG "-n\0"
-# define TEMP_FILE "temp.txt\0"
+# define TEMP_FILE "/tmp/Martho_Heredoc_temp.txt\0"
 # define FILE_PERMISSIONS 0664
+
+//Might use.
+typedef struct s_commands
+{
+	char	*enviorment; //
+	char	**bdir; //
+	int		n_pipes; //
+	char	***commands; //
+	char	**files;
+	int		**redirections;
+	int		(*fd)[2];
+	size_t	*is_bash;
+	int		cpipe;
+	size_t	ccmd;
+	size_t	cfile;
+	size_t	cred;
+	size_t	credir;
+}	t_commands;
 
 enum	e_operations
 {

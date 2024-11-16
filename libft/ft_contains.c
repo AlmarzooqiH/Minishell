@@ -1,16 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.h                                            :+:      :+:    :+:   */
+/*   ft_contains.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/23 17:06:14 by hamad             #+#    #+#             */
-/*   Updated: 2024/10/26 16:31:11 by hamalmar         ###   ########.fr       */
+/*   Created: 2024/11/13 15:17:05 by hamad             #+#    #+#             */
+/*   Updated: 2024/11/13 18:11:12 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERROR_H
-# define ERROR_H
-# define INPUT_ERROR "Wrong input\0"
-#endif
+#include "libft.h"
+
+int	ft_contains(char *s, char c)
+{
+	size_t	i;
+
+	if (!s || !s[0] || !c)
+		return (0);
+	i = 0;
+	while (s[i] != '\0')
+	{
+		if (s[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/08 21:39:32 by hamalmar         ###   ########.fr       */
+/*   Updated: 2024/11/16 13:31:51 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,30 +56,30 @@ void	process_echo(char **commands, size_t len)
 	@param	cpipe		This holds the value of the current pipe. (0 - npipes).
 	@return				void (Nothing).
 */
-void	one_command(char **bdir, char **commands, int (*fd)[2], size_t cpipe)
+void	one_command(char **bdir, char **commands, int (*fd)[2], size_t *cpipe)
 {
-	int		redirection;
-	size_t	n_redirections;
+	size_t	i;
+	int		re;
+	char	**sub_command;
 
-	(void)fd;
-	(void)cpipe;
-	(void)n_redirections;
-	if (!commands)
+	if (!commands || !commands[0])
+		return (perror(""));
+	if (is_bashsyntax(commands))
+	{
+		re = is_redirection(commands[0]);
+		process_bash(bdir, commands, fd, cpipe, 1);
+		if (re == e_redirection_to_input || re == e_heredoc_redirection)
+			print_stdout(fd[*cpipe][0]);
 		return ;
-	redirection = -1;
-	// n_redirections = count_redirections(commands);
-	// redirection = is_redirection(commands[0]);
-	// printf("%d\n%zu\n", redirection, n_redirections);
-	if (redirection == e_redirection_to_file)
-		return (redierct_to_file(bdir, commands, NULL, O_TRUNC));
-	else if (redirection == e_redirection_to_input)
-		return (redierct_to_input(bdir, commands, NULL, NULL, NULL));
-	else if (redirection == e_append_redirection)
-		return (redierct_to_file(bdir, commands, NULL, O_APPEND));
-	else if (redirection == e_heredoc_redirection)
-		return (heredoc_to_input(bdir, commands, NULL));
-	else
-		return (normal_process(bdir, commands, NULL));
+	}
+	i = 0;
+	while (commands[i] != NULL && !(is_redirection(commands[i]) >= 0))
+		i++;
+	sub_command = trim_command(ft_subnsplit(commands, 0, i));
+	if (!sub_command)
+		return (perror("Failed to get the subcommand"));
+	//Add getting the files and redirecting the output to it.
+	normal_process(bdir, sub_command, NULL, fd, cpipe);
 }
 
 /**
@@ -111,7 +111,7 @@ void	process_parent(char **bdir, char **commands, int (*fd)[2], size_t cpipe)
 			exit(EXIT_FAILURE);
 		while (bdir[i] && ft_execute(bdir[i], new_commands))
 			i++;
-		return (free_split(new_commands), exit(EXIT_SUCCESS));
+		return (free_split(1, new_commands), exit(EXIT_SUCCESS));
 	}
 	if (ppid > 0)
 	{
@@ -149,7 +149,7 @@ void	last_command(char **bdir, char **commands, int (*fd)[2], size_t cpipe)
 			exit(EXIT_FAILURE);
 		while (bdir[i] && ft_execute(bdir[i], new_commands))
 			i++;
-		return (free_split(new_commands), exit(EXIT_SUCCESS));
+		return (free_split(1, new_commands), exit(EXIT_SUCCESS));
 	}
 	if (ppid > 0)
 	{
@@ -172,25 +172,25 @@ void	execute_binary(char ***commands, size_t size)
 	char	**bdir;
 	size_t	i;
 	int		(*fd)[2];
-	int		cpipe;
+	size_t	cpipe;
 
 	fd = NULL;
 	bdir = ft_split(getenv("PATH"), ':');
 	if (!bdir)
-		return ;
-	if ( ((size - 1) + get_total_rediractions(commands)) == 0)
-		return (one_command(bdir, commands[0], NULL, 0), free_split(bdir));
-	if (init_pipes(&fd, ((size - 1) + get_total_rediractions(commands))) == -1)
-		return (free_split(bdir), perror("Failed to init pipes"));
-	i = 0;
+		return (perror("Failed to get the PATH variable."));
+	if (init_pipes(&fd, size, get_total_rediractions(commands)) == -1)
+		return (free_split(1, bdir), perror("Failed to init pipes"));
 	cpipe = 0;
+	if (size == 1 && get_total_rediractions(commands) == 1)
+		return (one_command(bdir, commands[0], fd, &cpipe), free(bdir), close_pipes(fd, size));
+	i = 0;
 	while (i < size)
 	{
 		if (is_bashsyntax(commands[i]))
-			process_bash(bdir, commands[i], fd, &cpipe);
+			process_bash(bdir, commands[i], fd, &cpipe, ((size - 1) + (get_total_rediractions(commands) - 1)));
 		else
-			one_command(bdir, commands[i], fd, i);
+			normal_process(bdir, commands[i], NULL, fd, &cpipe);
 		i++;
 	}
-	return (close_pipes(fd, ((size - 1) + get_total_rediractions(commands))), free_split(bdir));
+	return (close_pipes(fd, ((size - 1) + (get_total_rediractions(commands)))), free_split(1, bdir));
 }

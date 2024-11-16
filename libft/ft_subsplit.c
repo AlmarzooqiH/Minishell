@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 20:59:20 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/05 07:38:37 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/13 21:06:22 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**ft_subsplit(char **split, char *delimeter)
 	{
 		new_s[i] = ft_strdup(split[i]);
 		if (!new_s[i++])
-			return (free_split(new_s), NULL);
+			return (free_split(1, new_s), NULL);
 	}
 	return (new_s[i] = NULL, new_s);
 }
