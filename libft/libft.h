@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 08:27:04 by hamalmar          #+#    #+#             */
-/*   Updated: 2024/11/13 20:59:48 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/18 21:06:37 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void				ft_bzero(void *s, size_t n);
 void				*ft_memcpy(void *dst, const void *src, size_t n);
 void				*ft_memmove(void *dst, const void *src, size_t len);
 void				*ft_memchr(const void *s, int c, size_t n);
-void				free_split(size_t len, ...);
+void				free_split(char **s);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t				ft_strlcat(char *dst, const char *src, size_t dstsize);
@@ -101,4 +101,5 @@ char				**ft_subsplit(char **split, char *delimeter);
 char				**ft_subnsplit(char **split, size_t start, size_t end);
 int					ft_isprefix(const char *s1, const char *prefix);
 int					ft_contains(char *s, char c);
+void				free_arri(int **arri);
 #endif
