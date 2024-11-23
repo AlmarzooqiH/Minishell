@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:13:43 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/14 18:14:37 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/24 02:01:47 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 /**
 	@brief			This function will close the pipeline between the processes.
 	@param	fd		This will hold the file descriptors.
-	@param	which	0 will close the read end; 1 will close the write end; 2 w-
-					-ill close both.
+	@param	which	0 will close the read end.
+	@param	which	1 will close the write end.
+	@param	which	2 will close both ends.
 	@return			Void.
 */
 void	close_pipe(int *fd, int which)
@@ -55,20 +56,19 @@ int	dup_pipes(int (*fd)[2], size_t cpipe, int to)
 		return (-1);
 	if (to == 2)
 	{
-		if (dup2(fd[cpipe + 1][1], STDOUT_FILENO) < 0 || dup2(fd[cpipe][0],
-				STDIN_FILENO) < 0)
+		if (dup2(fd[cpipe][0], SIN) < 0 || dup2(fd[cpipe + 1][1], SOUT) < 0)
 			return (-1);
-		return (close_pipe(fd[cpipe], 0), close_pipe(fd[cpipe], 1), 1);
+		return (close_pipe(fd[cpipe], 0), close_pipe(fd[cpipe + 1], 1), 1);
 	}
 	if (to == 0)
 	{
-		if (dup2(fd[cpipe][0], STDIN_FILENO) < 0)
+		if (dup2(fd[cpipe][0], SIN) < 0)
 			return (-1);
 		return (close_pipe(fd[cpipe], to), 1);
 	}
 	if (to == 1)
 	{
-		if (dup2(fd[cpipe][1], STDOUT_FILENO) < 0)
+		if (dup2(fd[cpipe][1], SOUT) < 0)
 			return (-1);
 		return (close_pipe(fd[cpipe], to), 1);
 	}
@@ -79,29 +79,22 @@ int	dup_pipes(int (*fd)[2], size_t cpipe, int to)
  * @brief			This function will initialize all pipes up to size pipes.
  * @param	fd		This holds the number of pipelines needed.
  * @param	clen	This holds the length of the commands.
- * @param	tr		This holds the total number of redirections.
  * @return (Upon success 1); Failure -1.
  */
-int	init_pipes(int (**fd)[2], size_t clen, size_t t_redir)
+int	init_pipes(int (**fd)[2], int clen)
 {
-	size_t	i;
-	size_t	size;
+	int	i;
 
-	size = 0;
-	if (clen == 1 && t_redir == 1)
-		size = 1;
-	else if (clen == 1 && t_redir == 0)
-		size = 1;
-	else
-		size = (clen - 1) + (t_redir);
-	*fd = malloc(sizeof(int [2]) * size);
+	if (clen == 1)
+		return (*fd = NULL, 1);
+	*fd = malloc(sizeof(int [2]) * (clen - 1));
 	if (!*fd)
 		return (-1);
 	i = 0;
-	while (i < size)
+	while (i < (clen - 1))
 	{
 		if (pipe((*fd)[i]) < 0)
-			return (close_pipes(*fd, size), -1);
+			return (close_pipes(*fd, (clen - 1)), -1);
 		i++;
 	}
 	return (1);
