@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 06:58:43 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/13 21:06:28 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/18 20:53:46 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	**ft_subnsplit(char **split, size_t start, size_t end)
 	{
 		new_s[i] = ft_strdup(split[start]);
 		if (!new_s[i])
-			return (free_split(1, new_s), NULL);
+			return (free_split(new_s), NULL);
 		i++;
 		start++;
 	}

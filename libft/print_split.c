@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 17:30:55 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/08 23:03:45 by hamalmar         ###   ########.fr       */
+/*   Updated: 2024/11/18 22:16:41 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@ void	print_split(char **s)
 	size_t	i;
 	size_t	size;
 
-	if (!s || !s[0 || !s[0][0]])
-		return (ft_printf("%s\n", NULL), (void)NULL);
+	if (!s || s[0] == NULL || !s[0][0])
+	{
+		ft_printf("%s\n", NULL);
+		return ;
+	}
 	i = 0;
 	size = count_split(s);
 	ft_printf("{");

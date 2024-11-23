@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 14:00:20 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/13 21:06:14 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/18 20:53:28 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	**ft_join_split(char **split1, char **split2)
 	{
 		new_split[i] = ft_strdup(*split1);
 		if (!new_split[i])
-			return (free_split(1, new_split), NULL);
+			return (free_split(new_split), NULL);
 		split1++;
 		i++;
 	}
@@ -34,7 +34,7 @@ char	**ft_join_split(char **split1, char **split2)
 	{
 		new_split[i] = ft_strdup(*split2);
 		if (!new_split[i])
-			return (free_split(1, new_split), NULL);
+			return (free_split(new_split), NULL);
 		split2++;
 		i++;
 	}
