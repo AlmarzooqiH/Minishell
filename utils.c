@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:26:39 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/13 21:02:55 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/23 20:48:18 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,18 @@ int	ft_execute2(char **commands)
 	if (!t)
 		return (free(b), 1);
 	y = ft_subnsplit(t, count_split(t) - 1, count_split(t));
-	if (!y)
-		return (free_split(1, t), free(b), 1);
+	// if (!y)
+	// 	return (free_split(1, t), free(b), 1);
 	u = ft_subnsplit(commands, 1, count_split(commands));
-	if (!u)
-		return (free_split(2, t, y), free(b), 1);
+	// if (!u)
+	// 	return (free_split(2, t, y), free(b), 1);
 	s = ft_join_split(y, u);
-	if (!s)
-		return (free_split(3, t, y, u), free(b), 1);
-	if (!access(b, F_OK) && execve(b, s, NULL) == -1)
-		return (perror("execve failed"), free_split(4, t, y, u, s), free(b), 1);
-	return (free_split(4, t, y, u, s), free(b), 0);
+	// if (!s)
+	// 	return (free_split(3, t, y, u), free(b), 1);
+	if (!access(b, X_OK) && execve(b, s, NULL) == -1)
+		return (perror("execve failed"), free(b), 1);
+	// return (free_split(4, t, y, u, s), free(b), 0);
+	return (0);
 }
 
 /*
@@ -101,11 +102,13 @@ int	ft_execute(char	*pvar, char **commands)
 	{
 		temp = ft_strjoin(pvar, "/");
 		if (!temp)
-			return (1);
+			return (perror("Failed to join"), 1);
 		bpath = ft_strjoin(temp, commands[0]);
 		if (!bpath)
-			return (free(temp), 1);
-		if (!access(bpath, F_OK) && execve(bpath, commands, NULL) == -1)
+			return (perror("Failed to join"), free(temp), 1);
+		if (access(bpath, X_OK) == -1)
+			return (free(temp), free(bpath), 1);
+		if (execve(bpath, commands, NULL) == -1)
 			return (perror("execve failed"), free(temp), free(bpath), 1);
 		return (free(temp), free(bpath), 0);
 	}

@@ -6,36 +6,11 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:23:52 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/13 21:06:50 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/19 05:25:55 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-/**
-	@brief	This function will count the number of lines in stdout.
-	@return	On success it will return the number of lines.
-	@return	On failure it will return -1.
-*/
-long	count_lines(int fd)
-{
-	char	*s;
-	size_t	size;
-
-	if (fd < 0)
-		return (-1);
-	size = 0;
-	s = get_next_line(fd);
-	while (s)
-	{
-		size++;
-		free(s);
-		s = get_next_line(fd);
-	}
-	free(s);
-	close(fd);
-	return (size);
-}
 
 /*
 	@brief This function will split the commands into sub strings that will be
@@ -92,7 +67,7 @@ void	free_tokens(char ***tokens, int n_tokens)
 	i = 0;
 	while (i < n_tokens)
 	{
-		free_split(1, tokens[i]);
+		free_split(tokens[i]);
 		i++;
 	}
 	free(tokens);
@@ -122,45 +97,58 @@ char	**trim_command(char	**commands)
 	i = 0;
 	while (i < size)
 	{
-		tmp = ft_strtrim(commands[i], "\"");
+		tmp = ft_strtrim(commands[i], "\"\'");
 		if (!tmp)
-			return (free_split(1, new), NULL);
+			return (free_split(new), NULL);
 		new[i] = tmp;
 		i++;
 	}
 	new[i] = NULL;
-	free_split(1, commands);
+	free_split(commands);
 	return (new);
 }
 
 /**
-	@brief	This function will read the stdout file and create argv to redirect
-			to the next command.
-	@return	This will return a char ** That contains the stdout.
-*/
-char	**create_argv(int fd)
+ * @brief	This function will extract the file name from the command.
+ * @param	command	The command that contains the filename and redierction e.g.
+ * 					<filename, we will substring it to filename only.
+ * @param	redirection	This will tell us what redierction it is in.
+ * @return	filename if successfull.
+ * @return	NULL if failure.
+ */
+char	*gfn(char *command, int redirection)
 {
-	char		**av;
-	char		*temp;
-	long		n_lines;
-	long		i;
+	char	*filename;
+	size_t	i;
 
-	n_lines = count_lines(fd);
-	if (fd < 0 || n_lines <= 0)
-		return (close(fd), NULL);
-	av = (char **)malloc(sizeof(char *) * (n_lines + 1));
-	if (!av)
+	if (!command)
 		return (NULL);
 	i = 0;
-	while (i < n_lines)
-	{
-		temp = get_next_line(fd);
-		if (!temp)
-			return (free(temp), NULL);
-		av[i] = ft_strtrim(temp, "\n");
-		if (!av[i++])
-			return (free_split(1, av), NULL);
-	}
-	av[i] = NULL;
-	return (close(fd), av);
+	if (redirection == e_redirection_to_file)
+		i = 1;
+	else if (redirection == e_redirection_to_input)
+		i = 1;
+	else if (redirection == e_append_redirection)
+		i = 2;
+	else if (redirection == e_heredoc_redirection)
+		i = 2;
+	filename = ft_substr(command, i, ft_strlen(command));
+	if (!filename)
+		return (NULL);
+	return (filename);
+}
+
+/**
+ * @brief	This function will count the number of tokens inside the command.
+ * @param	tokens	The tokens that we want to count.
+ * @return	The number of tokens.
+ */
+int	count_tokens(char **tokens)
+{
+	int	i;
+
+	i = 0;
+	while (tokens[i])
+		i++;
+	return (i);
 }
