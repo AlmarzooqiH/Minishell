@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:24:25 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/16 17:13:13 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/23 20:50:04 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,43 @@
 # define TEMP_FILE "/tmp/Martho_Heredoc_temp.txt\0"
 # define FILE_PERMISSIONS 0664
 
-//Might use.
+# define SIN STDIN_FILENO
+# define SOUT STDOUT_FILENO
+
+/**
+ * @brief	This structure will hold the passed in command that will be prepro-
+ * -ccessed.
+ * @var	enviorment	Will hold the PATH variable.
+ * @var	bpath	Will hold the splited PATH variable.
+ * @var	cmds	This will hold the tokenized commands.
+ * @var	files	This will hold the files that we will redirect to.
+ * @var	redir	This will hold the type of the redirection.
+ * @var	is_bash	This will hold a value of 1 or 0 if the current command is in bash or not.
+ * @var	fd		This will hold the pipelines.
+ * @var	nscmds	This will hold the number of the commands that we have.
+ * @var	npipes	WIll be calculatedd when we init the pipes.
+ * @var	nredir	Will be calculated when we init the pipes.
+ * @var	cpipe	Current pipe.
+ * @var	ccmd	Current command.
+ * @var	cfile	Current file.
+ * @var	cred	Current redirection.
+ */
 typedef struct s_commands
 {
-	char	*enviorment; //
-	char	**bdir; //
-	int		n_pipes; //
-	char	***commands; //
+	char	*enviorment;
+	char	**bpath;
+	char	***cmds;
 	char	**files;
-	int		**redirections;
+	int		**redir;
+	int		*is_bash;
 	int		(*fd)[2];
-	size_t	*is_bash;
+	int		nscmds;
+	int		npipes;
+	int		nredir;
 	int		cpipe;
-	size_t	ccmd;
-	size_t	cfile;
-	size_t	cred;
-	size_t	credir;
+	int		ccmd;
+	int		cfile;
+	int		cred;
 }	t_commands;
 
 enum	e_operations
