@@ -6,7 +6,7 @@
 #    By: hamad <hamad@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/11 17:00:34 by hamalmar          #+#    #+#              #
-#    Updated: 2024/11/13 15:19:53 by hamad            ###   ########.fr        #
+#    Updated: 2024/11/18 21:10:13 by hamad            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ PART_ONE_AND_TWO = ft_isdigit.c ft_memset.c ft_isprint.c \
 				   free_split.c ft_strcmp.c ft_atol.c ft_atod.c ft_skipspace.c \
 				   ft_isonlyspace.c count_split.c get_next_line.c get_next_line_utils.c \
 				   ft_join_split.c print_split.c ft_subsplit.c ft_isprefix.c ft_subnsplit.c \
-				   ft_contains.c
+				   ft_contains.c free_arri.c
 
 OBJECTS = $(PART_ONE_AND_TWO:.c=.o)
 
