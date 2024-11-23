@@ -4,8 +4,8 @@ FLAGS = -Wall -Wextra -Werror
 DEBUG_FLAGS = -fsanitize=address,undefined -Werror=address -Wnull-dereference -g
 READLINE_FLAG = -lreadline
 LIBFT_A = libft/libft.a
-MANDATORY = main.c processing.c utils.c utils2.c pipes.c command_utils.c command_utils2.c \
-			redirections.c redirections2.c command_utils3.c
+MANDATORY = main.c processing.c utils.c utils2.c utils3.c pipes.c command_utils.c bash.c \
+			redirections.c redirections2.c init.c validate.c 
 MANDATORY_OBJS = $(MANDATORY:.c=.o)
 
 all: libft mandatory
