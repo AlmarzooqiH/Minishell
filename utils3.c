@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 17:29:52 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/21 07:41:06 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/25 22:33:42 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,4 +119,28 @@ void	print_struct(t_commands *cmds)
 		printf("Pipe[%d][0]: %d\nPipe[%d][1]: %d\n", i, cmds->fd[i][0], i, cmds->fd[i][1]);
 		i++;
 	}
+}
+
+/**
+ * @brief This function will extract the command from the tokenized commands.
+ * @param cmds  This holds the commands struct.
+ * @return  The extracted command.
+ */
+char    **extract_command(t_commands *cmds)
+{
+    size_t  i;
+    size_t  j;
+    char **cmd;
+
+    if (cmds->is_bash[cmds->ccmd] && is_alone(cmds->cmds[cmds->ccmd][0]))
+        i = 2;
+    else if (cmds->is_bash[cmds->ccmd] && !is_alone(cmds->cmds[cmds->ccmd][0]))
+        i = 1;
+    else
+        i = 0;
+    j = i;
+    while (cmds->cmds[cmds->ccmd][i] && !(is_redirection(cmds->cmds[cmds->ccmd][i]) >= 0))
+        i++;
+    cmd = trim_command(ft_subnsplit(cmds->cmds[cmds->ccmd], j, i));
+    return (cmd);    
 }
