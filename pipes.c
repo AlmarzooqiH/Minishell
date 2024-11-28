@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:13:43 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/24 02:01:47 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/28 19:20:45 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,32 +47,38 @@ void	close_pipe(int *fd, int which)
 	@brief		This function will dup2 to stdin(0), stdout(1) or (2) for stdi-
 				-n for the current pipe, and stdout for the next pipe.
 	@param	fd	This holds the file descriptors.
-	@param	to	This accepts 3 values 0, 1, 2.
+	@param	to	0 will dup2 to stdin.
+	@param	to	1 will dup2 to stdout.
+	@param	to	2 will dup2 to stdin and stdout of the next pipe.
 	@return		If duplication was successful 1 will be returned else -1.
 */
-int	dup_pipes(int (*fd)[2], size_t cpipe, int to)
+int	dup_pipes(t_commands *cmds)
 {
-	if (!fd || to < 0)
+	if (cmds->npipes == 1)
+	{
+		if ((cmds->ccmd == 0 && dup2(cmds->fd[cmds->cpipe][1], SOUT) == -1) || (
+				cmds->ccmd == 1 && dup2(cmds->fd[cmds->cpipe][0], SIN) == -1))
+			return (-1);
+		return (close_pipe(cmds->fd[cmds->cpipe], 2), 1);
+	}
+	if (cmds->ccmd == 0)
+	{
+		if (dup2(cmds->fd[cmds->cpipe][1], SOUT) == -1)
+			return (-1);
+		return (close_pipe(cmds->fd[cmds->cpipe], 2), 1);
+	}
+	else if (cmds->ccmd == cmds->nscmds - 1)
+	{
+		if (dup2(cmds->fd[cmds->cpipe][0], SIN) == -1)
+			return (-1);
+		return (close_pipe(cmds->fd[cmds->cpipe], 2), 1);
+	}
+	//fix the issue. It is here.
+	if ((dup2(cmds->fd[cmds->cpipe - 1][0], SIN) == -1) ||
+			(dup2(cmds->fd[cmds->cpipe][1], SOUT) == -1))
 		return (-1);
-	if (to == 2)
-	{
-		if (dup2(fd[cpipe][0], SIN) < 0 || dup2(fd[cpipe + 1][1], SOUT) < 0)
-			return (-1);
-		return (close_pipe(fd[cpipe], 0), close_pipe(fd[cpipe + 1], 1), 1);
-	}
-	if (to == 0)
-	{
-		if (dup2(fd[cpipe][0], SIN) < 0)
-			return (-1);
-		return (close_pipe(fd[cpipe], to), 1);
-	}
-	if (to == 1)
-	{
-		if (dup2(fd[cpipe][1], SOUT) < 0)
-			return (-1);
-		return (close_pipe(fd[cpipe], to), 1);
-	}
-	return (-1);
+	return (close_pipe(cmds->fd[cmds->cpipe - 1], 2),
+		close_pipe(cmds->fd[cmds->cpipe], 2), 1);
 }
 
 /**
