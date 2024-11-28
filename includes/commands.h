@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:24:25 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/23 20:50:04 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/25 22:31:22 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 
 # define SIN STDIN_FILENO
 # define SOUT STDOUT_FILENO
+# define EF EXIT_FAILURE
+# define ES EXIT_SUCCESS
 
 /**
  * @brief	This structure will hold the passed in command that will be prepro-

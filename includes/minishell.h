@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/23 22:04:47 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/28 19:05:55 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	free_tokens(char ***tokens, int n_tokens);
 void	close_pipes(int (*fd)[2], size_t npipes);
 void	close_pipe(int *fd, int which);
 char	**trim_command(char **commands);
-int		dup_pipes(int (*fd)[2], size_t cpipe, int to);
+int		dup_pipes(t_commands *cmds);
 int		init_pipes(int (**fd)[2], int clen);
 int		is_redirection(char *command);
 // void	redierct_to_file(char **bdir, char **commands, char *fname, int (*fd)[2], size_t *cpipe, int troa);
