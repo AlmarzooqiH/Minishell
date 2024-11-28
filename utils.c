@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:26:39 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/23 20:48:18 by hamad            ###   ########.fr       */
+/*   Updated: 2024/11/25 22:42:57 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,11 @@ int	ft_execute2(char **commands)
 }
 
 /*
-	@brief				This will execute the passed executable.
-	@param	pvar		This holds the path variable(PATH, HOME, USER, etc...).
-	@param	commands	This holds the commands that was passed.
-	@var	temp		This will hold the path of the PATH enviorment variable
-	@var	bpath		This will hold the exectuable/binary file path which is
+	@brief This will execute the passed executable.
+	@param	pvar This holds the path variable(PATH, HOME, USER, etc...).
+	@param	commands This holds the commands that was passed.
+	@var	temp This will hold the path of the PATH enviorment variable
+	@var	bpath This will hold the exectuable/binary file path which is
 						temp/binary or temp/exectuable.
 	@return				0 if successful. 1 if failure.
 */
