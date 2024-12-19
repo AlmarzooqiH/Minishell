@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:31:03 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/23 21:54:00 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/15 18:02:58 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,21 @@ int	is_bashsyntax(char **command)
 {
 	if (!command)
 		return (0);
-	if (ft_strcmp(command[0], APPEND_REDIRECTION) || ft_isprefix(command[0], APPEND_REDIRECTION))
+	if (ft_strcmp(command[0], APPEND_REDIRECTION)
+		|| ft_isprefix(command[0], APPEND_REDIRECTION))
 		return (1);
-	else if (ft_strcmp(command[0], HEREDOC_REDIRECTION) || ft_isprefix(command[0], HEREDOC_REDIRECTION))
+	else if (ft_strcmp(command[0], HEREDOC_REDIRECTION)
+		|| ft_isprefix(command[0], HEREDOC_REDIRECTION))
 		return (1);
-	else if (ft_strcmp(command[0], REDICERTION_TO_FILE) || ft_isprefix(command[0], REDICERTION_TO_FILE))
+	else if (ft_strcmp(command[0], REDICERTION_TO_FILE)
+		|| ft_isprefix(command[0], REDICERTION_TO_FILE))
 		return (1);
-	else if (ft_strcmp(command[0], REDIRECTION_TO_INPUT) || ft_isprefix(command[0], REDIRECTION_TO_INPUT))
+	else if (ft_strcmp(command[0], REDIRECTION_TO_INPUT)
+		|| ft_isprefix(command[0], REDIRECTION_TO_INPUT))
 		return (1);
 	return (0);
 }
+
 /**
  * @brief This function will check if the current input is a redirection but a-
  * -lone like this: cat < filein or < file in cat -e
@@ -65,7 +70,7 @@ void	execute_bash(t_commands *cmds)
 		i = 0;
 		scmd = extract_command(cmds);
 		if (!scmd)
-			return (perror("Failed to extract the command"), exit(EXIT_FAILURE));
+			return (perror("Failed to extract the command"), exit(EF));
 		while (cmds->bpath[i] && ft_execute(cmds->bpath[i], scmd))
 			i++;
 		free_split(scmd);
@@ -75,4 +80,3 @@ void	execute_bash(t_commands *cmds)
 		waitpid(cid, NULL, 0);
 	}
 }
-
