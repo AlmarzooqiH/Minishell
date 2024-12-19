@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:06:07 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/18 21:06:25 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/16 17:01:45 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_arri(int **arri)
 	int	i;
 
 	i = 0;
-	while (arri[i])
+	while (arri[i] != NULL)
 	{
 		free(arri[i]);
 		i++;
