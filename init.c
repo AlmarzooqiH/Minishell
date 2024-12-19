@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/25 22:34:57 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/19 15:05:23 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,54 +19,70 @@
  */
 void	free_cmds(t_commands *cmds)
 {
-	if (cmds->enviorment)
-		free(cmds->enviorment);
+	close_files(cmds);
 	if (cmds->bpath)
 		free_split(cmds->bpath);
 	if (cmds->cmds)
 		free_tokens(cmds->cmds, cmds->nscmds);
 	if (cmds->files)
 		free_split(cmds->files);
-	if (cmds->redir)
-		free_arri(cmds->redir);
+	if (cmds->rd)
+		free_arri(cmds->rd);
 	if (cmds->is_bash)
 		free(cmds->is_bash);
-	if (cmds->nscmds > 1 && cmds->fd)
-		close_pipes(cmds->fd, (cmds->nscmds));
+	if (cmds->nscmds > 1 && cmds->p)
+		cpipes(cmds->p, (cmds->nscmds));
 	cmds->nscmds = 0;
 	cmds->npipes = 0;
-	cmds->nredir = 0;
-	cmds->cpipe = 0;
-	cmds->ccmd = 0;
-	cmds->cfile = 0;
-	cmds->cred = 0;
+	cmds->nre = 0;
+	cmds->cp = 0;
+	cmds->cc = 0;
+	cmds->cf = 0;
+	cmds->cr = 0;
+	cmds->hdp = -1;
+	cmds->rtip = -1;
+	cmds->bfdp = 0;
+	cmds->efdp = -1;
+}
+
+void	init3(t_commands *cmds)
+{
+	cmds->cr = 0;
+	cmds->bfdp = 0;
+	cmds->efdp = -1;
+	cmds->hdp = -1;
+	cmds->rtip = -1;
 }
 
 void	init2(t_commands *cmds)
 {
 	set_isbash(cmds);
-	cmds->nredir = get_total_rediractions(cmds->cmds);
-	if (cmds->nredir > 0)
+	cmds->nre = get_total_rediractions(cmds->cmds);
+	if (cmds->nre > 0)
 	{
-		cmds->redir = (int **)malloc(sizeof(int *) * (cmds->nredir));
-		cmds->files = (char **)malloc(sizeof(char *) * (cmds->nredir + 1));
-		if (!cmds->redir || !cmds->files)
+		cmds->rd = (int **)malloc(sizeof(int *) * (cmds->nre));
+		cmds->files = (char **)malloc(sizeof(char *) * (cmds->nre + 1));
+		if (!cmds->rd || !cmds->files)
 			return (free_cmds(cmds), perror("Failed to malloc redir/files"));
 		set_redirectons(cmds);
 		set_files(cmds);
-		if (!cmds->redir || !cmds->files)
+		if (!cmds->rd || !cmds->files)
 			return (free_cmds(cmds), perror("Failed to get redir/files"));
+		cmds->fd = malloc(sizeof(int) * (cmds->nre));
+		if (!cmds->fd)
+			return (free_cmds(cmds), perror("Failled to malloc fd"));
 	}
 	else
 	{
-		cmds->redir = NULL;
+		cmds->rd = NULL;
 		cmds->files = NULL;
 	}
-	cmds->cpipe = 0;
-	cmds->ccmd = 0;
-	cmds->cfile = 0;
-	cmds->cred = 0;
+	cmds->cp = 0;
+	cmds->cc = 0;
+	cmds->cf = 0;
+	init3(cmds);
 }
+
 void	init(t_commands *cmds, const char *command)
 {
 	if (!cmds)
@@ -87,8 +103,9 @@ void	init(t_commands *cmds, const char *command)
 	cmds->is_bash = (int (*))malloc(sizeof(int) * (cmds->nscmds));
 	if (!cmds->is_bash)
 		return (free_cmds(cmds), perror("Failed to malloc is_bash"));
-	if (init_pipes(&cmds->fd, cmds->nscmds) == -1)
+	if (init_pipes(&cmds->p, cmds->nscmds) == -1)
 		return (free_cmds(cmds), perror("Failed to init pipes."));
 	cmds->npipes = cmds->nscmds - 1;
+	cmds->cfd = 0;
 	init2(cmds);
 }
