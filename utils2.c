@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:23:52 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/19 05:25:55 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/15 17:56:33 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,13 +124,13 @@ char	*gfn(char *command, int redirection)
 	if (!command)
 		return (NULL);
 	i = 0;
-	if (redirection == e_redirection_to_file)
+	if (redirection == e_rtf)
 		i = 1;
-	else if (redirection == e_redirection_to_input)
+	else if (redirection == e_rti)
 		i = 1;
-	else if (redirection == e_append_redirection)
+	else if (redirection == e_ar)
 		i = 2;
-	else if (redirection == e_heredoc_redirection)
+	else if (redirection == e_hdr)
 		i = 2;
 	filename = ft_substr(command, i, ft_strlen(command));
 	if (!filename)

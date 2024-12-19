@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:03:10 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/26 18:54:01 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/18 01:06:21 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,5 @@ void	process_input(const char *command)
 	// validate(cmds->cmds);
 	// print_struct(cmds);
 	execute_binary(cmds);
-	// free_cmds(cmds);
+	free_cmds(cmds);
 }

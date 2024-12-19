@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:13:43 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/28 19:20:45 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/01 12:43:19 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 	@param	which	2 will close both ends.
 	@return			Void.
 */
-void	close_pipe(int *fd, int which)
+void	cpipe(int *fd, int which)
 {
 	if (!fd)
 		return ;
@@ -56,29 +56,28 @@ int	dup_pipes(t_commands *cmds)
 {
 	if (cmds->npipes == 1)
 	{
-		if ((cmds->ccmd == 0 && dup2(cmds->fd[cmds->cpipe][1], SOUT) == -1) || (
-				cmds->ccmd == 1 && dup2(cmds->fd[cmds->cpipe][0], SIN) == -1))
+		if ((cmds->cc == 0 && dup2(cmds->p[cmds->cp][1], SOUT) == -1) || (
+				cmds->cc == 1 && dup2(cmds->p[cmds->cp][0], SIN) == -1))
 			return (-1);
-		return (close_pipe(cmds->fd[cmds->cpipe], 2), 1);
+		return (cpipe(cmds->p[cmds->cp], 2), 1);
 	}
-	if (cmds->ccmd == 0)
+	if (cmds->cc == 0)
 	{
-		if (dup2(cmds->fd[cmds->cpipe][1], SOUT) == -1)
+		if (dup2(cmds->p[cmds->cp][1], SOUT) == -1)
 			return (-1);
-		return (close_pipe(cmds->fd[cmds->cpipe], 2), 1);
+		return (cpipe(cmds->p[cmds->cp], 2), 1);
 	}
-	else if (cmds->ccmd == cmds->nscmds - 1)
+	else if (cmds->cc == cmds->nscmds - 1)
 	{
-		if (dup2(cmds->fd[cmds->cpipe][0], SIN) == -1)
+		if (dup2(cmds->p[cmds->cp][0], SIN) == -1)
 			return (-1);
-		return (close_pipe(cmds->fd[cmds->cpipe], 2), 1);
+		return (cpipe(cmds->p[cmds->cp], 2), 1);
 	}
-	//fix the issue. It is here.
-	if ((dup2(cmds->fd[cmds->cpipe - 1][0], SIN) == -1) ||
-			(dup2(cmds->fd[cmds->cpipe][1], SOUT) == -1))
+	if ((dup2(cmds->p[cmds->cp - 1][0], SIN) == -1) ||
+			(dup2(cmds->p[cmds->cp][1], SOUT) == -1))
 		return (-1);
-	return (close_pipe(cmds->fd[cmds->cpipe - 1], 2),
-		close_pipe(cmds->fd[cmds->cpipe], 2), 1);
+	return (cpipe(cmds->p[cmds->cp - 1], 2),
+		cpipe(cmds->p[cmds->cp], 2), 1);
 }
 
 /**
@@ -100,7 +99,7 @@ int	init_pipes(int (**fd)[2], int clen)
 	while (i < (clen - 1))
 	{
 		if (pipe((*fd)[i]) < 0)
-			return (close_pipes(*fd, (clen - 1)), -1);
+			return (cpipes(*fd, (clen - 1)), -1);
 		i++;
 	}
 	return (1);
@@ -112,7 +111,7 @@ int	init_pipes(int (**fd)[2], int clen)
 	@param	npipes	This holds the number of pipelines that got.
 	@return			Void.
 */
-void	close_pipes(int (*fd)[2], size_t npipes)
+void	cpipes(int (*fd)[2], size_t npipes)
 {
 	size_t	i;
 
