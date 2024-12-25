@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:24:25 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/19 15:05:23 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/25 16:59:00 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,6 @@
 # define SOUT STDOUT_FILENO
 # define EF EXIT_FAILURE
 # define ES EXIT_SUCCESS
-# define APPEND O_CREAT | O_RDWR | O_APPEND
-# define TRUNC O_CREAT | O_RDWR | O_TRUNC
-# define RD O_RDONLY
 
 /**
  * @brief	This structure will hold the passed in command that will be prepro-
@@ -46,6 +43,8 @@
  * @var	is_bash	This will hold a value of 1 or 0 if the current command is 
  * in bash or not.
  * @var	p		This will hold the pipelines.
+ * @var hcfd	Has closed file descriptor, this will hold a value {0,1} if
+ * the pipe fd on the read/write end has been closed.
  * @var	nscmds	This will hold the number of the commands that we have.
  * @var	npipes	Will be calculatedd when we init the pipes.
  * @var	nre	Will be calculated when we init the pipes.
@@ -67,6 +66,7 @@ typedef struct s_commands
 	int		**rd;
 	int		*is_bash;
 	int		(*p)[2];
+	int		(*hcfd)[2];
 	int		*fd;
 	int		nscmds;
 	int		npipes;
@@ -80,6 +80,9 @@ typedef struct s_commands
 	int		rtip;
 	int		bfdp;
 	int		efdp;
+	int		a;
+	int		t;
+	int		r;
 }	t_commands;
 
 /**
