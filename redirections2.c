@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 20:05:16 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/18 01:05:33 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/25 16:57:42 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,29 +83,29 @@ void	close_files(t_commands *cmds)
  * @return 0 if failed
  * @return 1 if succeeded.
  */
-int process_heredoc(t_commands *cmds)
+int	process_heredoc(t_commands *cmds)
 {
-    int     fd;
-    char    *tmp;
+	int		fd;
+	char	*tmp;
 
 	if (cmds->hdp < 0)
 		return (0);
-    fd = open(TEMP_FILE, TRUNC, PERMS);
-    if (fd < 0)
+	fd = open(TEMP_FILE, cmds->t, PERMS);
+	if (fd < 0)
 		return (perror("Failed to create temp file"), 0);
-    tmp = readline("Martho Heredoc> ");
-    while (tmp != NULL && !ft_strcmp(cmds->files[cmds->hdp], tmp))
-    {
+	tmp = readline("Martho Heredoc> ");
+	while (tmp != NULL && !ft_strcmp(cmds->files[cmds->hdp], tmp))
+	{
 		if (tmp)
 		{
 			ft_putendl_fd(tmp, fd);
-        	free(tmp);
+			free(tmp);
 		}
-        tmp = readline("Martho Heredoc> ");
-    }
-    if (tmp)
+		tmp = readline("Martho Heredoc> ");
+	}
+	if (tmp)
 		free(tmp);
-    return (close(fd), 1);
+	return (close(fd), 1);
 }
 
 /**

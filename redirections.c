@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 22:06:08 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/19 17:09:13 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/25 16:58:09 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,18 @@ int	is_redirection(char *command)
 }
 
 /**
+ * @brief This function will increment and assign the struct members.
+ * @return Void.
+ */
+void	increment(t_commands *cmds, int i)
+{
+	cmds->cf++;
+	cmds->cfd++;
+	cmds->cr = i;
+	cmds->efdp = cmds->cfd;
+}
+
+/**
  * @brief This function will create and open files and assign file descriptors
  * to cmds->fd[position of the fd].
  * @param cmds This holds the commands struct.
@@ -53,11 +65,11 @@ void	create_files(t_commands *cmds)
 	while (i < count_tokens(cmds->cmds[cmds->cc]))
 	{
 		if (cmds->rd[cmds->cc][i] == e_rtf)
-			cmds->fd[cmds->cfd] = open(cmds->files[cmds->cf], TRUNC, PERMS);
+			cmds->fd[cmds->cfd] = open(cmds->files[cmds->cf], cmds->t, PERMS);
 		else if (cmds->rd[cmds->cc][i] == e_rti && !check_file(cmds))
-			cmds->fd[cmds->cfd] = open(cmds->files[cmds->cf], RD , PERMS);
+			cmds->fd[cmds->cfd] = open(cmds->files[cmds->cf], cmds->r, PERMS);
 		else if (cmds->rd[cmds->cc][i] == e_ar)
-			cmds->fd[cmds->cfd] = open(cmds->files[cmds->cf], APPEND, PERMS);
+			cmds->fd[cmds->cfd] = open(cmds->files[cmds->cf], cmds->a, PERMS);
 		else if (cmds->rd[cmds->cc][i] == e_hdr)
 			cmds->hdp = cmds->cf;
 		else if (cmds->rd[cmds->cc][i] == -1)
@@ -68,10 +80,7 @@ void	create_files(t_commands *cmds)
 		if (cmds->rd[cmds->cc][i] == e_rti)
 			cmds->rtip = cmds->cfd;
 		i++;
-		cmds->cf++;
-		cmds->cfd++;
-		cmds->cr = i;
-		cmds->efdp = cmds->cfd;
+		increment(cmds, i);
 	}
 }
 
@@ -87,7 +96,7 @@ void	process_redir(t_commands *cmds)
 
 	create_files(cmds);
 	scmd = extract_command(cmds);
-	if (!scmd)
+	if (!scmd || (cmds->npipes > 1 && dup_pipes(cmds) == -1))
 		return (perror("Failed to extract the command"), exit(EF));
 	if (cmds->hdp >= 0 && process_heredoc(cmds))
 	{
@@ -101,10 +110,10 @@ void	process_redir(t_commands *cmds)
 		|| cmds->rd[cmds->cc][cmds->cr - 1] == e_ar)
 	{
 		if (dup2(cmds->fd[cmds->cfd - 1], SOUT) == -1)
-			return (perror("Failed to dup2(rtf or rti, SOUT)"), exit(EF));
+			return (perror("Failed to dup2(rtf or ar, SOUT)"), exit(EF));
 	}
 	i = 0;
 	while (cmds->bpath[i] && ft_execute(cmds->bpath[i], scmd))
-			i++;
+		i++;
 	return (close_files(cmds), free_split(scmd));
-}	
+}
