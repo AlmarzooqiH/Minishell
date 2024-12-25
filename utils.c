@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:26:39 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/25 22:42:57 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/25 14:35:23 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,17 @@ int	ft_execute2(char **commands)
 	if (!t)
 		return (free(b), 1);
 	y = ft_subnsplit(t, count_split(t) - 1, count_split(t));
-	// if (!y)
-	// 	return (free_split(1, t), free(b), 1);
+	if (!y)
+		return (free_variables(t, NULL, NULL, NULL), free(b), 1);
 	u = ft_subnsplit(commands, 1, count_split(commands));
-	// if (!u)
-	// 	return (free_split(2, t, y), free(b), 1);
+	if (!u)
+		return (free_variables(t, y, NULL, NULL), free(b), 1);
 	s = ft_join_split(y, u);
-	// if (!s)
-	// 	return (free_split(3, t, y, u), free(b), 1);
+	if (!s)
+		return (free_variables(t, y, u, NULL), free(b), 1);
 	if (!access(b, X_OK) && execve(b, s, NULL) == -1)
 		return (perror("execve failed"), free(b), 1);
-	// return (free_split(4, t, y, u, s), free(b), 0);
-	return (0);
+	return (free_variables(t, y, y, s), free(b), 0);
 }
 
 /*

@@ -5,30 +5,24 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/28 23:05:57 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/19 15:05:07 by hamad            ###   ########.fr       */
+/*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
+/*   Updated: 2024/12/25 14:36:02 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
 /**
- * @brief	Will check if the command has redirection or not.
- * @param	cmd	Will hold the command struct.
- * @return	1 if the command has redirection, 0 otherwise.
- */
-int	has_redirection(t_commands *cmds)
+ * @brief This function will free the variables from ft_execute2().
+*/
+void	free_variables(char **t, char **y, char **u, char **s)
 {
-	int	i;
-
-	if (!cmds->rd)
-		return (0);
-	i = 0;
-	while (i < count_tokens(cmds->cmds[cmds->cc]))
-	{
-		if (cmds->rd[cmds->cc][i] >= 0)
-			return (1);
-		i++;
-	}
-	return (0);
+	if (t)
+		free_split(t);
+	if (y)
+		free_split(y);
+	if (u)
+		free_split(u);
+	if (s)
+		free_split(s);
 }
