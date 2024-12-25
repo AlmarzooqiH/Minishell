@@ -6,11 +6,23 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/19 15:05:23 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/25 16:58:01 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+/**
+ * @brief	This function will free the memory allocated by the cmds struct.
+ * @param	cmds	This will holds the preprocessd command.
+ * @return	void
+ */
+void	free_cmds2(t_commands *cmds)
+{
+	cmds->a = 0;
+	cmds->t = 0;
+	cmds->r = 0;
+}
 
 /**
  * @brief	This function will free the memory allocated by the cmds struct.
@@ -31,7 +43,7 @@ void	free_cmds(t_commands *cmds)
 	if (cmds->is_bash)
 		free(cmds->is_bash);
 	if (cmds->nscmds > 1 && cmds->p)
-		cpipes(cmds->p, (cmds->nscmds));
+		free(cmds->p);
 	cmds->nscmds = 0;
 	cmds->npipes = 0;
 	cmds->nre = 0;
@@ -43,6 +55,7 @@ void	free_cmds(t_commands *cmds)
 	cmds->rtip = -1;
 	cmds->bfdp = 0;
 	cmds->efdp = -1;
+	free_cmds2(cmds);
 }
 
 void	init3(t_commands *cmds)
@@ -52,6 +65,9 @@ void	init3(t_commands *cmds)
 	cmds->efdp = -1;
 	cmds->hdp = -1;
 	cmds->rtip = -1;
+	cmds->a = O_CREAT | O_RDWR | O_APPEND;
+	cmds->t = O_CREAT | O_RDWR | O_TRUNC;
+	cmds->r = O_RDONLY;
 }
 
 void	init2(t_commands *cmds)
