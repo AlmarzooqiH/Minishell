@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 13:49:25 by truedevelop       #+#    #+#             */
-/*   Updated: 2024/11/16 18:12:26 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/25 13:50:55 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	free_split(char **s)
 	if (!s)
 		return ;
 	i = 0;
-	while (s[i])
+	while (s[i] != NULL)
 	{
 		free(s[i]);
 		i++;
