@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/19 15:05:07 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/25 12:40:43 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,9 @@ void	execute_one_pipe(t_commands *cmds)
 		if (cmds->rd && has_redirection(cmds))
 			return (process_redir(cmds), exit(ES));
 		scmd = extract_command(cmds);
-		if (!scmd)
+		if (!scmd || dup_pipes(cmds) == -1)
 			return (perror("Failed to extract the command"), exit(EF));
 		i = 0;
-		dup_pipes(cmds);
 		while (cmds->bpath[i] && ft_execute(cmds->bpath[i], scmd))
 			i++;
 		free_split(scmd);
@@ -74,15 +73,12 @@ void	execute_cmd(t_commands *cmds)
 	cid = fork();
 	if (!cid)
 	{
-		printf("has_redirection: %d\n", has_redirection(cmds));
 		if (cmds->rd && has_redirection(cmds))
 			return (process_redir(cmds), exit(ES));
 		i = 0;
 		scmd = extract_command(cmds);
-		if (!scmd)
+		if (!scmd || dup_pipes(cmds) == -1)
 			return (perror("Failed to extract the command"), exit(EF));
-		if (dup_pipes(cmds) == -1)
-			return (perror("Failed to dup pipes"), exit(EF));
 		while (cmds->bpath[i] && ft_execute(cmds->bpath[i], scmd))
 			i++;
 		free_split(scmd);
@@ -90,8 +86,9 @@ void	execute_cmd(t_commands *cmds)
 	else if (cid > 0)
 	{
 		if (cmds->cp > 0)
-			return (waitpid(cid, NULL, 0), cpipe(cmds->p[cmds->cp - 1], 2));
-		return (waitpid(cid, NULL, 0), cpipe(cmds->p[cmds->cp], 1));
+			cpipe(cmds->p[cmds->cp - 1], 2);
+		waitpid(cid, NULL, 0);
+		cpipe(cmds->p[cmds->cp], 1);
 	}
 }
 
@@ -108,10 +105,8 @@ void	execute_last(t_commands *cmds)
 		if (has_redirection(cmds))
 			return (process_redir(cmds), exit(ES));
 		scmd = extract_command(cmds);
-		if (!scmd)
+		if (!scmd || dup_pipes(cmds) == -1)
 			return (perror("Failed to extract the command"), exit(EF));
-		if (dup_pipes(cmds) == -1)
-			return (perror("Failed to dup pipes"), exit(EF));
 		while (cmds->bpath[i] && ft_execute(cmds->bpath[i], scmd))
 			i++;
 		free_split(scmd);
