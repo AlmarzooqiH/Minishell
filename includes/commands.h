@@ -99,4 +99,10 @@ enum	e_operations
 	e_ar,
 	e_hdr
 };
+typedef struct s_minishell_state
+{
+	char	**envp;
+	int		exit_status;
+	int		previous_dir
+}	t_minishell_state;
 #endif
