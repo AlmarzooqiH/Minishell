@@ -7,7 +7,7 @@
 // I want to use the standard signal library and want to avoid process termination on these signals.
 
 // Please provide the implementation using the `signal()` function to set up custom handlers for SIGINT and SIGQUIT. The main shell loop should keep running even after these signals are triggered.
-#include "minishell.h"
+#include "includes/minishell.h"
 
 void sigint_handler(int signum)
 {
@@ -21,21 +21,21 @@ void sigquit_handler(int signum)
     write(1, "\nminishell> ", 12);
 }
 
-int main()
-{
-    char *line = NULL;
-    size_t len = 0;
-    signal(SIGINT, sigint_handler);
-    signal(SIGQUIT, sigquit_handler);
-    while (1)
-    {
-        write(1, "minishell> ", 11);
-        if (getline(&line, &len, stdin) == -1)
-        {
-            free(line);
-            exit(0);
-        }
-        printf("You entered: %s", line);
-    }
-    return 0;
-}
+// int main()
+// {
+//     char *line = NULL;
+//     size_t len = 0;
+//     signal(SIGINT, sigint_handler);
+//     signal(SIGQUIT, sigquit_handler);
+//     while (1)
+//     {
+//         write(1, "minishell> ", 11);
+//         if (getline(&line, &len, stdin) == -1)
+//         {
+//             free(line);
+//             exit(0);
+//         }
+//         printf("You entered: %s", line);
+//     }
+//     return 0;
+// }

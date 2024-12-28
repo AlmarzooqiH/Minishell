@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/28 18:08:05 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/28 19:41:30 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,15 @@
 void	execute_one_pipe(t_commands *cmds)
 {
 	pid_t	cid;
-	int		i;
-	char	**scmd;
 
 	cid = fork();
 	if (!cid)
 	{
 		if (cmds->rd && has_redirection(cmds))
 			return (process_redir(cmds), exit(ES));
-		scmd = extract_command(cmds);
-		if (!scmd || dup_pipes(cmds) == -1)
-			return (perror("Failed to extract the command"), exit(EF));
-		i = 0;
-		while (cmds->bpath[i] && ft_execute(cmds->bpath[i], scmd))
-			i++;
-		free_split(scmd);
+		if (dup_pipes(cmds) == -1)
+			return (perror("Failed to dup pipes"), exit(EF));
+		is_builtin(cmds);
 	}
 	else if (cid > 0)
 	{
@@ -44,24 +38,13 @@ void	execute_one_pipe(t_commands *cmds)
 void	execute_one(t_commands *cmds)
 {
 	pid_t	cid;
-	int		i;
-	char	**scmd;
 
 	cid = fork();
 	if (!cid)
 	{
-		i = 0;
 		if (has_redirection(cmds))
 			return (process_redir(cmds), exit(ES));
-		scmd = extract_command(cmds);
-		if (!scmd)
-			return (perror("Failed to extract the command"), exit(EF));
-		return (is_builtin(cmds));
-		while (cmds->bpath[i] && ft_execute(cmds->bpath[i], scmd))
-			i++;
-		if (i == count_tokens(cmds->bpath))
-			perror("");
-		free_split(scmd);
+		is_builtin(cmds);
 	}
 	else if (cid > 0)
 		waitpid(cid, NULL, 0);
@@ -70,21 +53,15 @@ void	execute_one(t_commands *cmds)
 void	execute_cmd(t_commands *cmds)
 {
 	pid_t	cid;
-	int		i;
-	char	**scmd;
 
 	cid = fork();
 	if (!cid)
 	{
 		if (cmds->rd && has_redirection(cmds))
 			return (process_redir(cmds), exit(ES));
-		i = 0;
-		scmd = extract_command(cmds);
-		if (!scmd || dup_pipes(cmds) == -1)
-			return (perror("Failed to extract the command"), exit(EF));
-		while (cmds->bpath[i] && ft_execute(cmds->bpath[i], scmd))
-			i++;
-		free_split(scmd);
+		if (dup_pipes(cmds) == -1)
+			return (perror("Failed to dup pipes"), exit(EF));
+		is_builtin(cmds);
 	}
 	else if (cid > 0)
 	{
@@ -98,21 +75,15 @@ void	execute_cmd(t_commands *cmds)
 void	execute_last(t_commands *cmds)
 {
 	pid_t	cid;
-	int		i;
-	char	**scmd;
 
 	cid = fork();
 	if (!cid)
 	{
-		i = 0;
 		if (has_redirection(cmds))
 			return (process_redir(cmds), exit(ES));
-		scmd = extract_command(cmds);
-		if (!scmd || dup_pipes(cmds) == -1)
-			return (perror("Failed to extract the command"), exit(EF));
-		while (cmds->bpath[i] && ft_execute(cmds->bpath[i], scmd))
-			i++;
-		free_split(scmd);
+		if (dup_pipes(cmds) == -1)
+			return (perror("Failed to dup pipes"), exit(EF));
+		is_builtin(cmds);
 	}
 	else if (cid > 0)
 	{

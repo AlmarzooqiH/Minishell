@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/28 17:57:22 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/28 20:15:39 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,12 @@ int		process_heredoc(t_commands *cmds);
 void	close_files(t_commands *cmds);
 void	free_variables(char **t, char **y, char **u, char **s);
 void	is_builtin(t_commands *cmds);
-void builtin_cd(t_commands *cmds);
+void    builtin_cd(t_commands *cmds);
+void    builtin_exit(char **args, t_minishell_state *state);
+void    builtin_export(char **args, t_minishell_state *state);
+void    builtin_unset(char **args, t_minishell_state *state);
+void    builtin_exit(char **args, t_minishell_state *state);
+void	builtin_pwd(void);
+// void    builtin_signal(char **args, t_minishell_state *state);
+// void    builtin_echo(char **args, t_minishell_state *state);
 #endif
