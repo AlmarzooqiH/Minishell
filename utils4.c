@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/28 20:15:52 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/28 23:55:18 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 /**
  * @brief This function will free the variables from ft_execute2().
+ * @params t, y, u, s The variables to be freed.
+ * @return Void.
 */
 void	free_variables(char **t, char **y, char **u, char **s)
 {
@@ -26,7 +28,11 @@ void	free_variables(char **t, char **y, char **u, char **s)
 	if (s)
 		free_split(s);
 }
-
+/**
+ * @brief This function will execute the command from the PATH variable.
+ * @param cmds The commands structure.
+ * @return Void.
+ */
 void	normal_execution(t_commands *cmds)
 {
 	int		i;
@@ -43,6 +49,12 @@ void	normal_execution(t_commands *cmds)
 		perror("");
 }
 
+/**
+ * @brief This function will check if the command is a builtin. If not it will
+ * call normal_execution() to execute the command from the PATH variable.
+ * @param cmds The commands structure.
+ * @return Void.
+ */
 void	is_builtin(t_commands *cmds)
 {
 	// if (ft_strcmp(cmds->cmds[cmds->cc][0], ECHO_COMMAND))
