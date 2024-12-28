@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:24:25 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/25 16:59:00 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/28 18:00:36 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,9 @@ typedef struct s_commands
 	int		a;
 	int		t;
 	int		r;
-}	t_commands;
+	char	**envp;
+	char	*previous_dir;
+	}	t_commands;
 
 /**
  * @brief This will hold the type of the redirection.
@@ -103,6 +105,6 @@ typedef struct s_minishell_state
 {
 	char	**envp;
 	int		exit_status;
-	int		previous_dir
+	char		*previous_dir;
 }	t_minishell_state;
 #endif

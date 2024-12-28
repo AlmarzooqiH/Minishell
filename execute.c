@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/25 12:40:43 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/28 18:08:05 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,11 @@ void	execute_one(t_commands *cmds)
 		scmd = extract_command(cmds);
 		if (!scmd)
 			return (perror("Failed to extract the command"), exit(EF));
+		return (is_builtin(cmds));
 		while (cmds->bpath[i] && ft_execute(cmds->bpath[i], scmd))
 			i++;
+		if (i == count_tokens(cmds->bpath))
+			perror("");
 		free_split(scmd);
 	}
 	else if (cid > 0)

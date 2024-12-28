@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/25 16:58:01 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/28 17:51:10 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	init3(t_commands *cmds)
 	cmds->a = O_CREAT | O_RDWR | O_APPEND;
 	cmds->t = O_CREAT | O_RDWR | O_TRUNC;
 	cmds->r = O_RDONLY;
+	cmds->previous_dir = NULL;
 }
 
 void	init2(t_commands *cmds)

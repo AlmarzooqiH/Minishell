@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/25 14:36:02 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/28 18:00:50 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,10 @@ void	free_variables(char **t, char **y, char **u, char **s)
 		free_split(u);
 	if (s)
 		free_split(s);
+}
+
+void	is_builtin(t_commands *cmds)
+{
+	if (ft_strcmp(cmds->cmds[cmds->cc][0], CD_COMMAND))
+		builtin_cd(cmds);
 }
