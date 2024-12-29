@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/29 16:29:09 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/29 21:53:10 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int		has_flag(char *flag, char *flag_in);
 int		has_pipe(char *commands);
 int		ft_execute(char *pvar, char **commands);
 int		ft_execute2(char **commands);
+void	normal_execution(t_commands *cmds);
 void	print_stdout(int fd);
 void	get_tokens(char *command, char ***tokens, char split);
 void	free_tokens(char ***tokens, int n_tokens);
@@ -68,13 +69,13 @@ int		check_file(t_commands *cmds);
 int		process_heredoc(t_commands *cmds);
 void	close_files(t_commands *cmds);
 void	free_variables(char **t, char **y, char **u, char **s);
-void	is_builtin(t_commands *cmds);
+int     parent_functions(t_commands *cmds);
+void	child_functions(t_commands *cmds);
 void    builtin_cd(t_commands *cmds);
 void	cd_home(void);
 void	cd_previous(t_commands *cmds);
 void	cd_change_directory(t_commands *cmds);
 void    builtin_exit(t_commands *cmds);
-void    builtin_export(char **args, t_minishell_state *state);
 void    builtin_unset(char **args, t_minishell_state *state);
 void	builtin_pwd(void);
 // void    builtin_signal(char **args, t_minishell_state *state);

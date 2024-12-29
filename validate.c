@@ -6,12 +6,17 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:16:48 by hamad             #+#    #+#             */
-/*   Updated: 2024/11/18 21:09:43 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/29 17:02:45 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
+/**
+ * @brief This function will validate the passed in command.
+ * @param command The command to validate.
+ * @return 1 if the command is valid, 0 otherwise.
+ */
 int	validate_command(char ***command)
 {
 	size_t	i;

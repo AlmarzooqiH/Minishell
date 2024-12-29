@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/29 16:31:06 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/29 21:13:18 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	execute_one_pipe(t_commands *cmds)
 {
 	pid_t	cid;
 
-	if (ft_strcmp(cmds->c[cmds->cc][0], EXIT_COMMAND))
-		builtin_exit(cmds);
+	if (parent_functions(cmds))
+		return ;
 	cid = fork();
 	if (!cid)
 	{
@@ -25,7 +25,7 @@ void	execute_one_pipe(t_commands *cmds)
 			return (process_redir(cmds), exit(ES));
 		if (dup_pipes(cmds) == -1)
 			return (perror("Failed to dup pipes"), exit(EF));
-		is_builtin(cmds);
+		child_functions(cmds);
 	}
 	else if (cid > 0)
 	{
@@ -41,14 +41,14 @@ void	execute_one(t_commands *cmds)
 {
 	pid_t	cid;
 
-	if (ft_strcmp(cmds->c[cmds->cc][0], EXIT_COMMAND))
-		builtin_exit(cmds);
+	if (parent_functions(cmds))
+		return ;
 	cid = fork();
 	if (!cid)
 	{
 		if (has_redirection(cmds))
 			return (process_redir(cmds), exit(ES));
-		is_builtin(cmds);
+		child_functions(cmds);
 	}
 	else if (cid > 0)
 		waitpid(cid, NULL, 0);
@@ -58,8 +58,8 @@ void	execute_cmd(t_commands *cmds)
 {
 	pid_t	cid;
 
-	if (ft_strcmp(cmds->c[cmds->cc][0], EXIT_COMMAND))
-		builtin_exit(cmds);
+	if (parent_functions(cmds))
+		return ;
 	cid = fork();
 	if (!cid)
 	{
@@ -67,7 +67,7 @@ void	execute_cmd(t_commands *cmds)
 			return (process_redir(cmds), exit(ES));
 		if (dup_pipes(cmds) == -1)
 			return (perror("Failed to dup pipes"), exit(EF));
-		is_builtin(cmds);
+		child_functions(cmds);
 	}
 	else if (cid > 0)
 	{
@@ -82,8 +82,8 @@ void	execute_last(t_commands *cmds)
 {
 	pid_t	cid;
 
-	if (ft_strcmp(cmds->c[cmds->cc][0], EXIT_COMMAND))
-		builtin_exit(cmds);
+	if (parent_functions(cmds))
+		return ;
 	cid = fork();
 	if (!cid)
 	{
@@ -91,7 +91,7 @@ void	execute_last(t_commands *cmds)
 			return (process_redir(cmds), exit(ES));
 		if (dup_pipes(cmds) == -1)
 			return (perror("Failed to dup pipes"), exit(EF));
-		is_builtin(cmds);
+		child_functions(cmds);
 	}
 	else if (cid > 0)
 	{

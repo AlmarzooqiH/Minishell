@@ -6,12 +6,17 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:38:31 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/29 16:33:49 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/29 21:49:53 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
+/**
+ * @brief This function will check if the string is numeric.
+ * @param str The string to check.
+ * @return 1 if the string is numeric, 0 otherwise.
+ */
 static int	is_numeric(const char *str)
 {
 	int	i;
