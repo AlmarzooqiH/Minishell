@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/28 17:51:10 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/29 13:34:07 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	free_cmds(t_commands *cmds)
 	close_files(cmds);
 	if (cmds->bpath)
 		free_split(cmds->bpath);
-	if (cmds->cmds)
-		free_tokens(cmds->cmds, cmds->nscmds);
+	if (cmds->c)
+		free_tokens(cmds->c, cmds->nscmds);
 	if (cmds->files)
 		free_split(cmds->files);
 	if (cmds->rd)
@@ -74,7 +74,7 @@ void	init3(t_commands *cmds)
 void	init2(t_commands *cmds)
 {
 	set_isbash(cmds);
-	cmds->nre = get_total_rediractions(cmds->cmds);
+	cmds->nre = get_total_rediractions(cmds->c);
 	if (cmds->nre > 0)
 	{
 		cmds->rd = (int **)malloc(sizeof(int *) * (cmds->nre));
@@ -111,11 +111,11 @@ void	init(t_commands *cmds, const char *command)
 	if (!cmds->bpath)
 		return (free_cmds(cmds), perror("Failed to split the PATH variable"));
 	cmds->nscmds = has_pipe((char *)command);
-	cmds->cmds = (char ***)malloc(sizeof(char **) * (cmds->nscmds + 1));
-	if (!cmds->cmds)
+	cmds->c = (char ***)malloc(sizeof(char **) * (cmds->nscmds + 1));
+	if (!cmds->c)
 		return (free_cmds(cmds), perror("Failed to malloc commands"));
-	get_tokens((char *)command, cmds->cmds, '|');
-	if (!cmds->cmds || !cmds->cmds[0])
+	get_tokens((char *)command, cmds->c, '|');
+	if (!cmds->c || !cmds->c[0])
 		return (free_cmds(cmds), perror("Failed to tokenize the input"));
 	cmds->is_bash = (int (*))malloc(sizeof(int) * (cmds->nscmds));
 	if (!cmds->is_bash)

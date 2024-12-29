@@ -1,41 +1,59 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/29 13:38:31 by hamad             #+#    #+#             */
+/*   Updated: 2024/12/29 16:33:49 by hamad            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/minishell.h"
 
-// Helper: Check if a string is numeric
-static int is_numeric(const char *str)
+static int	is_numeric(const char *str)
 {
-    int i = 0;
+	int	i;
 
-    if (!str)
-        return (0);
-    if (str[0] == '-' || str[0] == '+')
-        i++;
-    while (str[i])
-    {
-        if (!ft_isdigit(str[i]))
-            return (0);
-        i++;
-    }
-    return (1);
+	if (!str)
+		return (0);
+	i = 0;
+	if (str[0] == '-' || str[0] == '+')
+		i++;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
-// Main exit function
-void builtin_exit(char **args, t_minishell_state *state)
+/**
+ * @brief This function will replicate the exit function.
+ * @param cmds The commands structure.
+ * @return void
+ */
+void	builtin_exit(t_commands *cmds)
 {
-    printf("exit\n");
-    if (args[1] && !is_numeric(args[1]))
-    {
-        printf("exit: %s: numeric argument required\n", args[1]);
-        // cleanup_state(state); // Custom function to free resources
-        exit(255);
-    }
-    if (args[1] && args[2])
-    {
-        printf("exit: too many arguments\n");
-        state->exit_status = 1;
-        return;
-    }
-    // cleanup_state(state); // Free memory and other resources
-    if (args[1])
-        exit(ft_atoi(args[1]));
-    exit(state->exit_status);
+	int	es;
+
+	printf("exit\n");
+	if (cmds->c[cmds->cc][1] && !is_numeric(cmds->c[cmds->cc][1]))
+	{
+		printf("exit: %s: numeric argument required\n", cmds->c[cmds->cc][1]);
+		free_cmds(cmds);
+		exit(255);
+	}
+	if (count_tokens(cmds->c[cmds->cc]) > 2)
+	{
+		printf("exit: too many arguments\n");
+		cmds->es = 1;
+		return ;
+	}
+	if (cmds->c[cmds->cc][1])
+		es = ft_atoi(cmds->c[cmds->cc][1]);
+	free_cmds(cmds);
+	exit(es);
 }

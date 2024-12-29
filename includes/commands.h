@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:24:25 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/28 18:00:36 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/29 13:34:08 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,36 +33,44 @@
 # define ES EXIT_SUCCESS
 
 /**
- * @brief	This structure will hold the passed in command that will be prepro-
+ * @brief This structure will hold the passed in command that will be prepro-
  * -ccessed.
- * @var	enviorment	Will hold the PATH variable.
- * @var	bpath	Will hold the splited PATH variable.
- * @var	cmds	This will hold the tokenized commands.
- * @var	files	This will hold the files that we will redirect to.
- * @var	rd	This will hold the type of the redirection.
- * @var	is_bash	This will hold a value of 1 or 0 if the current command is 
+ * @var	enviorment Will hold the PATH variable.
+ * @var	bpath Will hold the splited PATH variable.
+ * @var	c This will hold the tokenized commands.
+ * @var	files This will hold the files that we will redirect to.
+ * @var	rd This will hold the type of the redirection.
+ * @var	is_bash This will hold a value of 1 or 0 if the current command is 
  * in bash or not.
- * @var	p		This will hold the pipelines.
- * @var hcfd	Has closed file descriptor, this will hold a value {0,1} if
+ * @var	p This will hold the pipelines.
+ * @var hcfd Has closed file descriptor, this will hold a value {0,1} if
  * the pipe fd on the read/write end has been closed.
- * @var	nscmds	This will hold the number of the commands that we have.
- * @var	npipes	Will be calculatedd when we init the pipes.
+ * @var	nscmds This will hold the number of the commands that we have.
+ * @var	npipes Will be calculatedd when we init the pipes.
  * @var	nre	Will be calculated when we init the pipes.
- * @var	cpipe	Current pipe.
- * @var	ccmd	Current command.
- * @var	cf	Current file.
- * @var	cr	Current redirection.
- * @var	hdp	Heredoc position.
- * @var	rtip	Redirection to input position.
- * @var	bfdp	Beggening fd position.
- * @var	efdp	Ending of fd position.
+ * @var	cpipe Current pipe.
+ * @var	ccmd Current command.
+ * @var	cf Current file.
+ * @var	cr Current redirection.
+ * @var	hdp Heredoc position.
+ * @var	rtip Redirection to input position.
+ * @var	bfdp Beggening fd position.
+ * @var	efdp Ending of fd position.
+ * @var	a Append flag.
+ * @var	t Truncate flag.
+ * @var	r Read flag.
+ * @var	es Exit status.
+ * @var	envp Environment variable.
+ * @var	previous_dir Previous directory.
  */
 typedef struct s_commands
 {
 	char	*enviorment;
+	char	*previous_dir;
 	char	**bpath;
-	char	***cmds;
+	char	***c;
 	char	**files;
+	char	**envp;
 	int		**rd;
 	int		*is_bash;
 	int		(*p)[2];
@@ -83,8 +91,7 @@ typedef struct s_commands
 	int		a;
 	int		t;
 	int		r;
-	char	**envp;
-	char	*previous_dir;
+	int		es;
 	}	t_commands;
 
 /**

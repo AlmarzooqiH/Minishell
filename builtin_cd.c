@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 23:50:03 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/28 23:52:36 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/29 13:34:07 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * @param cmds The commands structure.
  * @return Void.
  */
-void	cd_home(t_commands *cmds)
+void	cd_home(void)
 {
 	char	*home;
 
@@ -55,7 +55,7 @@ void	cd_previous(t_commands *cmds)
  */
 void	cd_change_directory(t_commands *cmds)
 {
-	if (chdir(cmds->cmds[cmds->cc][1]) != 0)
+	if (chdir(cmds->c[cmds->cc][1]) != 0)
 		perror("cd");
 }
 
@@ -68,8 +68,8 @@ void	builtin_cd(t_commands *cmds)
 {
 	char	*current_dir;
 
-	if (strcmp(cmds->cmds[cmds->cc][1], "-") == 0)
-		return (cd_home(cmds));
+	if (strcmp(cmds->c[cmds->cc][1], "-") == 0)
+		return (cd_home());
 	current_dir = (char *)malloc(sizeof(char) * BUFFER_SIZE);
 	if (!current_dir)
 		return (perror("current_dir"));

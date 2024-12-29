@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 22:06:08 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/25 16:58:09 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/29 13:34:07 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	create_files(t_commands *cmds)
 	int	i;
 
 	i = 0;
-	while (i < count_tokens(cmds->cmds[cmds->cc]))
+	while (i < count_tokens(cmds->c[cmds->cc]))
 	{
 		if (cmds->rd[cmds->cc][i] == e_rtf)
 			cmds->fd[cmds->cfd] = open(cmds->files[cmds->cf], cmds->t, PERMS);

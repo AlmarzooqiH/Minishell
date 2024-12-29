@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 17:29:52 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/25 12:46:04 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/29 13:34:49 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@ void	set_redirectons(t_commands *cmds)
 	int	j;
 
 	i = 0;
-	while (cmds->cmds[i])
+	while (cmds->c[i])
 	{
 		cmds->rd[i] = (int *)malloc(sizeof(int)
-				* count_tokens(cmds->cmds[i]));
+				* count_tokens(cmds->c[i]));
 		if (!cmds->rd[i])
 			return (free_cmds(cmds), perror("Failed to malloc redir"));
 		j = 0;
-		while (cmds->cmds[i][j])
+		while (cmds->c[i][j])
 		{
-			cmds->rd[i][j] = is_redirection(cmds->cmds[i][j]);
+			cmds->rd[i][j] = is_redirection(cmds->c[i][j]);
 			j++;
 		}
 		i++;
@@ -53,7 +53,7 @@ void	set_isbash(t_commands *cmds)
 	i = 0;
 	while (i < cmds->nscmds)
 	{
-		cmds->is_bash[i] = is_bashsyntax(cmds->cmds[i]);
+		cmds->is_bash[i] = is_bashsyntax(cmds->c[i]);
 		i++;
 	}
 }
@@ -71,17 +71,17 @@ void	set_files(t_commands *cmds)
 
 	c = 0;
 	f = 0;
-	while (cmds->cmds[c])
+	while (cmds->c[c])
 	{
 		t = 0;
-		while (cmds->cmds[c][t])
+		while (cmds->c[c][t])
 		{
 			if (cmds->rd[c][t] >= 0)
 			{
-				if (is_alone(cmds->cmds[c][t]))
-					cmds->files[f] = ft_strdup(cmds->cmds[c][++t]);
+				if (is_alone(cmds->c[c][t]))
+					cmds->files[f] = ft_strdup(cmds->c[c][++t]);
 				else
-					cmds->files[f] = gfn(cmds->cmds[c][t], cmds->rd[c][t]);
+					cmds->files[f] = gfn(cmds->c[c][t], cmds->rd[c][t]);
 				if (!cmds->files[f++])
 					return (free_cmds(cmds), perror("Failed to malloc files"));
 			}
@@ -103,17 +103,17 @@ char	**extract_command(t_commands *cmds)
 	size_t	j;
 	char	**cmd;
 
-	if (cmds->is_bash[cmds->cc] && is_alone(cmds->cmds[cmds->cc][0]))
+	if (cmds->is_bash[cmds->cc] && is_alone(cmds->c[cmds->cc][0]))
 		i = 2;
-	else if (cmds->is_bash[cmds->cc] && !is_alone(cmds->cmds[cmds->cc][0]))
+	else if (cmds->is_bash[cmds->cc] && !is_alone(cmds->c[cmds->cc][0]))
 		i = 1;
 	else
 		i = 0;
 	j = i;
-	while (cmds->cmds[cmds->cc][i]
-		&& !(is_redirection(cmds->cmds[cmds->cc][i]) >= 0))
+	while (cmds->c[cmds->cc][i]
+		&& !(is_redirection(cmds->c[cmds->cc][i]) >= 0))
 		i++;
-	cmd = trim_command(ft_subnsplit(cmds->cmds[cmds->cc], j, i));
+	cmd = trim_command(ft_subnsplit(cmds->c[cmds->cc], j, i));
 	return (cmd);
 }
 
@@ -129,7 +129,7 @@ int	has_redirection(t_commands *cmds)
 	if (!cmds->rd)
 		return (0);
 	i = 0;
-	while (i < count_tokens(cmds->cmds[cmds->cc]))
+	while (i < count_tokens(cmds->c[cmds->cc]))
 	{
 		if (cmds->rd[cmds->cc][i] >= 0)
 			return (1);
