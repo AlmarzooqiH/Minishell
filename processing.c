@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:03:10 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/29 21:53:26 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/30 16:58:10 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 					tokenized input to process_commands / process_commands_wp.
 	@param	command	This holds the user input before splitting/tokenizing it.
 */
-void	process_input(const char *command)
+void	process_input(const char *command, char **envp)
 {
 	t_commands	*cmds;
 
@@ -28,6 +28,7 @@ void	process_input(const char *command)
 	init(cmds, command);
 	if (!cmds)
 		return ;
+	cmds->envp = envp;
 	execute_binary(cmds);
 	free_cmds(cmds);
 }
