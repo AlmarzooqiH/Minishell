@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 23:50:03 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/29 13:34:07 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/30 16:46:32 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	builtin_cd(t_commands *cmds)
 {
 	char	*current_dir;
 
-	if (strcmp(cmds->c[cmds->cc][1], "-") == 0)
+	if (count_tokens(cmds->c[cmds->cc]) == 1)
 		return (cd_home());
 	current_dir = (char *)malloc(sizeof(char) * BUFFER_SIZE);
 	if (!current_dir)
