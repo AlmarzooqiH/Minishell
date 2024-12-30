@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/29 21:53:10 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/30 17:01:24 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <termios.h>
 
 //If we decide to add clear function, we just need to printf this: \033[H\033[J
-void	process_input(const char *command);
+void	process_input(const char *command, char **envp);
 int		validate_command(char ***command);
 void	init(t_commands *cmds, const char *command);
 void	init2(t_commands *cmds);
@@ -78,6 +78,7 @@ void	cd_change_directory(t_commands *cmds);
 void    builtin_exit(t_commands *cmds);
 void    builtin_unset(char **args, t_minishell_state *state);
 void	builtin_pwd(void);
+void	builtin_echo(t_commands *cmds);
 // void    builtin_signal(char **args, t_minishell_state *state);
 // void    builtin_echo(char **args, t_minishell_state *state);
 #endif
