@@ -6,7 +6,8 @@ READLINE_FLAG = -lreadline
 LIBFT_A = libft/libft.a
 MANDATORY = main.c processing.c utils.c utils2.c utils3.c utils4.c pipes.c execute.c \
 			 bash.c redirections.c redirections2.c init.c validate.c builtin_cd.c \
-			 builtin_export.c builtin_exit.c builtin_signal.c builtin_unset.c builtin_pwd.c
+			 builtin_export.c builtin_exit.c builtin_signal.c builtin_unset.c builtin_pwd.c \
+			 builtin_echo.c
 MANDATORY_OBJS = $(MANDATORY:.c=.o)
 
 all: libft mandatory
