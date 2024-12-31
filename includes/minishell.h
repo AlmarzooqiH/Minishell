@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/30 17:01:24 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/31 14:13:15 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int		has_pipe(char *commands);
 int		ft_execute(char *pvar, char **commands);
 int		ft_execute2(char **commands);
 void	normal_execution(t_commands *cmds);
-void	print_stdout(int fd);
 void	get_tokens(char *command, char ***tokens, char split);
 void	free_tokens(char ***tokens, int n_tokens);
 void	cpipes(int (*p)[2], size_t npipes);
@@ -79,6 +78,6 @@ void    builtin_exit(t_commands *cmds);
 void    builtin_unset(char **args, t_minishell_state *state);
 void	builtin_pwd(void);
 void	builtin_echo(t_commands *cmds);
+void    check_if_success(t_commands *cmds);
 // void    builtin_signal(char **args, t_minishell_state *state);
-// void    builtin_echo(char **args, t_minishell_state *state);
 #endif

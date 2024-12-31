@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:13:43 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/26 13:54:31 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/31 14:15:13 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,24 +58,24 @@ int	dup_pipes(t_commands *cmds)
 	{
 		if ((cmds->cc == 0 && dup2(cmds->p[cmds->cp][1], SOUT) == -1) || (
 				cmds->cc == 1 && dup2(cmds->p[cmds->cp][0], SIN) == -1))
-			return (-1);
+			return (cmds->es = 127, -1);
 		return (cpipe(cmds->p[cmds->cp], 2), 1);
 	}
 	if (cmds->cc == 0)
 	{
 		if (dup2(cmds->p[cmds->cp][1], SOUT) == -1)
-			return (-1);
+			return (cmds->es = 127, -1);
 		return (cpipe(cmds->p[cmds->cp], 2), 1);
 	}
 	else if (cmds->cc == cmds->nscmds - 1)
 	{
 		if (dup2(cmds->p[cmds->cp][0], SIN) == -1)
-			return (-1);
+			return (cmds->es = 127, -1);
 		return (cpipe(cmds->p[cmds->cp], 2), 1);
 	}
 	if ((dup2(cmds->p[cmds->cp - 1][0], SIN) == -1) ||
 			(dup2(cmds->p[cmds->cp][1], SOUT) == -1))
-		return (-1);
+		return (cmds->es = 127, -1);
 	return (cpipe(cmds->p[cmds->cp - 1], 2),
 		cpipe(cmds->p[cmds->cp], 2), 1);
 }

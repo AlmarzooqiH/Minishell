@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/29 13:34:07 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/31 15:14:30 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,11 @@ void	free_cmds(t_commands *cmds)
 	free_cmds2(cmds);
 }
 
+/**
+ * @brief	This function will initialize the commands struct.
+ * @param	cmds	This will holds the preprocessd command.
+ * @return Void.
+ */
 void	init3(t_commands *cmds)
 {
 	cmds->cr = 0;
@@ -71,6 +76,11 @@ void	init3(t_commands *cmds)
 	cmds->previous_dir = NULL;
 }
 
+/**
+ * @brief This function will initialize the commands struct.
+ * @param cmds This will holds the preprocessd command.
+ * @return Void.
+ */
 void	init2(t_commands *cmds)
 {
 	set_isbash(cmds);
@@ -100,6 +110,12 @@ void	init2(t_commands *cmds)
 	init3(cmds);
 }
 
+/**
+ * @brief	This function will initialize the commands struct.
+ * @param	cmds	This will holds the preprocessd command.
+ * @param	command	This will holds the command that was passed.
+ * @return Void.
+ */
 void	init(t_commands *cmds, const char *command)
 {
 	if (!cmds)

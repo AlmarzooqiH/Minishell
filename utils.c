@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:26:39 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/28 19:44:07 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/31 15:15:13 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,22 +114,17 @@ int	ft_execute(char	*pvar, char **commands)
 	return (ft_execute2(commands));
 }
 
-/*
-	@brief This function will print the content of stdout.
-	@var	s	Will hold each line of the stdout.
-	@var	fd	The file descriptor.
-*/
-void	print_stdout(int fd)
+/**
+ * @brief	This function will count the number of tokens inside the command.
+ * @param	tokens	The tokens that we want to count.
+ * @return	The number of tokens.
+ */
+int	count_tokens(char **tokens)
 {
-	char	*s;
+	int	i;
 
-	if (fd < 0)
-		return ;
-	s = get_next_line(fd);
-	while (s != NULL)
-	{
-		printf("%s", s);
-		free(s);
-		s = get_next_line(fd);
-	}
+	i = 0;
+	while (tokens[i])
+		i++;
+	return (i);
 }

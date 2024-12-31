@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 22:06:08 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/29 13:34:07 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/31 14:12:47 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,25 @@ int	is_redirection(char *command)
 		|| ft_isprefix(command, REDIRECTION_TO_INPUT))
 		return (e_rti);
 	return (-1);
+}
+
+/**
+ * @brief This function will check if we have opened the files successfully.
+ * @param cmds This holds the commands struct.
+ * @return Void.
+ */
+void	check_if_success(t_commands *cmds)
+{
+	int	i;
+
+	i = cmds->bfdp;
+	while (i < cmds->efdp)
+	{
+		if (cmds->fd[i] < 0)
+			return (cmds->es = 1, perror("Failed to open file"), exit(EF));
+		i++;
+	}
+	cmds->es = 0;
 }
 
 /**
@@ -82,6 +101,7 @@ void	create_files(t_commands *cmds)
 		i++;
 		increment(cmds, i);
 	}
+	check_if_success(cmds);
 }
 
 /**

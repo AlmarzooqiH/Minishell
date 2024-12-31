@@ -6,39 +6,11 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 17:29:52 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/29 13:34:49 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/31 15:07:55 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-/**
- * @brief	This function will sotre the type of the redirection in the redir
- * array.
- * @param	cmds	This will holds the processed commands.
- * @return	void
- */
-void	set_redirectons(t_commands *cmds)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (cmds->c[i])
-	{
-		cmds->rd[i] = (int *)malloc(sizeof(int)
-				* count_tokens(cmds->c[i]));
-		if (!cmds->rd[i])
-			return (free_cmds(cmds), perror("Failed to malloc redir"));
-		j = 0;
-		while (cmds->c[i][j])
-		{
-			cmds->rd[i][j] = is_redirection(cmds->c[i][j]);
-			j++;
-		}
-		i++;
-	}
-}
 
 /**
  * @brief	This function will check if the current sub command is in bash syn-
@@ -136,4 +108,21 @@ int	has_redirection(t_commands *cmds)
 		i++;
 	}
 	return (0);
+}
+
+/**
+ * @brief This function will free the variables from ft_execute2().
+ * @params t, y, u, s The variables to be freed.
+ * @return Void.
+*/
+void	free_variables(char **t, char **y, char **u, char **s)
+{
+	if (t)
+		free_split(t);
+	if (y)
+		free_split(y);
+	if (u)
+		free_split(u);
+	if (s)
+		free_split(s);
 }

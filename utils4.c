@@ -6,28 +6,12 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/30 17:12:14 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/31 14:08:38 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-/**
- * @brief This function will free the variables from ft_execute2().
- * @params t, y, u, s The variables to be freed.
- * @return Void.
-*/
-void	free_variables(char **t, char **y, char **u, char **s)
-{
-	if (t)
-		free_split(t);
-	if (y)
-		free_split(y);
-	if (u)
-		free_split(u);
-	if (s)
-		free_split(s);
-}
 /**
  * @brief This function will execute the command from the PATH variable.
  * @param cmds The commands structure.
@@ -46,7 +30,8 @@ void	normal_execution(t_commands *cmds)
 		i++;
 	free_split(scmd);
 	if (i == count_tokens(cmds->bpath))
-		perror("");
+		return (cmds->es = 127, perror(""));
+	cmds->es = 0;
 }
 
 void	child_functions(t_commands *cmds)

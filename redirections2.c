@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 20:05:16 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/25 16:57:42 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/31 13:57:53 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ int	get_total_rediractions(char ***commands)
 	return (total);
 }
 
+/**
+ * @brief This function will closed opened files of the current command.
+ * @param cmds This holds the commands struct.
+ * @return Void.
+ */
 void	close_files(t_commands *cmds)
 {
 	int	i;

@@ -6,12 +6,17 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/29 21:13:18 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/31 15:14:41 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
+/**
+ * @brief This function will execute the commands that have one pipe only.
+ * @param cmds This holds the commands struct.
+ * @return Void.
+ */
 void	execute_one_pipe(t_commands *cmds)
 {
 	pid_t	cid;
@@ -37,6 +42,12 @@ void	execute_one_pipe(t_commands *cmds)
 	}
 }
 
+/**
+ * @brief This function will execute one command only.
+ * @param cmds This holds the commands struct.
+ * @return Void.
+ * @note This will be called if cmds->nscmds == 1.
+ */
 void	execute_one(t_commands *cmds)
 {
 	pid_t	cid;
@@ -54,6 +65,12 @@ void	execute_one(t_commands *cmds)
 		waitpid(cid, NULL, 0);
 }
 
+/**
+ * @brief This function will execute the commands inbetween the first and the
+ * last command.
+ * @param cmds This holds the commands struct.
+ * @return Void.
+ */
 void	execute_cmd(t_commands *cmds)
 {
 	pid_t	cid;
@@ -78,6 +95,11 @@ void	execute_cmd(t_commands *cmds)
 	}
 }
 
+/**
+ * @brief This function will execute the last command.
+ * @param cmds This holds the commands struct.
+ * @return Void.
+ */
 void	execute_last(t_commands *cmds)
 {
 	pid_t	cid;
@@ -100,6 +122,11 @@ void	execute_last(t_commands *cmds)
 	}
 }
 
+/**
+ * @brief This function is responsible for executing the commands.
+ * @param cmds This holds the commands struct.
+ * @return Void.
+ */
 void	execute_binary(t_commands *cmds)
 {
 	if (cmds->nscmds == 1)

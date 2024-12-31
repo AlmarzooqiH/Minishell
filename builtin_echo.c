@@ -6,12 +6,18 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 16:58:24 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/30 20:00:46 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/31 14:06:17 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
+/**
+ * @brief This function will search for the enviorment variable and print it.
+ * @param cmds The commands structure.
+ * @param pos The position of the word.
+ * @return Void.
+ */
 void	print_env(t_commands *cmds, int pos)
 {
 	int		i;
@@ -39,6 +45,14 @@ void	print_env(t_commands *cmds, int pos)
 	free(tmp);
 }
 
+/**
+ * @brief This function will print the string and if there was passed some env
+ * variables it will print them.
+ * @param cmds The commands structure.
+ * @param i The pointer of the current word.
+ * @return Void.
+ * @note This will be called if the input was like this: echo "path is: $PATH"
+ */
 void	print_double_quotes(t_commands *cmds, int *i)
 {
 	int	j;
@@ -67,6 +81,13 @@ void	print_double_quotes(t_commands *cmds, int *i)
 	}
 }
 
+/**
+ * @brief This function will print the string literal.
+ * @param cmds The commands structure.
+ * @param i The pointer of the current word.
+ * @return Void.
+ * @note This will be called if the input was like this: echo 'hello world'.
+ */
 void	print_literal(t_commands *cmds, int *i)
 {
 	int	j;
@@ -89,6 +110,13 @@ void	print_literal(t_commands *cmds, int *i)
 	}
 }
 
+/**
+ * @brief This function will print the normal string.
+ * @param cmds The commands structure.
+ * @param i The pointer of the current word.
+ * @return Void.
+ * @note This will be called if the input was like this: echo hello world.
+ */
 void	normal_print(t_commands *cmds, int *i)
 {
 	int	j;
@@ -109,6 +137,11 @@ void	normal_print(t_commands *cmds, int *i)
 	printf(" ");
 }
 
+/**
+ * @brief This function will replicate the behavior of the echo command.
+ * @param cmds The commands structure.
+ * @return Void.
+ */
 void	builtin_echo(t_commands *cmds)
 {
 	int	i;

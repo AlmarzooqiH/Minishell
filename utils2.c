@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:23:52 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/25 15:03:16 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/31 13:54:15 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,16 +139,29 @@ char	*gfn(char *command, int redirection)
 }
 
 /**
- * @brief	This function will count the number of tokens inside the command.
- * @param	tokens	The tokens that we want to count.
- * @return	The number of tokens.
+ * @brief	This function will sotre the type of the redirection in the redir
+ * array.
+ * @param	cmds	This will holds the processed commands.
+ * @return	void
  */
-int	count_tokens(char **tokens)
+void	set_redirectons(t_commands *cmds)
 {
 	int	i;
+	int	j;
 
 	i = 0;
-	while (tokens[i])
+	while (cmds->c[i])
+	{
+		cmds->rd[i] = (int *)malloc(sizeof(int)
+				* count_tokens(cmds->c[i]));
+		if (!cmds->rd[i])
+			return (free_cmds(cmds), perror("Failed to malloc redir"));
+		j = 0;
+		while (cmds->c[i][j])
+		{
+			cmds->rd[i][j] = is_redirection(cmds->c[i][j]);
+			j++;
+		}
 		i++;
-	return (i);
+	}
 }

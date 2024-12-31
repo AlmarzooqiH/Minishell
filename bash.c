@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:31:03 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/15 18:02:58 by hamad            ###   ########.fr       */
+/*   Updated: 2024/12/31 14:07:23 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,11 @@ int	is_alone(char *s)
 	return (0);
 }
 
+/**
+ * @brief This function will execute the command that is in bash syntax.
+ * @param	cmds	This holds the commands struct.
+ * @return Void.
+ */
 void	execute_bash(t_commands *cmds)
 {
 	pid_t	cid;
