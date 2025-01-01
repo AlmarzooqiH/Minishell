@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 20:18:19 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/01 20:48:13 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/01 23:35:56 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	builtin_export(t_commands *cmds)
 {
 	int	i;
 
+	if (count_tokens(cmds->c[cmds->cc]) == 1)
+		return (print_envp(cmds->envp));
 	i = 1;
 	while (cmds->c[cmds->cc][i])
 	{

@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:16:48 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/01 20:45:19 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/01 23:14:06 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	validate_command(char *command)
 	if (!tokens)
 		return (perror("Failed to malloc commands"), 1);
 	get_tokens(command, tokens, '|');
+	if (!tokens || !tokens[0] || !tokens[0][0])
+		return (perror("Failed to get tokens"), 1);
 	i = 0;
 	while (i < has_pipe(command))
 	{
