@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:38:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/01 19:43:47 by root             ###   ########.fr       */
+/*   Updated: 2025/01/01 20:25:00 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,30 +62,31 @@ static int	is_numeric(const char *str)
 // 	free_cmds(cmds);
 // 	exit(es);
 // }
-
-void builtin_exit(t_commands *cmds)
+void	builtin_exit(t_commands *cmds)
 {
-    int es;
+	int	es;
 
-    if (cmds && cmds->c[cmds->cc][1]) // If we have command arguments.
-    {
-        if (!is_numeric(cmds->c[cmds->cc][1]))
-        {
-            printf("exit: %s: numeric argument required\n", cmds->c[cmds->cc][1]);
-            free_cmds(cmds);
-            exit(255);
-        }
-        if (count_tokens(cmds->c[cmds->cc]) > 2)
-        {
-            printf("exit: too many arguments\n");
-            cmds->es = 1;
-            return;
-        }
-        es = ft_atoi(cmds->c[cmds->cc][1]);
-    }
-    else
-        printf("Exiting shell... \n");
-    if (cmds)
-        free_cmds(cmds);
-    exit(es);
+	es = 0;
+	if (cmds && cmds->c[cmds->cc][1])
+	{
+		if (!is_numeric(cmds->c[cmds->cc][1]))
+		{
+			printf("exit: %s: numeric argument required\n",
+				cmds->c[cmds->cc][1]);
+			free_cmds(cmds);
+			exit(255);
+		}
+		if (count_tokens(cmds->c[cmds->cc]) > 2)
+		{
+			printf("exit: too many arguments\n");
+			cmds->es = 1;
+			return ;
+		}
+		es = ft_atoi(cmds->c[cmds->cc][1]);
+	}
+	else
+		printf("Exiting shell... \n");
+	if (cmds)
+		free_cmds(cmds);
+	exit(es);
 }

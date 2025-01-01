@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 16:58:24 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/31 14:06:17 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/01 20:43:05 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	print_env(t_commands *cmds, int pos)
 			ft_strlen(cmds->c[cmds->cc][pos]));
 	if (!tmp)
 		return (perror("Failed to extract the tmp variable."));
-	env = ft_strtrim(tmp, "\"");
+	env = ft_strtrim(tmp, "$\"");
 	if (!env)
 		return (perror("Failed to extract the env variable."));
 	i = 0;

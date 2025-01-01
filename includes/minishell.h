@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/01 19:07:46 by root             ###   ########.fr       */
+/*   Updated: 2025/01/01 20:31:12 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 
 //If we decide to add clear function, we just need to printf this: \033[H\033[J
 void	process_input(const char *command, char **envp);
-int		validate_command(char ***command);
+int		validate_command(char *command);
 void	init(t_commands *cmds, const char *command);
 void	init2(t_commands *cmds);
 void	init3(t_commands *cmds);
@@ -69,21 +69,19 @@ int		check_file(t_commands *cmds);
 int		process_heredoc(t_commands *cmds);
 void	close_files(t_commands *cmds);
 void	free_variables(char **t, char **y, char **u, char **s);
-int     parent_functions(t_commands *cmds);
+int		parent_functions(t_commands *cmds);
 void	child_functions(t_commands *cmds);
-void    builtin_cd(t_commands *cmds);
+void	builtin_cd(t_commands *cmds);
 void	cd_home(void);
 void	cd_previous(t_commands *cmds);
 void	cd_change_directory(t_commands *cmds);
-void    builtin_exit(t_commands *cmds);
+void	builtin_exit(t_commands *cmds);
 void	builtin_unset(t_commands *cmds);
 void	builtin_pwd(void);
 void	builtin_echo(t_commands *cmds);
-void    check_if_success(t_commands *cmds);
+void	check_if_success(t_commands *cmds);
 void	builtin_env(t_commands *cmds);
-void    builtin_export(t_commands *cmds);
+void	builtin_export(t_commands *cmds);
 void	init_signals(void);
 void	signal_handler(int signal_num);
-
-// void    builtin_signal(char **args, t_minishell_state *state);
 #endif
