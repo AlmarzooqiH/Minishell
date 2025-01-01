@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 19:41:08 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/01 19:44:14 by root             ###   ########.fr       */
+/*   Updated: 2025/01/01 20:06:10 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,4 @@ void init_signals(void)
 {
     signal(SIGINT, signal_handler);   // Handle Ctrl+C (SIGINT)
     signal(SIGQUIT, signal_handler);  // Handle Ctrl+\ (SIGQUIT)
-    signal(SIGTSTP, SIG_IGN);         // Optionally ignore Ctrl+Z (SIGTSTP)
 }
