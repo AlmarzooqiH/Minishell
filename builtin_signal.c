@@ -1,41 +1,39 @@
-// I need to implement signal handling for my Minishell project in C. The signals to handle are SIGINT (Ctrl+C) and SIGQUIT (Ctrl+\). When either of these signals is received, the default behavior should be suppressed, and the shell should simply print a new prompt instead of terminating. 
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_signal.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/01 19:41:08 by mthodi            #+#    #+#             */
+/*   Updated: 2025/01/01 19:44:14 by root             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// The signal handler should work as follows:
-// - SIGINT: When the user presses Ctrl+C, the shell should print a new prompt on the same line, clearing the previous one.
-// - SIGQUIT: When the user presses Ctrl+\, the shell should also print a new prompt, clearing the previous one, without terminating the program.
-
-// I want to use the standard signal library and want to avoid process termination on these signals.
-
-// Please provide the implementation using the `signal()` function to set up custom handlers for SIGINT and SIGQUIT. The main shell loop should keep running even after these signals are triggered.
 #include "includes/minishell.h"
 
-void sigint_handler(int signum)
+/**
+ * @brief Configures and handles signals for the minishell.
+ * @param signal_num The signal number to be handled.
+ * @return Void.
+ */
+
+void signal_handler(int signal_num)
 {
-    (void)signum;
-    write(1, "\nminishell> ", 12);
+    if (signal_num == SIGINT)
+    {
+        rl_replace_line("", 0);
+        printf("\n");  // Custom prompt after Ctrl+C
+        rl_on_new_line();
+        rl_redisplay();
+    }
+    else if (signal_num == SIGQUIT)
+        printf("Quit: 3\n");
 }
 
-void sigquit_handler(int signum)
+void init_signals(void)
 {
-    (void)signum;
-    write(1, "\nminishell> ", 12);
+    signal(SIGINT, signal_handler);   // Handle Ctrl+C (SIGINT)
+    signal(SIGQUIT, signal_handler);  // Handle Ctrl+\ (SIGQUIT)
+    signal(SIGTSTP, SIG_IGN);         // Optionally ignore Ctrl+Z (SIGTSTP)
 }
-
-// int main()
-// {
-//     char *line = NULL;
-//     size_t len = 0;
-//     signal(SIGINT, sigint_handler);
-//     signal(SIGQUIT, sigquit_handler);
-//     while (1)
-//     {
-//         write(1, "minishell> ", 11);
-//         if (getline(&line, &len, stdin) == -1)
-//         {
-//             free(line);
-//             exit(0);
-//         }
-//         printf("You entered: %s", line);
-//     }
-//     return 0;
-// }

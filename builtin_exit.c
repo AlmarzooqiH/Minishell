@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:38:31 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/29 21:49:53 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/01 19:43:47 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,25 +40,52 @@ static int	is_numeric(const char *str)
  * @param cmds The commands structure.
  * @return void
  */
-void	builtin_exit(t_commands *cmds)
-{
-	int	es;
+// void	builtin_exit(t_commands *cmds)
+// {
+// 	int	es;
 
-	printf("exit\n");
-	if (cmds->c[cmds->cc][1] && !is_numeric(cmds->c[cmds->cc][1]))
-	{
-		printf("exit: %s: numeric argument required\n", cmds->c[cmds->cc][1]);
-		free_cmds(cmds);
-		exit(255);
-	}
-	if (count_tokens(cmds->c[cmds->cc]) > 2)
-	{
-		printf("exit: too many arguments\n");
-		cmds->es = 1;
-		return ;
-	}
-	if (cmds->c[cmds->cc][1])
-		es = ft_atoi(cmds->c[cmds->cc][1]);
-	free_cmds(cmds);
-	exit(es);
+// 	printf("Exiting shell... \n");
+// 	if (cmds->c[cmds->cc][1] && !is_numeric(cmds->c[cmds->cc][1]))
+// 	{
+// 		printf("exit: %s: numeric argument required\n", cmds->c[cmds->cc][1]);
+// 		free_cmds(cmds);
+// 		exit(255);
+// 	}
+// 	if (count_tokens(cmds->c[cmds->cc]) > 2)
+// 	{
+// 		printf("exit: too many arguments\n");
+// 		cmds->es = 1;
+// 		return ;
+// 	}
+// 	if (cmds->c[cmds->cc][1])
+// 		es = ft_atoi(cmds->c[cmds->cc][1]);
+// 	free_cmds(cmds);
+// 	exit(es);
+// }
+
+void builtin_exit(t_commands *cmds)
+{
+    int es;
+
+    if (cmds && cmds->c[cmds->cc][1]) // If we have command arguments.
+    {
+        if (!is_numeric(cmds->c[cmds->cc][1]))
+        {
+            printf("exit: %s: numeric argument required\n", cmds->c[cmds->cc][1]);
+            free_cmds(cmds);
+            exit(255);
+        }
+        if (count_tokens(cmds->c[cmds->cc]) > 2)
+        {
+            printf("exit: too many arguments\n");
+            cmds->es = 1;
+            return;
+        }
+        es = ft_atoi(cmds->c[cmds->cc][1]);
+    }
+    else
+        printf("Exiting shell... \n");
+    if (cmds)
+        free_cmds(cmds);
+    exit(es);
 }

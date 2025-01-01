@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/31 14:13:15 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/01 19:07:46 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <termios.h>
+# include <stdlib.h>
 
 //If we decide to add clear function, we just need to printf this: \033[H\033[J
 void	process_input(const char *command, char **envp);
@@ -81,6 +82,8 @@ void	builtin_echo(t_commands *cmds);
 void    check_if_success(t_commands *cmds);
 void	builtin_env(t_commands *cmds);
 void    builtin_export(t_commands *cmds);
-// void    builtin_export(char **args, t_minishell_state *state);
+void	init_signals(void);
+void	signal_handler(int signal_num);
+
 // void    builtin_signal(char **args, t_minishell_state *state);
 #endif
