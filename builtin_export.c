@@ -10,55 +10,50 @@ void print_envp(char **envp)
     }
 }
 
-int is_valid_identifier(char *arg)
+int is_valid_identifier(t_commands *cmds, int i)
 {
-    if (!isalpha(arg[0]) && arg[0] != '_')
+    if (!isalpha(cmds->c[cmds->cc][i][0]) && cmds->c[cmds->cc][i][0] != '_')
         return (0);
-    int i = 1;
-    while (arg[i] && arg[i] != '=')
+    int j = 1;
+    while (cmds->c[cmds->cc][i][j] && cmds->c[cmds->cc][i][j] != '=')
     {
-        if (!isalnum(arg[i]) && arg[i] != '_')
+        if (!isalnum(cmds->c[cmds->cc][i][j]) && cmds->c[cmds->cc][i][j] != '_')
             return (0);
-        i++;
+        j++;
     }
     return (1);
 }
 
-void update_envp(char *arg, t_minishell_state *state)
+void update_envp(t_commands *cmds, int i)
 {
     int j = 0;
-    while (state->envp[j])
+    while (cmds->envp[j])
     {
-        if (ft_strncmp(arg, state->envp[j], ft_strlen(arg)) == 0)
+        if (ft_strncmp(cmds->c[cmds->cc][i], cmds->envp[j], ft_strlen(cmds->c[cmds->cc][i])) == 0)
         {
-            free(state->envp[j]);
-            state->envp[j] = ft_strdup(arg);
+            free(cmds->envp[j]);
+            cmds->envp[j] = ft_strdup(cmds->c[cmds->cc][i]);
             return;
         }
         j++;
     }
-    state->envp[j] = ft_strdup(arg);
-    state->envp[j + 1] = NULL;
+    cmds->envp[j] = ft_strdup(cmds->c[cmds->cc][i]);
+    cmds->envp[j + 1] = NULL;
 }
 
-void builtin_export(char **args, t_minishell_state *state)
+void builtin_export(t_commands *cmds)
 {
-    if (!args[1])
-    {
-        print_envp(state->envp);
-        return;
-    }
     int i = 1;
-    while (args[i])
+    while (cmds->c[cmds->cc][i])
     {
-        if (!is_valid_identifier(args[i]))
+        if (!is_valid_identifier(cmds, i))
         {
-            printf("export: `%s': not a valid identifier\n", args[i]);
-            state->exit_status = 1;
+            printf("export: `%s': not a valid identifier\n", cmds->c[cmds->cc][i]);
+            cmds->es = 1;
         }
         else
-            update_envp(args[i], state);
+            update_envp(cmds, i);
         i++;
     }
-    state->exit_status = 0;
+    cmds->es = 0;
 }

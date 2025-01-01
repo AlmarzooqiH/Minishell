@@ -75,9 +75,12 @@ void	cd_home(void);
 void	cd_previous(t_commands *cmds);
 void	cd_change_directory(t_commands *cmds);
 void    builtin_exit(t_commands *cmds);
-void    builtin_unset(char **args, t_minishell_state *state);
+void	builtin_unset(t_commands *cmds);
 void	builtin_pwd(void);
 void	builtin_echo(t_commands *cmds);
 void    check_if_success(t_commands *cmds);
+void	builtin_env(t_commands *cmds);
+void    builtin_export(t_commands *cmds);
+// void    builtin_export(char **args, t_minishell_state *state);
 // void    builtin_signal(char **args, t_minishell_state *state);
 #endif

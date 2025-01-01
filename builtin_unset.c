@@ -14,28 +14,27 @@
 
 #include "includes/minishell.h"
 
-void	builtin_unset(char **args, t_minishell_state *state)
+void	builtin_unset(t_commands *cmds)
 {
-    if (!args[1])
+    int i = 1;
+    while (cmds->c[cmds->cc][i])
     {
-        state->exit_status = 1;
-        return ;
-    }
-    int i = 0;
-    while (state->envp[i])
-    {
-        if (ft_strncmp(args[1], state->envp[i], ft_strlen(args[1])) == 0)
+        int j = 0;
+        while (cmds->envp[j])
         {
-            free(state->envp[i]);
-            while (state->envp[i])
+            if (ft_strncmp(cmds->c[cmds->cc][i], cmds->envp[j], ft_strlen(cmds->c[cmds->cc][i])) == 0)
             {
-                state->envp[i] = state->envp[i + 1];
-                i++;
+                free(cmds->envp[j]);
+                while (cmds->envp[j])
+                {
+                    cmds->envp[j] = cmds->envp[j + 1];
+                    j++;
+                }
+                break ;
             }
-            state->exit_status = 0;
-            return ;
+            j++;
         }
         i++;
     }
-    state->exit_status = 0;
+    cmds->es = 0;
 }

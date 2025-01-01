@@ -40,8 +40,8 @@ void	child_functions(t_commands *cmds)
 		builtin_echo(cmds);
 	else if (ft_strcmp(cmds->c[cmds->cc][0], PWD_COMMAND))
 		builtin_pwd();
-	// else if (ft_strcmp(cmds->c[cmds->cc][0], ENV_COMMAND))
-	// 	builtin_env(cmds);
+	else if (ft_strcmp(cmds->c[cmds->cc][0], ENV_COMMAND))
+		builtin_env(cmds);
 	else
 		normal_execution(cmds);
 }
@@ -58,9 +58,9 @@ int	parent_functions(t_commands *cmds)
 		return (builtin_exit(cmds), 1);
 	else if (ft_strcmp(cmds->c[cmds->cc][0], CD_COMMAND))
 		return (builtin_cd(cmds), 1);
-	// else if (ft_strcmp(cmds->c[cmds->cc][0], EXPORT_COMMAND))
-	// 	return (builtin_export(cmds), 1);
-	// else if (ft_strcmp(cmds->c[cmds->cc][0], UNSET_COMMAND))
-	// 	return (builtin_unset(NULL, NULL), 1);
+	else if (ft_strcmp(cmds->c[cmds->cc][0], EXPORT_COMMAND))
+		return (builtin_export(cmds), 1);
+	else if (ft_strcmp(cmds->c[cmds->cc][0], UNSET_COMMAND))
+		return (builtin_unset(cmds), 1);
 	return (0);
 }
