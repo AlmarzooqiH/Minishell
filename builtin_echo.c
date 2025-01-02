@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 16:58:24 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/02 15:17:53 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/02 15:19:51 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,11 +127,8 @@ void	normal_print(t_commands *cmds, int *i)
 	j = 0;
 	while (cmds->c[cmds->cc][*i][j])
 	{
-		if (cmds->c[cmds->cc][*i][j] == '$')
-		{
-			print_env(cmds, *i);
+		if (cmds->c[cmds->cc][*i][j] == '$' && print_env(cmds, *i))
 			break ;
-		}
 		else
 			printf("%c", cmds->c[cmds->cc][*i][j]);
 		j++;
