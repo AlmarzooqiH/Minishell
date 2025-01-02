@@ -6,12 +6,13 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:41:00 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/02 15:48:18 by root             ###   ########.fr       */
+/*   Updated: 2025/01/02 16:33:08 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
+int g_exit_status = -1;
 // int	main(int ac, char **av, char **envp)
 // {
 // 	char	*line;

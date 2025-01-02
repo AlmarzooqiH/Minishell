@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 20:18:19 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/02 15:27:57 by root             ###   ########.fr       */
+/*   Updated: 2025/01/02 16:33:27 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,11 @@ void builtin_export(t_commands *cmds)
         {
             printf("export: `%s': not a valid identifier\n",
                    cmds->c[cmds->cc][i]);
-            cmds->es = 1;
+            g_exit_status = 1;  // Set global exit status
         }
         else
             update_envp(cmds, i);
         i++;
     }
-    cmds->es = 0;
+    g_exit_status = 0;
 }

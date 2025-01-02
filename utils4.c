@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/01 23:28:43 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/02 16:34:04 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	normal_execution(t_commands *cmds)
 		i++;
 	free_split(scmd);
 	if (i == count_tokens(cmds->bpath))
-		return (cmds->es = 127, perror(""));
-	cmds->es = 0;
+		return (g_exit_status = 127, perror(""));
+	g_exit_status = 0;
 }
 
 void	child_functions(t_commands *cmds)

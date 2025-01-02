@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:38:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/01 20:25:00 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/02 16:33:03 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	builtin_exit(t_commands *cmds)
 		if (count_tokens(cmds->c[cmds->cc]) > 2)
 		{
 			printf("exit: too many arguments\n");
-			cmds->es = 1;
+			g_exit_status = 1;
 			return ;
 		}
 		es = ft_atoi(cmds->c[cmds->cc][1]);

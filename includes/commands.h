@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:24:25 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/01 20:28:39 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/02 15:58:08 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # define NL_FLAG "-n\0"
 # define TEMP_FILE "/tmp/Martho_Heredoc_temp.txt\0"
 # define PERMS 0664
+
+extern int g_exit_status;
 
 # define SIN STDIN_FILENO
 # define SOUT STDOUT_FILENO
