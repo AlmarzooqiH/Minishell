@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 16:58:24 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/02 00:15:46 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/02 15:17:53 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * @param pos The position of the word.
  * @return Void.
  */
-void	print_env(t_commands *cmds, int pos)
+int	print_env(t_commands *cmds, int pos)
 {
 	int		i;
 	char	*tmp;
@@ -27,10 +27,10 @@ void	print_env(t_commands *cmds, int pos)
 	tmp = ft_substr(cmds->c[cmds->cc][pos], 1,
 			ft_strlen(cmds->c[cmds->cc][pos]));
 	if (!tmp)
-		return (perror("Failed to extract the tmp variable."));
+		return (perror("Failed to extract the tmp variable."), 0);
 	env = ft_strtrim(tmp, "$\"");
 	if (!env)
-		return (perror("Failed to extract the env variable."));
+		return (free(tmp), perror("Failed to extract the env variable."), 0);
 	i = 0;
 	while (cmds->envp[i])
 	{
@@ -41,8 +41,7 @@ void	print_env(t_commands *cmds, int pos)
 		}
 		i++;
 	}
-	free(env);
-	free(tmp);
+	return (free(env), free(tmp), 1);
 }
 
 /**
@@ -57,24 +56,24 @@ void	print_double_quotes(t_commands *cmds, int *i)
 {
 	int	j;
 	int	flag;
+	int	qflag;
 
 	j = 1;
 	flag = 0;
-	while (cmds->c[cmds->cc][*i])
+	qflag = 0;
+	while (cmds->c[cmds->cc][*i] && qflag != 1)
 	{
 		if (flag)
 			j = 0;
 		while (cmds->c[cmds->cc][*i][j] && cmds->c[cmds->cc][*i][j] != '\"')
 		{
-			if (cmds->c[cmds->cc][*i][j] == '$')
-			{
-				print_env(cmds, *i);
+			if (cmds->c[cmds->cc][*i][j] == '$' && print_env(cmds, *i))
 				break ;
-			}
-			else
-				printf("%c", cmds->c[cmds->cc][*i][j]);
+			printf("%c", cmds->c[cmds->cc][*i][j]);
 			j++;
 		}
+		if (cmds->c[cmds->cc][*i][j] == '\"')
+			qflag = 1;
 		flag = 1;
 		printf(" ");
 		(*i)++;
@@ -92,10 +91,12 @@ void	print_literal(t_commands *cmds, int *i)
 {
 	int	j;
 	int	flag;
+	int	qflag;
 
 	j = 1;
 	flag = 0;
-	while (cmds->c[cmds->cc][*i])
+	qflag = 0;
+	while (cmds->c[cmds->cc][*i] && qflag != 1)
 	{
 		if (flag)
 			j = 0;
@@ -104,6 +105,8 @@ void	print_literal(t_commands *cmds, int *i)
 			printf("%c", cmds->c[cmds->cc][*i][j]);
 			j++;
 		}
+		if (cmds->c[cmds->cc][*i][j] == '\'')
+			qflag = 1;
 		flag = 1;
 		printf(" ");
 		(*i)++;
