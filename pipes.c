@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:13:43 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/02 17:04:53 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/02 18:02:02 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ int	dup_pipes(t_commands *cmds)
 	if (cmds->npipes == 1)
 	{
 		if ((cmds->cc == 0 && dup2(cmds->p[cmds->cp][1], SOUT) == -1) || (
-				(!cmds->bltin && cmds->cc == 1 &&
-				dup2(cmds->p[cmds->cp][0], SIN) == -1)))
+			cmds->cc == 1 && dup2(cmds->p[cmds->cp][0], SIN) == -1))
 			return (g_exit_status = 127, -1);
 		return (cpipe(cmds->p[cmds->cp], 2), 1);
 	}
@@ -70,11 +69,11 @@ int	dup_pipes(t_commands *cmds)
 	}
 	else if (cmds->cc == cmds->nscmds - 1)
 	{
-		if (!cmds->bltin && dup2(cmds->p[cmds->cp][0], SIN) == -1)
+		if (dup2(cmds->p[cmds->cp][0], SIN) == -1)
 			return (g_exit_status = 127, -1);
 		return (cpipe(cmds->p[cmds->cp], 2), 1);
 	}
-	if ((!cmds->bltin && dup2(cmds->p[cmds->cp - 1][0], SIN) == -1) ||
+	if ((dup2(cmds->p[cmds->cp - 1][0], SIN) == -1) ||
 			(dup2(cmds->p[cmds->cp][1], SOUT) == -1))
 		return (g_exit_status = 127, -1);
 	return (cpipe(cmds->p[cmds->cp - 1], 2),

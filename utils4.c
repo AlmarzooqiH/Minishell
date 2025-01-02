@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/02 16:55:34 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/02 17:28:34 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	parent_functions(t_commands *cmds)
  */
 void	isbuiltin(t_commands *cmds)
 {
-	printf("cmds: %s\n", cmds->c[cmds->cc][0]);
 	if (ft_strcmp(cmds->c[cmds->cc][0], ECHO_COMMAND) ||
 		ft_strcmp(cmds->c[cmds->cc][0], PWD_COMMAND) ||
 		ft_strcmp(cmds->c[cmds->cc][0], ENV_COMMAND))
