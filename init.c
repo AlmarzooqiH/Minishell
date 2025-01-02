@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/01 23:45:35 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/02 16:42:59 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	init3(t_commands *cmds)
 	cmds->t = O_CREAT | O_RDWR | O_TRUNC;
 	cmds->r = O_RDONLY;
 	cmds->previous_dir = NULL;
+	cmds->bltin = 0;
 }
 
 /**

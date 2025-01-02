@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:24:25 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/02 15:58:08 by root             ###   ########.fr       */
+/*   Updated: 2025/01/02 16:42:49 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ extern int g_exit_status;
  * @var	es Exit status.
  * @var	envp Environment variable.
  * @var	previous_dir Previous directory.
+ * @var	bltin Is built in command.
  */
 typedef struct s_commands
 {
@@ -94,6 +95,7 @@ typedef struct s_commands
 	int		t;
 	int		r;
 	int		es;
+	int		bltin;
 }	t_commands;
 
 /**

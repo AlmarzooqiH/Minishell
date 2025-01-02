@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/02 16:34:04 by root             ###   ########.fr       */
+/*   Updated: 2025/01/02 16:55:34 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,18 @@ int	parent_functions(t_commands *cmds)
 	else if (ft_strcmp(cmds->c[cmds->cc][0], UNSET_COMMAND))
 		return (builtin_unset(cmds), 1);
 	return (0);
+}
+
+/**
+ * @brief This function will check if the command is a builtin command.
+ * @param cmds The commands structure.
+ * @return Void.
+ */
+void	isbuiltin(t_commands *cmds)
+{
+	printf("cmds: %s\n", cmds->c[cmds->cc][0]);
+	if (ft_strcmp(cmds->c[cmds->cc][0], ECHO_COMMAND) ||
+		ft_strcmp(cmds->c[cmds->cc][0], PWD_COMMAND) ||
+		ft_strcmp(cmds->c[cmds->cc][0], ENV_COMMAND))
+		cmds->bltin = 1;
 }

@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/02 16:39:22 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/02 16:58:31 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	execute_one_pipe(t_commands *cmds)
 	cid = fork();
 	if (!cid)
 	{
+		printf("cmds->cc: %d\n", cmds->cc);
+		isbuiltin(cmds);
 		if (dup_pipes(cmds) == -1)
 			return (perror("Failed to dup pipes"), exit(EF));
 		if (cmds->rd && has_redirection(cmds))
@@ -57,6 +59,7 @@ void	execute_one(t_commands *cmds)
 	cid = fork();
 	if (!cid)
 	{
+		isbuiltin(cmds);
 		if (has_redirection(cmds))
 			return (process_redir(cmds), exit(ES));
 		child_functions(cmds);
@@ -80,6 +83,7 @@ void	execute_cmd(t_commands *cmds)
 	cid = fork();
 	if (!cid)
 	{
+		isbuiltin(cmds);
 		if (cmds->rd && has_redirection(cmds))
 			return (process_redir(cmds), exit(ES));
 		if (dup_pipes(cmds) == -1)
@@ -109,6 +113,7 @@ void	execute_last(t_commands *cmds)
 	cid = fork();
 	if (!cid)
 	{
+		isbuiltin(cmds);
 		if (has_redirection(cmds))
 			return (process_redir(cmds), exit(ES));
 		if (dup_pipes(cmds) == -1)
