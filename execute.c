@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/01 23:27:18 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/02 16:39:22 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void	execute_one_pipe(t_commands *cmds)
 	cid = fork();
 	if (!cid)
 	{
-		if (cmds->rd && has_redirection(cmds))
-			return (process_redir(cmds), exit(ES));
 		if (dup_pipes(cmds) == -1)
 			return (perror("Failed to dup pipes"), exit(EF));
+		if (cmds->rd && has_redirection(cmds))
+			return (process_redir(cmds), exit(ES));
 		child_functions(cmds);
 	}
 	else if (cid > 0)
