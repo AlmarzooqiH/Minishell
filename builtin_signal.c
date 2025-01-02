@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_signal.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 19:41:08 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/01 20:48:44 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/02 15:48:50 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,10 @@ void	signal_handler(int signal_num)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	else if (signal_num == SIGQUIT)
-		printf("Quit: 3\n");
 }
 
 void	init_signals(void)
 {
 	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler);
-	signal(SIGTSTP, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }

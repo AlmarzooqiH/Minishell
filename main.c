@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:41:00 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/01 23:45:50 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/02 15:48:18 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,15 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
-	// init_signals();
+	init_signals();
 	while (1)
 	{
 		line = readline("\e[32mMartho shell\e[0m# ");
+		if(!line)
+		{
+			builtin_exit(NULL);
+			free(line);
+		}
 		if (line)
 		{
 			process_input(line, envp);
