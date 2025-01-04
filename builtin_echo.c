@@ -1,168 +1,143 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/30 16:58:24 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/02 15:19:51 by hamad            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "includes/minishell.h"
 
 /**
- * @brief This function will search for the enviorment variable and print it.
+ * @brief This function will search for and expand environment variables.
  * @param cmds The commands structure.
- * @param pos The position of the word.
- * @return Void.
+ * @param str The string containing the environment variable.
+ * @return Allocated string containing the expanded value or empty string if env var doesn't exist.
  */
-int	print_env(t_commands *cmds, int pos)
+char *expand_env(t_commands *cmds, const char *str)
 {
-	int		i;
-	char	*tmp;
-	char	*env;
-
-	tmp = ft_substr(cmds->c[cmds->cc][pos], 1,
-			ft_strlen(cmds->c[cmds->cc][pos]));
-	if (!tmp)
-		return (perror("Failed to extract the tmp variable."), 0);
-	env = ft_strtrim(tmp, "$\"");
-	if (!env)
-		return (free(tmp), perror("Failed to extract the env variable."), 0);
-	i = 0;
-	while (cmds->envp[i])
-	{
-		if (ft_isprefix(cmds->envp[i], env))
-		{
-			printf("%s", ft_strchr(cmds->envp[i], '=') + 1);
-			break ;
-		}
-		i++;
-	}
-	return (free(env), free(tmp), 1);
+    char *tmp;
+    char *env;
+    char *value = NULL;
+    
+    tmp = ft_substr(str, 1, ft_strlen(str));
+    if (!tmp)
+        return (NULL);
+        
+    env = ft_strtrim(tmp, "$\"");
+    free(tmp);
+    if (!env)
+        return (NULL);
+        
+    int i = 0;
+    while (cmds->envp[i])
+    {
+        if (ft_isprefix(cmds->envp[i], env))
+        {
+            value = ft_strdup(ft_strchr(cmds->envp[i], '=') + 1);
+            break;
+        }
+        i++;
+    }
+    free(env);
+    // Return empty string if environment variable is not found
+    if (!value)
+        return (ft_strdup(""));
+    return (value);
 }
 
 /**
- * @brief This function will print the string and if there was passed some env
- * variables it will print them.
- * @param cmds The commands structure.
- * @param i The pointer of the current word.
- * @return Void.
- * @note This will be called if the input was like this: echo "path is: $PATH"
+ * @brief Print content between double quotes, expanding env vars
+ * @param cmds Command structure
+ * @param str String to process
  */
-void	print_double_quotes(t_commands *cmds, int *i)
+void print_double_quoted_content(t_commands *cmds, const char *str)
 {
-	int	j;
-	int	flag;
-	int	qflag;
-
-	j = 1;
-	flag = 0;
-	qflag = 0;
-	while (cmds->c[cmds->cc][*i] && qflag != 1)
-	{
-		if (flag)
-			j = 0;
-		while (cmds->c[cmds->cc][*i][j] && cmds->c[cmds->cc][*i][j] != '\"')
-		{
-			if (cmds->c[cmds->cc][*i][j] == '$' && print_env(cmds, *i))
-				break ;
-			printf("%c", cmds->c[cmds->cc][*i][j]);
-			j++;
-		}
-		if (cmds->c[cmds->cc][*i][j] == '\"')
-			qflag = 1;
-		flag = 1;
-		printf(" ");
-		(*i)++;
-	}
+    int i = 1;  // Skip first quote
+    
+    while (str[i] && str[i] != '\"')
+    {
+        if (str[i] == '$' && str[i + 1] && str[i + 1] != '\"')
+        {
+            char *value = expand_env(cmds, str + i);
+            if (value)
+            {
+                printf("%s", value);
+                free(value);
+                // Skip the variable name
+                while (str[i + 1] && str[i + 1] != '\"' && str[i + 1] != '$')
+                    i++;
+            }
+        }
+        else
+            printf("%c", str[i]);
+        i++;
+    }
 }
 
 /**
- * @brief This function will print the string literal.
- * @param cmds The commands structure.
- * @param i The pointer of the current word.
- * @return Void.
- * @note This will be called if the input was like this: echo 'hello world'.
+ * @brief Print content between single quotes (literal)
+ * @param str String to process
  */
-void	print_literal(t_commands *cmds, int *i)
+void print_single_quoted_content(const char *str)
 {
-	int	j;
-	int	flag;
-	int	qflag;
-
-	j = 1;
-	flag = 0;
-	qflag = 0;
-	while (cmds->c[cmds->cc][*i] && qflag != 1)
-	{
-		if (flag)
-			j = 0;
-		while (cmds->c[cmds->cc][*i][j] && cmds->c[cmds->cc][*i][j] != '\'')
-		{
-			printf("%c", cmds->c[cmds->cc][*i][j]);
-			j++;
-		}
-		if (cmds->c[cmds->cc][*i][j] == '\'')
-			qflag = 1;
-		flag = 1;
-		printf(" ");
-		(*i)++;
-	}
+    int i = 1;  // Skip first quote
+    while (str[i] && str[i] != '\'')
+    {
+        printf("%c", str[i]);
+        i++;
+    }
 }
 
 /**
- * @brief This function will print the normal string.
- * @param cmds The commands structure.
- * @param i The pointer of the current word.
- * @return Void.
- * @note This will be called if the input was like this: echo hello world.
+ * @brief Print normal text, handling environment variables
+ * @param cmds Command structure
+ * @param str String to process
  */
-void	normal_print(t_commands *cmds, int *i)
+void print_normal_text(t_commands *cmds, const char *str)
 {
-	int	j;
-
-	j = 0;
-	while (cmds->c[cmds->cc][*i][j])
-	{
-		if (cmds->c[cmds->cc][*i][j] == '$' && print_env(cmds, *i))
-			break ;
-		else
-			printf("%c", cmds->c[cmds->cc][*i][j]);
-		j++;
-	}
-	(*i)++;
-	printf(" ");
+    int i = 0;
+    while (str[i])
+    {
+        if (str[i] == '$' && str[i + 1] && str[i + 1] != ' ')
+        {
+            char *value = expand_env(cmds, str + i);
+            if (value)
+            {
+                printf("%s", value);
+                free(value);
+                while (str[i + 1] && str[i + 1] != ' ' && str[i + 1] != '$')
+                    i++;
+            }
+        }
+        else
+            printf("%c", str[i]);
+        i++;
+    }
 }
 
 /**
- * @brief This function will replicate the behavior of the echo command.
- * @param cmds The commands structure.
- * @return Void.
+ * @brief Echo command implementation
+ * @param cmds Command structure
  */
-void	builtin_echo(t_commands *cmds)
+void builtin_echo(t_commands *cmds)
 {
-	int	i;
-	int	n_flag;
-
-	i = 1;
-	n_flag = 0;
-	if (ft_strcmp(cmds->c[cmds->cc][i], NL_FLAG))
-	{
-		n_flag = 1;
-		i++;
-	}
-	while (cmds->c[cmds->cc][i])
-	{
-		if (cmds->c[cmds->cc][i][0] == '\'')
-			print_literal(cmds, &i);
-		else if (cmds->c[cmds->cc][i][0] == '\"')
-			print_double_quotes(cmds, &i);
-		else
-			normal_print(cmds, &i);
-	}
-	if (!n_flag)
-		printf("\n");
+    int     i;
+    int     n_flag;
+    char    first_char;
+    
+    i = 1;
+    n_flag = 0;
+    if (ft_strcmp(cmds->c[cmds->cc][i], NL_FLAG))
+    {
+        n_flag = 1;
+        i++;
+    }
+    while (cmds->c[cmds->cc][i])
+    {
+        first_char = cmds->c[cmds->cc][i][0];
+        if (first_char == '\'')
+            print_single_quoted_content(cmds->c[cmds->cc][i]);
+        else if (first_char == '\"')
+            print_double_quoted_content(cmds, cmds->c[cmds->cc][i]);
+        else
+            print_normal_text(cmds, cmds->c[cmds->cc][i]);
+        if (cmds->c[cmds->cc][i + 1])
+            printf(" ");
+        i++;
+    }
+    if (!n_flag)
+        printf("\n");
 }
