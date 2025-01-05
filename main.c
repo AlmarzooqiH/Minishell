@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:41:00 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/02 16:33:08 by root             ###   ########.fr       */
+/*   Updated: 2025/01/05 14:03:34 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int g_exit_status = -1;
+int	g_exit_status = -1;
 // int	main(int ac, char **av, char **envp)
 // {
 // 	char	*line;
@@ -43,7 +43,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		line = readline("\e[32mMartho shell\e[0m# ");
-		if(!line)
+		if (!line)
 		{
 			builtin_exit(NULL);
 			free(line);

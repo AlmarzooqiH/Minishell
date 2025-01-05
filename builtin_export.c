@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 20:18:19 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/02 17:02:03 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/05 14:02:22 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	print_envp(char **envp)
 
 int	is_valid_identifier(t_commands *cmds, int i)
 {
-	int j;
-	
+	int	j;
+
 	if (!isalpha(cmds->c[cmds->cc][i][0]) && cmds->c[cmds->cc][i][0] != '_')
 		return (0);
 	j = 1;
@@ -48,18 +48,18 @@ void	update_envp(t_commands *cmds, int i)
 
 	equal_pos = ft_strchr(cmds->c[cmds->cc][i], '=');
 	if (!equal_pos)
-		return;
+		return ;
 	name = ft_substr(cmds->c[cmds->cc][i], 0, equal_pos - cmds->c[cmds->cc][i]);
 	j = 0;
 	while (cmds->envp[j])
 	{
-		if (ft_strncmp(name, cmds->envp[j], ft_strlen(name)) == 0 &&
-            cmds->envp[j][ft_strlen(name)] == '=')
+		if (ft_strncmp(name, cmds->envp[j], ft_strlen(name)) == 0
+			&& cmds->envp[j][ft_strlen(name)] == '=')
 		{
 			free(cmds->envp[j]);
 			cmds->envp[j] = ft_strdup(cmds->c[cmds->cc][i]);
 			free(name);
-			return;
+			return ;
 		}
 		j++;
 	}
@@ -73,10 +73,10 @@ void	builtin_export(t_commands *cmds)
 	int	i;
 
 	if (!cmds->c[cmds->cc][1])
-    {
+	{
 		print_envp(cmds->envp);
-		return;
-    }
+		return ;
+	}
 	i = 1;
 	while (cmds->c[cmds->cc][i])
 	{
@@ -84,7 +84,7 @@ void	builtin_export(t_commands *cmds)
 		{
 			printf("export: `%s': not a valid identifier\n",
 				cmds->c[cmds->cc][i]);
-			g_exit_status = 1;  // Set global exit status
+			g_exit_status = 1;
 		}
 		else
 			update_envp(cmds, i);

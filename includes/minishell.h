@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/02 16:46:28 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/05 14:04:50 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,5 @@ void	builtin_env(t_commands *cmds);
 void	builtin_export(t_commands *cmds);
 void	init_signals(void);
 void	signal_handler(int signal_num);
-void    isbuiltin(t_commands *cmds);
+void	isbuiltin(t_commands *cmds);
 #endif
