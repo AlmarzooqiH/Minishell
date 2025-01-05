@@ -6,11 +6,33 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:13:43 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/02 18:02:02 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/05 22:54:54 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+/**
+ * @brief This function will set the closed file descriptors to -1 after being
+ * used and closed.
+ * @param fd This holds the file descriptors.
+ * @param	which	0 will close the read end.
+ * @param	which	1 will close the write end.
+ * @param	which	2 will close both ends.
+ * @return			Void. 
+*/
+void	set_fds(int *fd, int which)
+{
+	if (which == 2)
+	{
+		fd[0] = -1;
+		fd[1] = -1;
+	}
+	else if (which == 0)
+		fd[0] = -1;
+	else if (which == 1)
+		fd[1] = -1;
+}
 
 /**
 	@brief			This function will close the pipeline between the processes.
@@ -41,6 +63,7 @@ void	cpipe(int *fd, int which)
 		if (fd[1] >= 0)
 			close(fd[1]);
 	}
+	set_fds(fd, which);
 }
 
 /**
@@ -57,7 +80,8 @@ int	dup_pipes(t_commands *cmds)
 	if (cmds->npipes == 1)
 	{
 		if ((cmds->cc == 0 && dup2(cmds->p[cmds->cp][1], SOUT) == -1) || (
-			cmds->cc == 1 && dup2(cmds->p[cmds->cp][0], SIN) == -1))
+			cmds->cc == 1 && cmds->bltin == 0
+			&& dup2(cmds->p[cmds->cp][0], SIN) == -1))
 			return (g_exit_status = 127, -1);
 		return (cpipe(cmds->p[cmds->cp], 2), 1);
 	}
@@ -69,11 +93,11 @@ int	dup_pipes(t_commands *cmds)
 	}
 	else if (cmds->cc == cmds->nscmds - 1)
 	{
-		if (dup2(cmds->p[cmds->cp][0], SIN) == -1)
+		if (cmds->bltin == 0 && dup2(cmds->p[cmds->cp][0], SIN) == -1)
 			return (g_exit_status = 127, -1);
 		return (cpipe(cmds->p[cmds->cp], 2), 1);
 	}
-	if ((dup2(cmds->p[cmds->cp - 1][0], SIN) == -1) ||
+	if ((cmds->bltin == 0 && dup2(cmds->p[cmds->cp - 1][0], SIN) == -1) ||
 			(dup2(cmds->p[cmds->cp][1], SOUT) == -1))
 		return (g_exit_status = 127, -1);
 	return (cpipe(cmds->p[cmds->cp - 1], 2),

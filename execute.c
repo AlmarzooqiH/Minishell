@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/02 18:03:34 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/05 22:38:53 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ void	execute_one_pipe(t_commands *cmds)
 	}
 	else if (cid > 0)
 	{
-		if (cmds->cc == 0)
-			close(cmds->p[cmds->cp][1]);
-		else if (cmds->cc == 1)
-			close(cmds->p[cmds->cp][0]);
 		waitpid(cid, NULL, 0);
+		if (cmds->cc == 0 && cmds->p[cmds->cp][1] >= 0)
+			cpipe(cmds->p[cmds->cp], 1);
+		else if (cmds->cc == 1 && cmds->p[cmds->cp][0] >= 0)
+			cpipe(cmds->p[cmds->cp], 0);
 	}
 }
 
@@ -88,9 +88,9 @@ void	execute_cmd(t_commands *cmds)
 	}
 	else if (cid > 0)
 	{
+		waitpid(cid, NULL, 0);
 		if (cmds->cp > 0)
 			cpipe(cmds->p[cmds->cp - 1], 2);
-		waitpid(cid, NULL, 0);
 		cpipe(cmds->p[cmds->cp], 1);
 	}
 }
@@ -117,8 +117,8 @@ void	execute_last(t_commands *cmds)
 	}
 	else if (cid > 0)
 	{
-		cpipe(cmds->p[cmds->cp], 2);
 		waitpid(cid, NULL, 0);
+		cpipe(cmds->p[cmds->cp], 2);
 	}
 }
 

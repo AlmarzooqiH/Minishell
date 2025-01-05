@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/02 17:28:34 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/05 22:52:46 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ void	normal_execution(t_commands *cmds)
 	g_exit_status = 0;
 }
 
+/**
+ * @brief This function will check if the current command is a builtin command
+ * and it's output can be piped to another command.
+ * @param cmds The commands structure.
+ * @return Void.
+ */
 void	child_functions(t_commands *cmds)
 {
 	if (ft_strcmp(cmds->c[cmds->cc][0], ECHO_COMMAND))

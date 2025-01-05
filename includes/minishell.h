@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/05 16:41:27 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/05 21:53:43 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	free_tokens(char ***tokens, int n_tokens);
 void	cpipes(int (*p)[2], size_t npipes);
 void	cpipe(int *p, int which);
 char	**trim_command(char **commands);
+void	set_fds(int *fd, int which);
 int		dup_pipes(t_commands *cmds);
 int		init_pipes(int (**p)[2], int clen);
 int		is_redirection(char *command);
