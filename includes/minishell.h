@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/05 14:04:50 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/05 16:41:27 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,22 @@ void	builtin_export(t_commands *cmds);
 void	init_signals(void);
 void	signal_handler(int signal_num);
 void	isbuiltin(t_commands *cmds);
+char	*extract_env_name(const char *str);
+char	*find_env_value(t_commands *cmds, const char *env);
+int		handle_n_flag(t_commands *cmds, int *index);
+void	process_echo_argument(t_commands *cmds, const char *arg);
+void	print_single_quoted_content(const char *str);
+void	print_double_quoted_content(t_commands *cmds, const char *str);
+void	print_normal_text(t_commands *cmds, const char *str);
+// int		is_quote_closed(const char *str, char quote_char);
+// int		validate_quotes(const char *str);
+void	print_quote_error(const char *arg);
+
+char	is_opening_quote(const char *str);
+int		is_closing_quote(const char *str, char quote_char);
+int		is_middle_of_quote(const char *str);
+int		is_valid_quoted_part(char **cmd, int current_index);
+int		find_closing_quote(char **cmd, int current_index, char quote_char);
+int		find_opening_quote(char **cmd, int current_index, char *quote_char);
+
 #endif

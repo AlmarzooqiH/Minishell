@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:51:55 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/05 14:19:52 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/05 16:56:36 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,15 @@
 
 char	*expand_env(t_commands *cmds, const char *str)
 {
-	int		i;
-	char	*tmp;
 	char	*env;
 	char	*value;
 
-	i = 0;
-	value = NULL;
-	tmp = ft_substr(str, 1, ft_strlen(str));
-	if (!tmp)
-		return (NULL);
-	env = ft_strtrim(tmp, "$\"");
-	free(tmp);
+	env = extract_env_name(str);
 	if (!env)
 		return (NULL);
-	while (cmds->envp[i])
-	{
-		if (ft_isprefix(cmds->envp[i], env))
-		{
-			value = ft_strdup(ft_strchr(cmds->envp[i], '=') + 1);
-			break ;
-		}
-		i++;
-	}
+	value = find_env_value(cmds, env);
 	free(env);
-	if (!value) // Return empty string if environment variable is not found
+	if (!value)
 		return (ft_strdup(""));
 	return (value);
 }
@@ -73,7 +57,7 @@ void	print_double_quoted_content(t_commands *cmds, const char *str)
 				printf("%s", value);
 				free(value);
 				while (str[i + 1] && str[i + 1]
-					!= '\"' && str[i + 1] != '$') // Skip the variable name
+					!= '\"' && str[i + 1] != '$')
 					i++;
 			}
 		}
@@ -139,24 +123,12 @@ void	builtin_echo(t_commands *cmds)
 {
 	int		i;
 	int		n_flag;
-	char	first_char;
 
 	i = 1;
-	n_flag = 0;
-	if (ft_strcmp(cmds->c[cmds->cc][i], NL_FLAG))
-	{
-		n_flag = 1;
-		i++;
-	}
+	n_flag = handle_n_flag(cmds, &i);
 	while (cmds->c[cmds->cc][i])
 	{
-		first_char = cmds->c[cmds->cc][i][0];
-		if (first_char == '\'')
-			print_single_quoted_content(cmds->c[cmds->cc][i]);
-		else if (first_char == '\"')
-			print_double_quoted_content(cmds, cmds->c[cmds->cc][i]);
-		else
-			print_normal_text(cmds, cmds->c[cmds->cc][i]);
+		process_echo_argument(cmds, cmds->c[cmds->cc][i]);
 		if (cmds->c[cmds->cc][i + 1])
 			printf(" ");
 		i++;
