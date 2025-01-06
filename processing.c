@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:03:10 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/01 20:08:38 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/07 03:43:07 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@ void	process_input(const char *command, char **envp)
 {
 	t_commands	*cmds;
 
+	(void)cmds;
+	(void)envp;
 	if (!command || !command[0] || command[0] == '\0')
 		return ;
-	if (validate_command((char *)command))
+	if (!validate_command((char *)command))
 		return ;
 	cmds = (t_commands *)malloc(sizeof(t_commands));
 	init(cmds, command);

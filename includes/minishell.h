@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/05 21:53:43 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/07 03:45:20 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 //If we decide to add clear function, we just need to printf this: \033[H\033[J
 void	process_input(const char *command, char **envp);
 int		validate_command(char *command);
+int		cife(char ***token, int *i, int *j);
 void	init(t_commands *cmds, const char *command);
 void	init2(t_commands *cmds);
 void	init3(t_commands *cmds);
@@ -93,15 +94,11 @@ void	process_echo_argument(t_commands *cmds, const char *arg);
 void	print_single_quoted_content(const char *str);
 void	print_double_quoted_content(t_commands *cmds, const char *str);
 void	print_normal_text(t_commands *cmds, const char *str);
-// int		is_quote_closed(const char *str, char quote_char);
-// int		validate_quotes(const char *str);
 void	print_quote_error(const char *arg);
-
 char	is_opening_quote(const char *str);
 int		is_closing_quote(const char *str, char quote_char);
 int		is_middle_of_quote(const char *str);
 int		is_valid_quoted_part(char **cmd, int current_index);
 int		find_closing_quote(char **cmd, int current_index, char quote_char);
 int		find_opening_quote(char **cmd, int current_index, char *quote_char);
-
 #endif
