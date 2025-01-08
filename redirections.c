@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 22:06:08 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/02 16:34:17 by root             ###   ########.fr       */
+/*   Updated: 2025/01/08 12:06:30 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	process_redir(t_commands *cmds)
 
 	create_files(cmds);
 	scmd = extract_command(cmds);
-	if (!scmd || (cmds->npipes > 1 && dup_pipes(cmds) == -1))
+	if (!scmd)
 		return (perror("Failed to extract the command"), exit(EF));
 	if (cmds->hdp >= 0 && process_heredoc(cmds))
 	{

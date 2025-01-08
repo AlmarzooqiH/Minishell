@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:03:10 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/07 03:43:07 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/08 11:59:29 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,5 @@ void	process_input(const char *command, char **envp)
 	cmds->envp = envp;
 	execute_binary(cmds);
 	free_cmds(cmds);
+	cmds = NULL;
 }
