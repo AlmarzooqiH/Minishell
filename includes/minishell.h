@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/07 03:45:20 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/08 09:34:15 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int		ft_execute2(char **commands);
 void	normal_execution(t_commands *cmds);
 void	get_tokens(char *command, char ***tokens, char split);
 void	free_tokens(char ***tokens, int n_tokens);
-void	cpipes(int (*p)[2], size_t npipes);
-void	cpipe(int *p, int which);
+void	cps(int (*p)[2], size_t npipes);
+void	cp(int *p, int which);
 char	**trim_command(char **commands);
 void	set_fds(int *fd, int which);
 int		dup_pipes(t_commands *cmds);
