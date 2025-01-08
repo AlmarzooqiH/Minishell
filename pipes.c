@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:13:43 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/05 22:54:54 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/08 11:34:10 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	set_fds(int *fd, int which)
 	@param	which	2 will close both ends.
 	@return			Void.
 */
-void	cpipe(int *fd, int which)
+void	cp(int *fd, int which)
 {
 	if (!fd)
 		return ;
@@ -69,10 +69,7 @@ void	cpipe(int *fd, int which)
 /**
 	@brief		This function will dup2 to stdin(0), stdout(1) or (2) for stdi-
 				-n for the current pipe, and stdout for the next pipe.
-	@param	fd	This holds the file descriptors.
-	@param	to	0 will dup2 to stdin.
-	@param	to	1 will dup2 to stdout.
-	@param	to	2 will dup2 to stdin and stdout of the next pipe.
+	@param		cmds	This holds the commands struct.
 	@return		If duplication was successful 1 will be returned else -1.
 */
 int	dup_pipes(t_commands *cmds)
@@ -80,28 +77,26 @@ int	dup_pipes(t_commands *cmds)
 	if (cmds->npipes == 1)
 	{
 		if ((cmds->cc == 0 && dup2(cmds->p[cmds->cp][1], SOUT) == -1) || (
-			cmds->cc == 1 && cmds->bltin == 0
-			&& dup2(cmds->p[cmds->cp][0], SIN) == -1))
+			cmds->cc == 1 && cmds->p[cmds->cp][0] >= 0 && dup2(cmds->p[cmds->cp][0], SIN) == -1))
 			return (g_exit_status = 127, -1);
-		return (cpipe(cmds->p[cmds->cp], 2), 1);
+		return (cp(cmds->p[cmds->cp], 2), 1);
 	}
 	if (cmds->cc == 0)
 	{
 		if (dup2(cmds->p[cmds->cp][1], SOUT) == -1)
 			return (g_exit_status = 127, -1);
-		return (cpipe(cmds->p[cmds->cp], 2), 1);
+		return (cp(cmds->p[cmds->cp], 2), 1);
 	}
 	else if (cmds->cc == cmds->nscmds - 1)
 	{
-		if (cmds->bltin == 0 && dup2(cmds->p[cmds->cp][0], SIN) == -1)
+		if (dup2(cmds->p[cmds->cp][0], SIN) == -1)
 			return (g_exit_status = 127, -1);
-		return (cpipe(cmds->p[cmds->cp], 2), 1);
+		return (cp(cmds->p[cmds->cp], 2), 1);
 	}
-	if ((cmds->bltin == 0 && dup2(cmds->p[cmds->cp - 1][0], SIN) == -1) ||
+	if ((dup2(cmds->p[cmds->cp - 1][0], SIN) == -1) ||
 			(dup2(cmds->p[cmds->cp][1], SOUT) == -1))
 		return (g_exit_status = 127, -1);
-	return (cpipe(cmds->p[cmds->cp - 1], 2),
-		cpipe(cmds->p[cmds->cp], 2), 1);
+	return (cp(cmds->p[cmds->cp - 1], 2), cp(cmds->p[cmds->cp], 2), 1);
 }
 
 /**
@@ -123,7 +118,7 @@ int	init_pipes(int (**fd)[2], int clen)
 	while (i < (clen - 1))
 	{
 		if (pipe((*fd)[i]) < 0)
-			return (cpipes(*fd, (clen - 1)), -1);
+			return (cps(*fd, (clen - 1)), -1);
 		i++;
 	}
 	return (1);
@@ -135,7 +130,7 @@ int	init_pipes(int (**fd)[2], int clen)
 	@param	npipes	This holds the number of pipelines that got.
 	@return			Void.
 */
-void	cpipes(int (*fd)[2], size_t npipes)
+void	cps(int (*fd)[2], size_t npipes)
 {
 	size_t	i;
 
