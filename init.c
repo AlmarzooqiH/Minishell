@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/07 04:54:45 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/08 09:34:15 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	free_cmds(t_commands *cmds)
 	if (cmds->is_bash)
 		free(cmds->is_bash);
 	if (cmds->nscmds > 1 && cmds->p)
-		cpipes(cmds->p, cmds->npipes);
+		cps(cmds->p, cmds->npipes);
 	cmds->nscmds = 0;
 	cmds->npipes = 0;
 	cmds->nre = 0;
