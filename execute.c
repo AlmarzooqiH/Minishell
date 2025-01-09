@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/08 11:38:24 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/09 12:03:16 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void	execute_one_pipe(t_commands *cmds)
 	cid = fork();
 	if (!cid)
 	{
-		if (dup_pipes(cmds) == -1)
-			return (perror("Failed to dup pipes"), exit(EF));
 		if (cmds->rd && has_redirection(cmds))
 			return (process_redir(cmds), exit(ES));
+		if (dup_pipes(cmds) == -1)
+			return (perror("Failed to dup pipes"), exit(EF));
 		child_functions(cmds);
 		exit(ES);
 	}
@@ -82,10 +82,10 @@ void	execute_cmd(t_commands *cmds)
 	cid = fork();
 	if (!cid)
 	{
-		if (dup_pipes(cmds) == -1)
-			return (perror("Failed to dup pipes"), exit(EF));
 		if (cmds->rd && has_redirection(cmds))
 			return (process_redir(cmds), exit(ES));
+		if (dup_pipes(cmds) == -1)
+			return (perror("Failed to dup pipes"), exit(EF));
 		child_functions(cmds);
 		exit(ES);
 	}
@@ -112,10 +112,10 @@ void	execute_last(t_commands *cmds)
 	cid = fork();
 	if (!cid)
 	{
-		if (dup_pipes(cmds) == -1)
-			return (perror("Failed to dup pipes"), exit(EF));
 		if (has_redirection(cmds))
 			return (process_redir(cmds), exit(ES));
+		if (dup_pipes(cmds) == -1)
+			return (perror("Failed to dup pipes"), exit(EF));
 		child_functions(cmds);
 		exit(ES);
 	}

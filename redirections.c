@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 22:06:08 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/09 08:20:24 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/09 12:02:07 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ void	process_redir(t_commands *cmds)
 		if (dup2(cmds->rd[cmds->cc][cmds->hdp], SIN) == -1)
 			return (perror("Failed to dup2(hdr, SIN)"), exit(EF));
 	}
+	if (dup_pipes(cmds) == -1)
+		return (perror("Failed to dup pipes"), exit(EF));
 	if (cmds->rtip >= 0 && dup2(cmds->fd[cmds->rtip], SIN) == -1)
 		return (perror("Failed to dup2(rtip, SIN)"), exit(EF));
 	if (cmds->rd[cmds->cc][cmds->cr - 1] == e_rtf
