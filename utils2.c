@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:23:52 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/07 02:17:47 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/09 08:20:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,14 +150,13 @@ void	set_redirectons(t_commands *cmds)
 	int	j;
 
 	i = 0;
-	while (cmds->c[i])
+	while (i < cmds->nscmds && cmds->c[i] != NULL)
 	{
-		cmds->rd[i] = (int *)malloc(sizeof(int)
-				* count_tokens(cmds->c[i]));
+		cmds->rd[i] = (int *)ft_calloc(count_tokens(cmds->c[i]), sizeof(int));
 		if (!cmds->rd[i])
 			return (free_cmds(cmds), perror("Failed to malloc redir"));
 		j = 0;
-		while (cmds->c[i][j])
+		while (j < count_tokens(cmds->c[i]) && cmds->c[i][j])
 		{
 			cmds->rd[i][j] = is_redirection(cmds->c[i][j]);
 			j++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/08 09:34:15 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/09 08:09:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
  */
 void	free_cmds2(t_commands *cmds)
 {
+	cmds->bfdp = 0;
+	cmds->efdp = -1;
 	cmds->a = 0;
 	cmds->t = 0;
 	cmds->r = 0;
@@ -39,11 +41,13 @@ void	free_cmds(t_commands *cmds)
 	if (cmds->files)
 		free_split(cmds->files);
 	if (cmds->rd)
-		free_arri(cmds->rd);
+		free_arri(cmds->rd, cmds->nre + 1);
 	if (cmds->is_bash)
 		free(cmds->is_bash);
 	if (cmds->nscmds > 1 && cmds->p)
 		cps(cmds->p, cmds->npipes);
+	if (cmds->fd)
+		free(cmds->fd);
 	cmds->nscmds = 0;
 	cmds->npipes = 0;
 	cmds->nre = 0;
@@ -53,8 +57,6 @@ void	free_cmds(t_commands *cmds)
 	cmds->cr = 0;
 	cmds->hdp = -1;
 	cmds->rtip = -1;
-	cmds->bfdp = 0;
-	cmds->efdp = -1;
 	free_cmds2(cmds);
 }
 
@@ -65,6 +67,9 @@ void	free_cmds(t_commands *cmds)
  */
 void	init3(t_commands *cmds)
 {
+	cmds->cp = 0;
+	cmds->cc = 0;
+	cmds->cf = 0;
 	cmds->cr = 0;
 	cmds->bfdp = 0;
 	cmds->efdp = -1;
@@ -96,7 +101,7 @@ void	init2(t_commands *cmds)
 		set_files(cmds);
 		if (!cmds->rd || !cmds->files)
 			return (free_cmds(cmds), perror("Failed to get redir/files"));
-		cmds->fd = malloc(sizeof(int) * (cmds->nre));
+		cmds->fd = (int *)ft_calloc(cmds->nre, sizeof(int));
 		if (!cmds->fd)
 			return (free_cmds(cmds), perror("Failled to malloc fd"));
 	}
@@ -104,10 +109,8 @@ void	init2(t_commands *cmds)
 	{
 		cmds->rd = NULL;
 		cmds->files = NULL;
+		cmds->fd = NULL;
 	}
-	cmds->cp = 0;
-	cmds->cc = 0;
-	cmds->cf = 0;
 	init3(cmds);
 }
 

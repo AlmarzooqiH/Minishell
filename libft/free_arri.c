@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   free_arri.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 21:06:07 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/16 17:01:45 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/09 05:06:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	free_arri(int **arri)
+void	free_arri(int **arri, int size)
 {
 	int	i;
 
 	i = 0;
-	while (arri[i] != NULL)
+	while (i < size && arri[i] != NULL)
 	{
 		free(arri[i]);
 		i++;
