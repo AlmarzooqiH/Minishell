@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:23:52 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/09 08:20:30 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/11 14:12:19 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,9 @@ char	**trim_command(char	**commands)
 		i++;
 	}
 	new[i] = NULL;
+	print_split(commands);
 	free_split(commands);
+	print_split(new);
 	return (new);
 }
 
@@ -163,4 +165,5 @@ void	set_redirectons(t_commands *cmds)
 		}
 		i++;
 	}
+	cmds->rd[i] = NULL;
 }

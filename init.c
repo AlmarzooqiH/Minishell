@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/09 08:09:54 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/11 14:48:47 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
  */
 void	free_cmds2(t_commands *cmds)
 {
+	cmds->cr = 0;
+	cmds->hdp = -1;
+	cmds->rtip = -1;
 	cmds->bfdp = 0;
 	cmds->efdp = -1;
 	cmds->a = 0;
@@ -33,7 +36,6 @@ void	free_cmds2(t_commands *cmds)
  */
 void	free_cmds(t_commands *cmds)
 {
-	close_files(cmds);
 	if (cmds->bpath)
 		free_split(cmds->bpath);
 	if (cmds->c)
@@ -47,16 +49,16 @@ void	free_cmds(t_commands *cmds)
 	if (cmds->nscmds > 1 && cmds->p)
 		cps(cmds->p, cmds->npipes);
 	if (cmds->fd)
+	{
+		close_fd(cmds);
 		free(cmds->fd);
+	}
 	cmds->nscmds = 0;
 	cmds->npipes = 0;
 	cmds->nre = 0;
 	cmds->cp = 0;
 	cmds->cc = 0;
 	cmds->cf = 0;
-	cmds->cr = 0;
-	cmds->hdp = -1;
-	cmds->rtip = -1;
 	free_cmds2(cmds);
 }
 
@@ -93,7 +95,7 @@ void	init2(t_commands *cmds)
 	cmds->nre = get_total_rediractions(cmds->c);
 	if (cmds->nre > 0)
 	{
-		cmds->rd = (int **)malloc(sizeof(int *) * (cmds->nre));
+		cmds->rd = (int **)malloc(sizeof(int *) * (cmds->nre + 1));
 		cmds->files = (char **)malloc(sizeof(char *) * (cmds->nre + 1));
 		if (!cmds->rd || !cmds->files)
 			return (free_cmds(cmds), perror("Failed to malloc redir/files"));

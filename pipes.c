@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:13:43 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/08 12:06:23 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/11 13:52:10 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	cp(int *fd, int which)
 */
 int	dup_pipes(t_commands *cmds)
 {
+	if (!cmds->p)
+		return (1);
 	if (cmds->npipes == 1)
 	{
 		if ((cmds->cc == 0 && dup2(cmds->p[cmds->cp][1], SOUT) == -1) || (

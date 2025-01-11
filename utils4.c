@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/05 22:52:46 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/11 13:57:22 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,20 @@ void	isbuiltin(t_commands *cmds)
 		ft_strcmp(cmds->c[cmds->cc][0], PWD_COMMAND) ||
 		ft_strcmp(cmds->c[cmds->cc][0], ENV_COMMAND))
 		cmds->bltin = 1;
+}
+
+void	close_fd(t_commands *cmds)
+{
+	int	i;
+
+	i = 0;
+	while (i < cmds->nre)
+	{
+		if (cmds->fd[i] >= 0)
+		{
+			close(cmds->fd[i]);
+			cmds->fd[i] = -1;
+		}
+		i++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/08 09:34:15 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/11 13:58:16 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,5 @@ int		is_middle_of_quote(const char *str);
 int		is_valid_quoted_part(char **cmd, int current_index);
 int		find_closing_quote(char **cmd, int current_index, char quote_char);
 int		find_opening_quote(char **cmd, int current_index, char *quote_char);
+void    close_fd(t_commands *cmds);
 #endif
