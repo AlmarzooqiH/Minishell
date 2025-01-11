@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/11 14:47:59 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/12 02:17:14 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	execute_one_pipe(t_commands *cmds)
 			cp(cmds->p[cmds->cp], 1);
 		else if (cmds->cc == 1 && cmds->p[cmds->cp][0] >= 0)
 			cp(cmds->p[cmds->cp], 0);
-		}
+	}
 }
 
 /**
