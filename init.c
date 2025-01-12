@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/11 14:48:47 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/12 08:50:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
  */
 void	free_cmds2(t_commands *cmds)
 {
+	cmds->cc = 0;
+	cmds->cf = 0;
 	cmds->cr = 0;
 	cmds->hdp = -1;
 	cmds->rtip = -1;
@@ -57,8 +59,6 @@ void	free_cmds(t_commands *cmds)
 	cmds->npipes = 0;
 	cmds->nre = 0;
 	cmds->cp = 0;
-	cmds->cc = 0;
-	cmds->cf = 0;
 	free_cmds2(cmds);
 }
 

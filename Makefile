@@ -1,6 +1,6 @@
 PROGRAM_NAME = minishell
 COMPILER = cc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 DEBUG_FLAGS = -fsanitize=address,undefined -Werror=address -Wnull-dereference -g
 READLINE_FLAG = -lreadline
 LIBFT_A = libft/libft.a
@@ -31,7 +31,7 @@ libft_fclean:
 	cd libft ; make fclean
 
 clean: libft_clean
-	rm -rf *.o *.out *.gch .vscode *.txt
+	rm -rf *.o *.out *.gch .vscode *.txt *.log
 
 fclean: clean libft_fclean
 	rm -rf $(PROGRAM_NAME)
