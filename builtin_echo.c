@@ -6,12 +6,11 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:51:55 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/05 19:36:40 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/13 14:29:02 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
 /**
  * @brief This function will search for and expand environment variables.
  * @param cmds The commands structure.
@@ -97,6 +96,9 @@ void	print_normal_text(t_commands *cmds, const char *str)
 	i = 0;
 	while (str[i])
 	{
+		i = handle_quotes(str, i);
+		if (str[i] == '\0')
+			break ;
 		if (str[i] == '$' && str[i + 1] && str[i + 1] != ' ')
 		{
 			value = expand_env(cmds, str + i);
@@ -104,8 +106,7 @@ void	print_normal_text(t_commands *cmds, const char *str)
 			{
 				printf("%s", value);
 				free(value);
-				while (str[i + 1] && str[i + 1]
-					!= ' ' && str[i + 1] != '$')
+				while (str[i + 1] && str[i + 1] != ' ' && str[i + 1] != '$')
 					i++;
 			}
 		}

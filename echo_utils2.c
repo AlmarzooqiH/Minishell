@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 16:14:20 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/05 16:41:04 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/12 14:34:30 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,20 @@ int	is_closing_quote(const char *str, char quote_char)
  */
 int	is_middle_of_quote(const char *str)
 {
+	int	i;
+
 	if (!str)
 		return (0);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\"' || str[i] == '\'')
+		{
+			print_quote_error(str);
+			return (0);
+		}
+		i++;
+	}
 	return (!is_opening_quote(str) && !is_closing_quote(str, '"')
 		&& !is_closing_quote(str, '\''));
 }

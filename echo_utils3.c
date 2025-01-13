@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 16:40:46 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/05 16:41:08 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/12 14:22:58 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,11 @@ int	find_closing_quote(char **cmd, int current_index, char quote_char)
 		i++;
 	}
 	return (0);
+}
+
+int	handle_quotes(const char *str, int i)
+{
+	if (str[i] == '\'' || str[i] == '\"')
+		return (i + 1);
+	return (i);
 }
