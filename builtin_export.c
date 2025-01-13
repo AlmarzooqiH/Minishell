@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 20:18:19 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/05 14:02:22 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/13 21:16:53 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,31 +40,32 @@ int	is_valid_identifier(t_commands *cmds, int i)
 	return (1);
 }
 
+char	*expand_variable(t_commands *cmds, const char *str)
+{
+	t_expand_vars	vars;
+
+	vars.result = malloc(4096);
+	if (!vars.result)
+		return (NULL);
+	vars.i = 0;
+	vars.j = 0;
+	expand_variable_helper(cmds, str, &vars);
+	vars.result[vars.j] = '\0';
+	return (vars.result);
+}
+
 void	update_envp(t_commands *cmds, int i)
 {
-	int		j;
 	char	*name;
 	char	*equal_pos;
+	char	*expanded_value;
 
 	equal_pos = ft_strchr(cmds->c[cmds->cc][i], '=');
 	if (!equal_pos)
 		return ;
 	name = ft_substr(cmds->c[cmds->cc][i], 0, equal_pos - cmds->c[cmds->cc][i]);
-	j = 0;
-	while (cmds->envp[j])
-	{
-		if (ft_strncmp(name, cmds->envp[j], ft_strlen(name)) == 0
-			&& cmds->envp[j][ft_strlen(name)] == '=')
-		{
-			free(cmds->envp[j]);
-			cmds->envp[j] = ft_strdup(cmds->c[cmds->cc][i]);
-			free(name);
-			return ;
-		}
-		j++;
-	}
-	cmds->envp[j] = ft_strdup(cmds->c[cmds->cc][i]);
-	cmds->envp[j + 1] = NULL;
+	expanded_value = expand_variable(cmds, cmds->c[cmds->cc][i]);
+	update_envp_helper(cmds, name, expanded_value);
 	free(name);
 }
 

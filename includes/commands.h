@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:24:25 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/05 14:04:19 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/13 21:16:21 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,12 @@ enum	e_operations
 	e_ar,
 	e_hdr
 };
+
+typedef struct s_expand_vars
+{
+	int		i;
+	int		j;
+	char	*result;
+}	t_expand_vars;
+
 #endif

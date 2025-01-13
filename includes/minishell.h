@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/12 02:16:35 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/13 21:18:08 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,12 @@ int		is_valid_quoted_part(char **cmd, int current_index);
 int		find_closing_quote(char **cmd, int current_index, char quote_char);
 int		find_opening_quote(char **cmd, int current_index, char *quote_char);
 void	close_fd(t_commands *cmds);
+
+int		handle_quotes(const char *str, int i);
+char	*expand_env(t_commands *cmds, const char *str);
+void	update_envp_helper(t_commands *cmds, char *name, char *expanded_value);
+char	*get_env_value(t_commands *cmds, const char *var_name);
+char	*get_var_name(const char *str, int *i);
+void	expand_variable_helper(t_commands *cmds,
+			const char *str, t_expand_vars *vars);
 #endif
