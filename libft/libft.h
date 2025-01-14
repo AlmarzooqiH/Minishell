@@ -3,17 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< Updated upstream
-/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/04 08:27:04 by hamalmar          #+#    #+#             */
-/*   Updated: 2025/01/13 20:31:14 by mthodi           ###   ########.fr       */
-=======
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 08:27:04 by hamalmar          #+#    #+#             */
-/*   Updated: 2025/01/13 16:10:53 by hamad            ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2025/01/14 16:16:52 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +102,6 @@ char				**ft_subnsplit(char **split, size_t start, size_t end);
 int					ft_isprefix(const char *s1, const char *prefix);
 int					ft_contains(char *s, char c);
 void				free_arri(int **arri, int size);
-<<<<<<< Updated upstream
 char				*ft_strcpy(char *dest, const char *src);
-=======
 char				**ft_dup_split(char **split);
->>>>>>> Stashed changes
 #endif
