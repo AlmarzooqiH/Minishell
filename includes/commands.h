@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:24:25 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/13 21:16:21 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/14 20:50:24 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define REDIRECTION_TO_INPUT "<\0"
 # define APPEND_REDIRECTION ">>\0"
 # define HEREDOC_REDIRECTION "<<\0"
+# define STATUS_CODE "$?\0"
 # define NL_FLAG "-n\0"
 # define TEMP_FILE "/tmp/Martho_Heredoc_temp.txt\0"
 # define PERMS 0664
@@ -33,7 +34,8 @@ extern int	g_exit_status;
 # define SOUT STDOUT_FILENO
 # define EF EXIT_FAILURE
 # define ES EXIT_SUCCESS
-
+# define GET_STATUS 1
+# define SET_STATUS 0
 /**
  * @brief This structure will hold the passed in command that will be prepro-
  * -ccessed.

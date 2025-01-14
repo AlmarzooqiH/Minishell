@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/11 13:57:22 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/14 21:07:58 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	child_functions(t_commands *cmds)
 		builtin_pwd();
 	else if (ft_strcmp(cmds->c[cmds->cc][0], ENV_COMMAND))
 		builtin_env(cmds);
+	else if (ft_strcmp(cmds->c[cmds->cc][0], STATUS_CODE))
+		printf("%d\n", gs_status(0, GET_STATUS));
 	else
 		normal_execution(cmds);
 }
@@ -91,11 +93,12 @@ void	close_fd(t_commands *cmds)
 	i = 0;
 	while (i < cmds->nre)
 	{
+		// printf("before: cmds->fd[%d] = %d\n", i, cmds->fd[i]);
 		if (cmds->fd[i] >= 0)
 		{
-			close(cmds->fd[i]);
 			cmds->fd[i] = -1;
 		}
+		// printf("After: cmds->fd[%d] = %d\n", i, cmds->fd[i]);
 		i++;
 	}
 }

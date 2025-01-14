@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:13:43 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/14 15:52:00 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/14 18:44:15 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,8 @@ void	cps(int (*fd)[2], size_t npipes)
 	i = 0;
 	while (i < npipes)
 	{
+		printf("fd[%zu][0]: %d\n", i, fd[i][0]);
+		printf("fd[%zu][1]: %d\n", i, fd[i][1]);
 		if (fd[i][0] >= 0)
 			close(fd[i][0]);
 		if (fd[i][1] >= 0)

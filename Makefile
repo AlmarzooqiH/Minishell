@@ -1,6 +1,6 @@
 PROGRAM_NAME = minishell
 COMPILER = cc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 DEBUG_FLAGS = -fsanitize=address,undefined -Werror=address -Wnull-dereference -g
 READLINE_FLAG = -lreadline
 LIBFT_A = libft/libft.a

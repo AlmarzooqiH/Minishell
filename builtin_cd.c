@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 23:50:03 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/30 16:46:32 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/14 19:55:33 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	builtin_cd(t_commands *cmds)
 	{
 		if (cmds->previous_dir)
 			free(cmds->previous_dir);
-		cmds->previous_dir = strdup(current_dir);
+		cmds->previous_dir = ft_strdup(current_dir);
 	}
 	cd_change_directory(cmds);
+	free(current_dir);
 }

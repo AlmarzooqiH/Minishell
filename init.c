@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/12 08:50:24 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/14 20:58:01 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,15 @@ void	free_cmds2(t_commands *cmds)
 	cmds->a = 0;
 	cmds->t = 0;
 	cmds->r = 0;
+	cmds->npipes = 0;
+	cmds->bpath = NULL;
+	cmds->c = NULL;
+	cmds->files = NULL;
+	cmds->rd = NULL;
+	cmds->is_bash = NULL;
+	cmds->p = NULL;
+	cmds->fd = NULL;
+	cmds->previous_dir = NULL;
 }
 
 /**
@@ -45,7 +54,7 @@ void	free_cmds(t_commands *cmds)
 	if (cmds->files)
 		free_split(cmds->files);
 	if (cmds->rd)
-		free_arri(cmds->rd, cmds->nre + 1);
+		free_arri(cmds->rd, cmds->nscmds + 1);
 	if (cmds->is_bash)
 		free(cmds->is_bash);
 	if (cmds->nscmds > 1 && cmds->p)
@@ -55,6 +64,8 @@ void	free_cmds(t_commands *cmds)
 		close_fd(cmds);
 		free(cmds->fd);
 	}
+	if (cmds->previous_dir)
+		free(cmds->previous_dir);
 	cmds->nscmds = 0;
 	cmds->npipes = 0;
 	cmds->nre = 0;
@@ -95,9 +106,9 @@ void	init2(t_commands *cmds)
 	cmds->nre = get_total_rediractions(cmds->c);
 	if (cmds->nre > 0)
 	{
-		cmds->rd = (int **)malloc(sizeof(int *) * (cmds->nre + 1));
-		cmds->files = (char **)malloc(sizeof(char *) * (cmds->nre + 1));
-		if (!cmds->rd || !cmds->files)
+		cmds->rd = (int **)ft_calloc(cmds->nscmds + 1, sizeof(int *));
+		cmds->files = (char **)ft_calloc(cmds->nre + 1, sizeof(char *));
+        if (!cmds->rd || !cmds->files)
 			return (free_cmds(cmds), perror("Failed to malloc redir/files"));
 		set_redirectons(cmds);
 		set_files(cmds);

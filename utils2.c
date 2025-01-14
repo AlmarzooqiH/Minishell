@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:23:52 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/14 15:52:18 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/14 20:58:09 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ char	**trim_command(char	**commands)
 	}
 	new[i] = NULL;
 	free_split(commands);
+	commands = NULL;
 	return (new);
 }
 
@@ -152,7 +153,7 @@ void	set_redirectons(t_commands *cmds)
 	i = 0;
 	while (i < cmds->nscmds && cmds->c[i] != NULL)
 	{
-		cmds->rd[i] = (int *)malloc(count_tokens(cmds->c[i]) * sizeof(int));
+		cmds->rd[i] = (int *)ft_calloc(sizeof(int), count_tokens(cmds->c[i]));
 		if (!cmds->rd[i])
 			return (free_cmds(cmds), perror("Failed to malloc redir"));
 		j = 0;

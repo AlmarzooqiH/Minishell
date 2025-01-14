@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/14 16:06:11 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/14 20:41:08 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <stdlib.h>
 
 //If we decide to add clear function, we just need to printf this: \033[H\033[J
+int		gs_status(int st, int gors);
 void	process_input(const char *command, char **envp);
 int		validate_command(char *command);
 int		ciec(char ***tokens, int i, int npipes);

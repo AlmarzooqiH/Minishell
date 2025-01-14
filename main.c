@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:41:00 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/08 10:45:02 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/14 21:06:44 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,29 @@ int	g_exit_status = -1;
 // 	}
 // 	return (0);
 // }
+
+/**
+ * @brief get or set status.
+ * @param st status to set.
+ * @param gors 1 to get, 0 to set.
+ * @return status.
+ */
+int	gs_status(int st, int gors)
+{
+	static int	status;
+	static int	flag;
+
+	if (flag == 0)
+	{
+		status = 0;
+		flag = 1;
+	}
+	if (gors == 1)
+		return (status);
+	else if (gors == 0)
+		status = st;
+	return (status);
+}
 
 int	main(int ac, char **av, char **envp)
 {

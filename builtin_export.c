@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 20:18:19 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/13 21:16:53 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/14 20:57:38 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,13 @@ int	is_valid_identifier(t_commands *cmds, int i)
 {
 	int	j;
 
-	if (!isalpha(cmds->c[cmds->cc][i][0]) && cmds->c[cmds->cc][i][0] != '_')
+	if (!ft_isalpha(cmds->c[cmds->cc][i][0]) && cmds->c[cmds->cc][i][0] != '_')
 		return (0);
 	j = 1;
 	while (cmds->c[cmds->cc][i][j] && cmds->c[cmds->cc][i][j] != '=')
 	{
-		if (!isalnum(cmds->c[cmds->cc][i][j]) && cmds->c[cmds->cc][i][j] != '_')
+		if (!ft_isalnum(cmds->c[cmds->cc][i][j])
+			&& cmds->c[cmds->cc][i][j] != '_')
 			return (0);
 		j++;
 	}
@@ -44,7 +45,7 @@ char	*expand_variable(t_commands *cmds, const char *str)
 {
 	t_expand_vars	vars;
 
-	vars.result = malloc(4096);
+	vars.result = malloc(BUFFER_SIZE);
 	if (!vars.result)
 		return (NULL);
 	vars.i = 0;
@@ -85,7 +86,7 @@ void	builtin_export(t_commands *cmds)
 		{
 			printf("export: `%s': not a valid identifier\n",
 				cmds->c[cmds->cc][i]);
-			g_exit_status = 1;
+			gs_status(1, SET_STATUS);
 		}
 		else
 			update_envp(cmds, i);
