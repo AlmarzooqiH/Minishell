@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:16:48 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/12 07:36:58 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/14 15:52:25 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,36 @@ int	cife(char ***tokens, int *i, int *j)
 		free(file);
 	return (1);
 }
+
 /**
- * @name Check if empty pipe.
- * @brief This function will check if the pipe is empty or not.
+ * @name Check if empty command.
+ * @brief This function will check if the current command is empty or not.
  * @param tokens This will contain the tokens.
  * @param i This will contain the index of the token.
  * @param npipes This will contain the number of pipes.
  */
-int	ciep(char ***tokens, int i, int npipes)
+int	ciec(char ***tokens, int i, int npipes)
 {
-	if ((i < npipes && !tokens[i])
-		|| !tokens[i][0] || ft_isonlyspace(tokens[i][0]))
-		return (perror("Empty pipe"), 0);
-	return (1);
+	int		j;
+	int		k;
+	char	**tmp;
+
+	(void)npipes;
+	(void)j;
+	tmp = trim_command(ft_dup_split(tokens[i]));
+	if (!tmp || tmp[0] == NULL)
+		return (perror("Empty Command"), 0);
+	j = 0;
+	k = 0;
+	while (j < count_tokens(tokens[i]) && tmp[j] != NULL)
+	{
+		if (tmp[j][0] == '\0')
+			k++;
+		j++;
+	}
+	if (k == count_tokens(tokens[i]))
+		return (perror("Empty Command"), free_split(tmp), 0);
+	return (free_split(tmp), 1);
 }
 
 /**
@@ -81,7 +98,7 @@ int	validate_command(char *command)
 	i = 0;
 	while (i < has_pipe(command))
 	{
-		if (!ciep(tokens, i, has_pipe(command)))
+		if (!ciec(tokens, i, has_pipe(command)))
 			return (free_tokens(tokens, has_pipe(command)), 0);
 		j = 0;
 		while (j < count_tokens(tokens[i]))

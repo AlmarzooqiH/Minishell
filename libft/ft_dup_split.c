@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   count_split.c                                      :+:      :+:    :+:   */
+/*   ft_dup_split.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/24 13:11:28 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/13 16:16:05 by hamad            ###   ########.fr       */
+/*   Created: 2025/01/13 16:07:54 by hamad             #+#    #+#             */
+/*   Updated: 2025/01/13 16:16:07 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	count_split(char **argv)
+char	**ft_dup_split(char **split)
 {
-	size_t	count;
+	char	**dup;
+	int		i;
 
-	if (!argv || !argv[0])
-		return (0);
-	count = 0;
-	while (argv[count])
-		count++;
-	return (count);
+	if (!split || !split[0])
+		return (NULL);
+	i = count_split(split);
+	dup = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!dup)
+		return (NULL);
+	i = 0;
+	while (split[i])
+	{
+		dup[i] = ft_strdup(split[i]);
+		if (!dup[i])
+			return (free_split(dup), NULL);
+		i++;
+	}
+	return (dup[i] = NULL, dup);
 }

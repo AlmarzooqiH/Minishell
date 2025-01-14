@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:13:43 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/12 08:02:13 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/14 15:52:00 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,11 @@ void	cp(int *fd, int which)
 */
 int	dup_pipes(t_commands *cmds)
 {
-	if (!cmds->p)
-		return (1);
 	if (cmds->npipes == 1)
 	{
 		if ((cmds->cc == 0 && dup2(cmds->p[cmds->cp][1], SOUT) == -1) || (
-			cmds->cc == 1 && cmds->p[cmds->cp][0] >= 0 && dup2(cmds->p[cmds->cp][0], SIN) == -1))
+			cmds->cc == 1 && cmds->p[cmds->cp][0] >= 0
+		&& dup2(cmds->p[cmds->cp][0], SIN) == -1))
 			return (g_exit_status = 127, -1);
 		return (cp(cmds->p[cmds->cp], 2), 1);
 	}

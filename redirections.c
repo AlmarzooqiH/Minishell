@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 22:06:08 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/11 13:51:35 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/14 15:56:16 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,12 +119,8 @@ void	process_redir(t_commands *cmds)
 	if (!scmd)
 		return (perror("Failed to extract the command"), exit(EF));
 	if (cmds->hdp >= 0 && process_heredoc(cmds))
-	{
-		cmds->rd[cmds->cc][cmds->hdp] = open(TEMP_FILE, O_RDONLY, PERMS);
-		if (dup2(cmds->rd[cmds->cc][cmds->hdp], SIN) == -1)
-			return (perror("Failed to dup2(hdr, SIN)"), exit(EF));
-	}
-	if (dup_pipes(cmds) == -1)
+		dup_heredoc(cmds);
+	if (cmds->p && dup_pipes(cmds) == -1)
 		return (perror("Failed to dup pipes"), exit(EF));
 	if (cmds->rtip >= 0 && dup2(cmds->fd[cmds->rtip], SIN) == -1)
 		return (perror("Failed to dup2(rtip, SIN)"), exit(EF));

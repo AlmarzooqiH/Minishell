@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   count_split.c                                      :+:      :+:    :+:   */
+/*   redirections3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/24 13:11:28 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/13 16:16:05 by hamad            ###   ########.fr       */
+/*   Created: 2025/01/14 15:56:50 by hamad             #+#    #+#             */
+/*   Updated: 2025/01/14 15:57:05 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "includes/minishell.h"
 
-size_t	count_split(char **argv)
+void	dup_heredoc(t_commands *cmds)
 {
-	size_t	count;
-
-	if (!argv || !argv[0])
-		return (0);
-	count = 0;
-	while (argv[count])
-		count++;
-	return (count);
+	cmds->rd[cmds->cc][cmds->hdp] = open(TEMP_FILE, O_RDONLY, PERMS);
+	if (dup2(cmds->rd[cmds->cc][cmds->hdp], SIN) == -1)
+		return (perror("Failed to dup2(hdr, SIN)"), exit(EF));
 }

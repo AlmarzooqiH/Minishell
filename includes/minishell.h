@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2025/01/13 21:18:08 by mthodi           ###   ########.fr       */
+=======
+/*   Updated: 2025/01/14 16:03:07 by hamad            ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +35,7 @@
 //If we decide to add clear function, we just need to printf this: \033[H\033[J
 void	process_input(const char *command, char **envp);
 int		validate_command(char *command);
+int		ciec(char ***tokens, int i, int npipes);
 int		cife(char ***token, int *i, int *j);
 void	init(t_commands *cmds, const char *command);
 void	init2(t_commands *cmds);
@@ -69,6 +74,7 @@ void	process_redir(t_commands *cmds);
 void	create_files(t_commands *cmds);
 int		check_file(t_commands *cmds);
 int		process_heredoc(t_commands *cmds);
+void	dup_heredoc(t_commands *cmds);
 void	close_files(t_commands *cmds);
 void	free_variables(char **t, char **y, char **u, char **s);
 int		parent_functions(t_commands *cmds);

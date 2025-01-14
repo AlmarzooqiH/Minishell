@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 20:05:16 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/11 13:55:23 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/14 15:56:06 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void	close_files(t_commands *cmds)
 	if (access(TEMP_FILE, F_OK) == 0)
 	{
 		unlink(TEMP_FILE);
+		close(cmds->rd[cmds->cc][cmds->hdp]);
+		cmds->rd[cmds->cc][cmds->hdp] = -1;
 		cmds->hdp = -1;
 	}
 	while (i < cmds->efdp)
