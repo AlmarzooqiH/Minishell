@@ -3,14 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:16:48 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/14 15:52:25 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/16 20:31:20 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+/**
+ * @brief Check if command has unclosed quotes
+ * @param command The command string to check
+ * @return 1 if quotes are properly closed or no quotes present, 0 otherwise
+ */
+int	check_quoted_command(char *command)
+{
+	int				i;
+	t_quote_info	info;
+
+	if (!command)
+		return (0);
+	init_quote_tracking(&info);
+	i = skip_whitespace(command);
+	while (command[i])
+	{
+		printf("Command[%d]: %c\n", i, command[i]);
+		if (is_quote(command[i]))
+			process_quote(command[i], &info, i);
+		i++;
+	}
+	if (info.in_quotes)
+	{
+		printf("Error: Unclosed quote starting at position %d\n",
+			info.start_pos);
+		return (0);
+	}
+	return (1);
+}
+
+/**
+ * @brief Check if a space at given position is within quotes
+ * @param command Command string
+ * @param pos Position of space to check
+ * @return 1 if space is in quotes, 0 otherwise
+ */
+int	is_space_in_quotes(char *command, int pos)
+{
+	int				i;
+	t_quote_info	info;
+
+	if (!init_space_check(command, pos))
+		return (0);
+	init_quote_tracking(&info);
+	i = 0;
+	while (i < pos && command[i])
+	{
+		if (is_quote(command[i]))
+			process_space_quote(command[i], &info);
+		i++;
+	}
+	return (info.in_quotes);
+}
 
 /**
  * @name Check if file exist.
@@ -52,7 +106,7 @@ int	cife(char ***tokens, int *i, int *j)
  * @brief This function will check if the current command is empty or not.
  * @param tokens This will contain the tokens.
  * @param i This will contain the index of the token.
- * @param npipes This will contain the number of pipes.
+ * @js will contain the number of pipes.
  */
 int	ciec(char ***tokens, int i, int npipes)
 {
@@ -79,16 +133,17 @@ int	ciec(char ***tokens, int i, int npipes)
 }
 
 /**
- * @brief This function will validate the passed in command.
- * @param command The command to validate.
- * @return 1 if the command is valid, 0 otherwise.
+ * @brief Validate the entire command
+ * @param command The command to validate
+ * @return 1 if valid, 0 if invalid
  */
 int	validate_command(char *command)
 {
 	int		i;
-	int		j;
 	char	***tokens;
 
+	if (!check_quoted_command(command))
+		return (0);
 	tokens = (char ***)malloc(sizeof(char **) * (has_pipe(command) + 1));
 	if (!tokens)
 		return (perror("Failed to malloc commands"), 0);
@@ -98,15 +153,8 @@ int	validate_command(char *command)
 	i = 0;
 	while (i < has_pipe(command))
 	{
-		if (!ciec(tokens, i, has_pipe(command)))
+		if (!process_command_segment(tokens, i, has_pipe(command)))
 			return (free_tokens(tokens, has_pipe(command)), 0);
-		j = 0;
-		while (j < count_tokens(tokens[i]))
-		{
-			if (is_redirection(tokens[i][j]) >= 0 && !cife(tokens, &i, &j))
-				return (free_tokens(tokens, has_pipe(command)), 0);
-			j++;
-		}
 		i++;
 	}
 	return (free_tokens(tokens, has_pipe(command)), 1);

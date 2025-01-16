@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/14 20:41:08 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/16 16:57:20 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char	is_opening_quote(const char *str);
 int		is_closing_quote(const char *str, char quote_char);
 int		is_middle_of_quote(const char *str);
 int		is_valid_quoted_part(char **cmd, int current_index);
-int		find_closing_quote(char **cmd, int current_index, char quote_char);
+// int		find_closing_quotes(char **cmd, int current_index, char quote_char);
 int		find_opening_quote(char **cmd, int current_index, char *quote_char);
 void	close_fd(t_commands *cmds);
 
@@ -113,4 +113,16 @@ char	*get_env_value(t_commands *cmds, const char *var_name);
 char	*get_var_name(const char *str, int *i);
 void	expand_variable_helper(t_commands *cmds,
 			const char *str, t_expand_vars *vars);
+
+int		starts_with_quote(char *token, char *quote_char);
+int		is_quote_closed_in_token(char *token, char quote_char);
+int		find_closing_quote(char **tokens, int start_j, int i, char quote_char);
+int		validate_quotes(char ***tokens, int i, int j);
+int		process_command_segment(char ***tokens, int i, int npipes);
+int		skip_whitespace(const char *command);
+void	init_quote_tracking(t_quote_info *info);
+int		is_quote(char c);
+void	process_quote(char c, t_quote_info *info, int pos);
+int		init_space_check(const char *command, int pos);
+void	process_space_quote(char c, t_quote_info *info);
 #endif

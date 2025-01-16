@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:24:25 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/15 19:53:13 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/16 20:17:39 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,12 @@ typedef struct s_expand_vars
 	int		j;
 	char	*result;
 }	t_expand_vars;
+
+typedef struct s_quote_info
+{
+	int		in_quotes;
+	int		start_pos;
+	char	quote_char;
+}	t_quote_info;
 
 #endif
