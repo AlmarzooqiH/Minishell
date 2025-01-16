@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:19:09 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/16 20:35:45 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/16 21:28:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,11 @@ int	validate_quotes(char ***tokens, int i, int j)
 {
 	char	quote_char;
 
-    printf("tokens[%d][%d]: %s\n", i, j, tokens[0][j + 1]);
 	if (starts_with_quote(tokens[i][j], &quote_char))
 	{
 		if (is_quote_closed_in_token(tokens[i][j], quote_char))
 			return (1);
-		else if (!find_closing_quote(tokens[i], j + 1, i, quote_char))
+		else if (!find_closing_quote(tokens[i], j, i, quote_char))
 			return (perror("Unclosed quote in command"), 0);
 	}
 	return (1);
