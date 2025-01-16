@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:16:48 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/16 20:31:20 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/16 21:22:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	check_quoted_command(char *command)
 	i = skip_whitespace(command);
 	while (command[i])
 	{
-		printf("Command[%d]: %c\n", i, command[i]);
 		if (is_quote(command[i]))
 			process_quote(command[i], &info, i);
 		i++;
