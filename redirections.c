@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 22:06:08 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/14 16:52:43 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/15 19:55:14 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,11 @@ void	check_if_success(t_commands *cmds)
 	while (i < cmds->efdp)
 	{
 		if (cmds->fd[i] < 0)
-			return (g_exit_status = 1, perror("Failed to open file"), exit(EF));
+			return (gs_status(GET_STATUS, SET_STATUS),
+				perror("Failed to open file"), exit(EF));
 		i++;
 	}
-	g_exit_status = 0;
+	gs_status(SET_STATUS, SET_STATUS);
 }
 
 /**

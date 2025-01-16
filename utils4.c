@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/14 21:07:58 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/15 19:56:06 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	normal_execution(t_commands *cmds)
 		i++;
 	free_split(scmd);
 	if (i == count_tokens(cmds->bpath))
-		return (g_exit_status = 127, perror(""));
-	g_exit_status = 0;
+		return (gs_status(127, SET_STATUS), perror(""));
+	gs_status(SET_STATUS, SET_STATUS);
 }
 
 /**
@@ -93,12 +93,8 @@ void	close_fd(t_commands *cmds)
 	i = 0;
 	while (i < cmds->nre)
 	{
-		// printf("before: cmds->fd[%d] = %d\n", i, cmds->fd[i]);
 		if (cmds->fd[i] >= 0)
-		{
 			cmds->fd[i] = -1;
-		}
-		// printf("After: cmds->fd[%d] = %d\n", i, cmds->fd[i]);
 		i++;
 	}
 }

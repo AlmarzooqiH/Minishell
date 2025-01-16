@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:41:00 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/14 21:06:44 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/15 19:53:07 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int	g_exit_status = -1;
 // int	main(int ac, char **av, char **envp)
 // {
 // 	char	*line;
@@ -49,9 +48,9 @@ int	gs_status(int st, int gors)
 		status = 0;
 		flag = 1;
 	}
-	if (gors == 1)
+	if (gors == GET_STATUS)
 		return (status);
-	else if (gors == 0)
+	else if (gors == SET_STATUS)
 		status = st;
 	return (status);
 }

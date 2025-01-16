@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 17:42:18 by root              #+#    #+#             */
-/*   Updated: 2025/01/02 16:33:43 by root             ###   ########.fr       */
+/*   Updated: 2025/01/15 19:49:25 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,5 @@ void	builtin_unset(t_commands *cmds)
 		}
 		i++;
 	}
-	g_exit_status = 0;
+	gs_status(SET_STATUS, SET_STATUS);
 }

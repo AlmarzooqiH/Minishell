@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 20:18:19 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/14 20:57:38 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/15 19:51:55 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,11 @@ void	builtin_export(t_commands *cmds)
 		{
 			printf("export: `%s': not a valid identifier\n",
 				cmds->c[cmds->cc][i]);
-			gs_status(1, SET_STATUS);
+			gs_status(GET_STATUS, SET_STATUS);
 		}
 		else
 			update_envp(cmds, i);
 		i++;
 	}
-	g_exit_status = 0;
+	gs_status(SET_STATUS, SET_STATUS);
 }

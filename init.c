@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/14 20:58:01 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/15 19:57:01 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	init2(t_commands *cmds)
 	{
 		cmds->rd = (int **)ft_calloc(cmds->nscmds + 1, sizeof(int *));
 		cmds->files = (char **)ft_calloc(cmds->nre + 1, sizeof(char *));
-        if (!cmds->rd || !cmds->files)
+		if (!cmds->rd || !cmds->files)
 			return (free_cmds(cmds), perror("Failed to malloc redir/files"));
 		set_redirectons(cmds);
 		set_files(cmds);

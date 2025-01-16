@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:13:43 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/14 18:44:15 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/15 20:00:21 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,24 +79,24 @@ int	dup_pipes(t_commands *cmds)
 		if ((cmds->cc == 0 && dup2(cmds->p[cmds->cp][1], SOUT) == -1) || (
 			cmds->cc == 1 && cmds->p[cmds->cp][0] >= 0
 		&& dup2(cmds->p[cmds->cp][0], SIN) == -1))
-			return (g_exit_status = 127, -1);
+			return (gs_status(127, SET_STATUS), -1);
 		return (cp(cmds->p[cmds->cp], 2), 1);
 	}
 	if (cmds->cc == 0)
 	{
 		if (dup2(cmds->p[cmds->cp][1], SOUT) == -1)
-			return (g_exit_status = 127, -1);
+			return (gs_status(127, SET_STATUS), -1);
 		return (cp(cmds->p[cmds->cp], 2), 1);
 	}
 	else if (cmds->cc == cmds->nscmds - 1)
 	{
 		if (dup2(cmds->p[cmds->cp][0], SIN) == -1)
-			return (g_exit_status = 127, -1);
+			return (gs_status(127, SET_STATUS), -1);
 		return (cp(cmds->p[cmds->cp], 2), 1);
 	}
 	if ((dup2(cmds->p[cmds->cp - 1][0], SIN) == -1) ||
 			(dup2(cmds->p[cmds->cp][1], SOUT) == -1))
-		return (g_exit_status = 127, -1);
+		return (gs_status(127, SET_STATUS), -1);
 	return (cp(cmds->p[cmds->cp - 1], 2), cp(cmds->p[cmds->cp], 2), 1);
 }
 
@@ -140,8 +140,6 @@ void	cps(int (*fd)[2], size_t npipes)
 	i = 0;
 	while (i < npipes)
 	{
-		printf("fd[%zu][0]: %d\n", i, fd[i][0]);
-		printf("fd[%zu][1]: %d\n", i, fd[i][1]);
 		if (fd[i][0] >= 0)
 			close(fd[i][0]);
 		if (fd[i][1] >= 0)
