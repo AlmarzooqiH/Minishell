@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:23:52 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/14 20:58:09 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/18 16:30:54 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	get_tokens(char *command, char ***tokens, char split)
 		temp = ft_substr(command, i, j - i);
 		if (!temp)
 			break ;
-		temp_split = ft_split(temp, ' ');
+		temp_split = get_command(temp);
 		tokens[k++] = temp_split;
 		free(temp);
 		if (command[j] != '\0')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:16:48 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/16 21:22:26 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/19 15:16:38 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ int	validate_command(char *command)
 	i = 0;
 	while (i < has_pipe(command))
 	{
+		print_split(tokens[i]);
 		if (!process_command_segment(tokens, i, has_pipe(command)))
 			return (free_tokens(tokens, has_pipe(command)), 0);
 		i++;

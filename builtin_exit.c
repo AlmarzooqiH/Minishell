@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:38:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/15 19:50:03 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/18 16:29:55 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,12 @@ void	builtin_exit(t_commands *cmds)
 {
 	int	es;
 
+		if (count_tokens(cmds->c[cmds->cc]) >= 3)
+		{
+			printf("exit: too many arguments\n");
+			gs_status(GET_STATUS, SET_STATUS);
+			return ;
+		}
 	es = 0;
 	if (cmds && cmds->c[cmds->cc][1])
 	{
@@ -75,12 +81,6 @@ void	builtin_exit(t_commands *cmds)
 				cmds->c[cmds->cc][1]);
 			free_cmds(cmds);
 			exit(255);
-		}
-		if (count_tokens(cmds->c[cmds->cc]) > 2)
-		{
-			printf("exit: too many arguments\n");
-			gs_status(GET_STATUS, SET_STATUS);
-			return ;
 		}
 		es = ft_atoi(cmds->c[cmds->cc][1]);
 	}

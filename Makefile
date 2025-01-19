@@ -4,7 +4,7 @@ FLAGS = -Wall -Wextra -Werror
 DEBUG_FLAGS = -fsanitize=address,undefined -Werror=address -Wnull-dereference -g
 READLINE_FLAG = -lreadline
 LIBFT_A = libft/libft.a
-MANDATORY = main.c processing.c utils.c utils2.c utils3.c utils4.c pipes.c execute.c \
+MANDATORY = main.c processing.c utils.c utils2.c utils3.c utils4.c utils5.c pipes.c execute.c \
 			 bash.c redirections.c redirections2.c redirections3.c init.c validate.c builtin_cd.c \
 			 builtin_export.c builtin_exit.c builtin_signal.c builtin_unset.c builtin_pwd.c \
 			 builtin_echo.c builtin_env.c export_utils.c validate_utils.c validate_utils2.c validate_utils3.c

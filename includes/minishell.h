@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/16 16:57:20 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/18 15:36:13 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,4 +125,5 @@ int		is_quote(char c);
 void	process_quote(char c, t_quote_info *info, int pos);
 int		init_space_check(const char *command, int pos);
 void	process_space_quote(char c, t_quote_info *info);
+char	**get_command(char *temp);
 #endif
