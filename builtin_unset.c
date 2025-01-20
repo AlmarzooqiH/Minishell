@@ -6,13 +6,13 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 17:42:18 by root              #+#    #+#             */
-/*   Updated: 2025/01/15 19:49:25 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/20 17:34:14 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static void	remove_env_var(char **envp, int index)
+void	remove_env_var(char **envp, int index)
 {
 	free(envp[index]);
 	while (envp[index])

@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:38:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/20 13:56:02 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/20 14:56:27 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * @param str The string to check.
  * @return 1 if the string is numeric, 0 otherwise.
  */
-static int	is_numeric(const char *str)
+int	is_numeric(const char *str)
 {
 	int	i;
 
