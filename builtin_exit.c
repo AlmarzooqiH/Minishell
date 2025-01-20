@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:38:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/19 16:16:20 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/20 13:56:02 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,6 @@ void	builtin_exit(t_commands *cmds)
 {
 	long long	es;
 
-		if (count_tokens(cmds->c[cmds->cc]) >= 3)
-		{
-			printf("exit: too many arguments\n");
-			gs_status(GET_STATUS, SET_STATUS);
-			return ;
-		}
-	es = 0;
 	if (cmds && cmds->c[cmds->cc][1])
 	{
 		if (!is_numeric(cmds->c[cmds->cc][1]))
@@ -82,7 +75,14 @@ void	builtin_exit(t_commands *cmds)
 			free_cmds(cmds);
 			exit(255);
 		}
-		es = ft_atoi(cmds->c[cmds->cc][1]);
+		if (count_tokens(cmds->c[cmds->cc]) >= 3)
+		{
+			ft_putendl_fd("exit: too many arguments", 2);
+			gs_status(1, SET_STATUS);
+			return ;
+		}
+		es = ft_atoll(cmds->c[cmds->cc][1]);
+		es = es & 255;
 	}
 	else
 		es = gs_status(0, GET_STATUS);
