@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/20 07:46:02 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/20 19:51:18 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	child_functions(t_commands *cmds)
 		builtin_echo(cmds);
 	else if (ft_strcmp(cmds->c[cmds->cc][0], PWD_COMMAND))
 		builtin_pwd();
-	else if (ft_strcmp(cmds->c[cmds->cc][0], ENV_COMMAND))
+	else if (ft_strcmp(cmds->c[cmds->cc][0], ENV_COMMAND)
+		&& cmds->c[cmds->cc][1] == NULL)
 		builtin_env(cmds);
 	else if (ft_strcmp(cmds->c[cmds->cc][0], STATUS_CODE))
 		printf("%d\n", gs_status(0, GET_STATUS));
