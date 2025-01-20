@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:26:39 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/02 00:09:05 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/20 07:50:28 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,13 @@ int	has_pipe(char *commands)
 	n_pipes = 1;
 	while (commands[i])
 	{
+		if (is_quote(commands[i]))
+		{
+			i++;
+			while (commands[i] && !is_quote(commands[i]))
+				i++;
+			i++;
+		}
 		if (commands[i] == '|')
 			n_pipes++;
 		i++;

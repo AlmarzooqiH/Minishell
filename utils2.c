@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:23:52 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/18 16:30:54 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/20 08:04:18 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ void	get_tokens(char *command, char ***tokens, char split)
 	while (command[i])
 	{
 		j = i;
-		while (command[j] && command[j] != split)
-			j++;
+		get_end(command, split, &j);
 		temp = ft_substr(command, i, j - i);
 		if (!temp)
 			break ;

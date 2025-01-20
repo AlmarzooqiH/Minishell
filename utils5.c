@@ -6,11 +6,27 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:33:51 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/19 15:10:05 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/20 08:03:59 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+void	get_end(char *command, char split, int *j)
+{
+	while (command[*j] && command[*j] != split)
+	{
+		if (is_quote(command[*j]))
+		{
+			(*j)++;
+			while (command[*j] && !is_quote(command[*j]))
+				(*j)++;
+			(*j)++;
+		}
+		else
+			(*j)++;
+	}
+}
 
 /**
  * @brief This function will calculate the number of tokens.

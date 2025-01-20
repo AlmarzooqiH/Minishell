@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/18 15:36:13 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/20 08:04:09 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,4 +126,5 @@ void	process_quote(char c, t_quote_info *info, int pos);
 int		init_space_check(const char *command, int pos);
 void	process_space_quote(char c, t_quote_info *info);
 char	**get_command(char *temp);
+void	get_end(char *command, char split, int *j);
 #endif
