@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/14 16:52:47 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/20 07:22:06 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@
 void	execute_one_pipe(t_commands *cmds)
 {
 	pid_t	cid;
+	int		exit_code;
 
+	exit_code = 0;
 	if (parent_functions(cmds))
 		return ;
 	cid = fork();
@@ -35,11 +37,12 @@ void	execute_one_pipe(t_commands *cmds)
 	}
 	else if (cid > 0)
 	{
-		waitpid(cid, NULL, 0);
+		waitpid(cid, &exit_code, 0);
 		if (cmds->cc == 0 && cmds->p[cmds->cp][1] >= 0)
 			cp(cmds->p[cmds->cp], 1);
 		else if (cmds->cc == 1 && cmds->p[cmds->cp][0] >= 0)
 			cp(cmds->p[cmds->cp], 0);
+		gs_status((exit_code >> 8), SET_STATUS);
 	}
 }
 
@@ -52,7 +55,9 @@ void	execute_one_pipe(t_commands *cmds)
 void	execute_one(t_commands *cmds)
 {
 	pid_t	cid;
+	int		exit_code;
 
+	exit_code = 0;
 	if (parent_functions(cmds))
 		return ;
 	cid = fork();
@@ -64,7 +69,8 @@ void	execute_one(t_commands *cmds)
 		exit(ES);
 	}
 	else if (cid > 0)
-		waitpid(cid, NULL, 0);
+		waitpid(cid, &exit_code, 0);
+	gs_status((exit_code >> 8), SET_STATUS);
 }
 
 /**
@@ -76,7 +82,9 @@ void	execute_one(t_commands *cmds)
 void	execute_cmd(t_commands *cmds)
 {
 	pid_t	cid;
+	int		exit_code;
 
+	exit_code = 0;
 	if (parent_functions(cmds))
 		return ;
 	cid = fork();
@@ -91,10 +99,11 @@ void	execute_cmd(t_commands *cmds)
 	}
 	else if (cid > 0)
 	{
-		waitpid(cid, NULL, 0);
+		waitpid(cid, &exit_code, 0);
 		if (cmds->cp > 0)
 			cp(cmds->p[cmds->cp - 1], 2);
 		cp(cmds->p[cmds->cp], 1);
+		gs_status((exit_code >> 8), SET_STATUS);
 	}
 }
 
@@ -106,7 +115,9 @@ void	execute_cmd(t_commands *cmds)
 void	execute_last(t_commands *cmds)
 {
 	pid_t	cid;
+	int		exit_code;
 
+	exit_code = 0;
 	if (parent_functions(cmds))
 		return ;
 	cid = fork();
@@ -121,8 +132,9 @@ void	execute_last(t_commands *cmds)
 	}
 	else if (cid > 0)
 	{
-		waitpid(cid, NULL, 0);
+		waitpid(cid, &exit_code, 0);
 		cp(cmds->p[cmds->cp], 2);
+		gs_status((exit_code >> 8), SET_STATUS);
 	}
 }
 

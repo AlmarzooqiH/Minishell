@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 20:12:18 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/28 23:53:19 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/20 07:08:52 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,5 @@ void	builtin_pwd(void)
 		return (perror("pwd"));
 	printf("%s\n", pwd);
 	free(pwd);
+	gs_status(GET_STATUS, SET_STATUS);
 }

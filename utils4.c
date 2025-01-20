@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/18 17:04:20 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/20 07:21:15 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	normal_execution(t_commands *cmds)
 		i++;
 	free_split(scmd);
 	if (i == count_tokens(cmds->bpath))
-		return (gs_status(127, SET_STATUS), perror(""));
-	gs_status(SET_STATUS, SET_STATUS);
+		return (perror(""), exit(127));
+	exit(ES);
 }
 
 /**
@@ -58,7 +58,7 @@ void	child_functions(t_commands *cmds)
  * @brief This function execute the builtin commands that should be executed
  * by the parent process.
  * @param cmds The commands structure.
- * @return Void.
+ * @return 0 on failure 1 on success.
  */
 int	parent_functions(t_commands *cmds)
 {

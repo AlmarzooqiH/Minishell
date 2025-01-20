@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 20:18:19 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/15 19:51:55 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/20 07:05:28 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ int	is_valid_identifier(t_commands *cmds, int i)
 	int	j;
 
 	if (!ft_isalpha(cmds->c[cmds->cc][i][0]) && cmds->c[cmds->cc][i][0] != '_')
-		return (0);
+		return (gs_status(GET_STATUS, SET_STATUS), 0);
 	j = 1;
 	while (cmds->c[cmds->cc][i][j] && cmds->c[cmds->cc][i][j] != '=')
 	{
 		if (!ft_isalnum(cmds->c[cmds->cc][i][j])
 			&& cmds->c[cmds->cc][i][j] != '_')
-			return (0);
+			return (gs_status(GET_STATUS, SET_STATUS), 0);
 		j++;
 	}
 	return (1);
@@ -63,7 +63,10 @@ void	update_envp(t_commands *cmds, int i)
 
 	equal_pos = ft_strchr(cmds->c[cmds->cc][i], '=');
 	if (!equal_pos)
+	{
+		gs_status(GET_STATUS, SET_STATUS);
 		return ;
+	}
 	name = ft_substr(cmds->c[cmds->cc][i], 0, equal_pos - cmds->c[cmds->cc][i]);
 	expanded_value = expand_variable(cmds, cmds->c[cmds->cc][i]);
 	update_envp_helper(cmds, name, expanded_value);
@@ -75,10 +78,7 @@ void	builtin_export(t_commands *cmds)
 	int	i;
 
 	if (!cmds->c[cmds->cc][1])
-	{
-		print_envp(cmds->envp);
-		return ;
-	}
+		return (gs_status(SET_STATUS, SET_STATUS), print_envp(cmds->envp));
 	i = 1;
 	while (cmds->c[cmds->cc][i])
 	{
@@ -87,6 +87,7 @@ void	builtin_export(t_commands *cmds)
 			printf("export: `%s': not a valid identifier\n",
 				cmds->c[cmds->cc][i]);
 			gs_status(GET_STATUS, SET_STATUS);
+			return ;
 		}
 		else
 			update_envp(cmds, i);

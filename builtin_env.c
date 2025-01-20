@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 20:10:04 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/01 20:47:59 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/20 07:09:16 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,5 @@ void	builtin_env(t_commands *cmds)
 		printf("%s\n", cmds->envp[i]);
 		i++;
 	}
+	gs_status(GET_STATUS, SET_STATUS);
 }

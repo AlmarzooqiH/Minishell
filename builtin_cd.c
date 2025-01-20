@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 23:50:03 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/14 19:55:33 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/19 20:21:30 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,12 @@ void	cd_previous(t_commands *cmds)
 void	cd_change_directory(t_commands *cmds)
 {
 	if (chdir(cmds->c[cmds->cc][1]) != 0)
+	{
+		gs_status(GET_STATUS, SET_STATUS);
 		perror("cd");
+		return ;
+	}
+	gs_status(SET_STATUS, SET_STATUS);
 }
 
 /**
