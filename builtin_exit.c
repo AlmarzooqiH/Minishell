@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:38:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/18 16:29:55 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/19 16:16:20 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	is_numeric(const char *str)
 // }
 void	builtin_exit(t_commands *cmds)
 {
-	int	es;
+	long long	es;
 
 		if (count_tokens(cmds->c[cmds->cc]) >= 3)
 		{
@@ -77,16 +77,16 @@ void	builtin_exit(t_commands *cmds)
 	{
 		if (!is_numeric(cmds->c[cmds->cc][1]))
 		{
-			printf("exit: %s: numeric argument required\n",
-				cmds->c[cmds->cc][1]);
+			ft_putstr_fd(cmds->c[cmds->cc][1], 2);
+			ft_putendl_fd("exit: numeric argument required", 2);
 			free_cmds(cmds);
 			exit(255);
 		}
 		es = ft_atoi(cmds->c[cmds->cc][1]);
 	}
 	else
-		printf("Exiting shell... \n");
+		es = gs_status(0, GET_STATUS);
 	if (cmds)
 		free_cmds(cmds);
-	exit(es);
+	exit((int)es);
 }
