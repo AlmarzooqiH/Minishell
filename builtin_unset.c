@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 17:42:18 by root              #+#    #+#             */
-/*   Updated: 2025/01/20 17:34:14 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/20 19:57:57 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	remove_env_var(char **envp, int index)
 {
-	free(envp[index]);
 	while (envp[index])
 	{
 		envp[index] = envp[index + 1];
 		index++;
 	}
+	free(envp[index]);
 }
 
 void	builtin_unset(t_commands *cmds)
