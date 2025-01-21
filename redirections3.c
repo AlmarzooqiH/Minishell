@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 15:56:50 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/21 17:50:22 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/21 20:36:18 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	ifp(t_commands *cmds)
 {
 	int	i;
 
+	if (!cmds->fd || !cmds->rd)
+		return ;
 	i = 0;
 	while (i < count_tokens(cmds->c[cmds->cc]))
 	{
