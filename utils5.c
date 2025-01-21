@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:33:51 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/20 08:03:59 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/21 21:18:25 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,13 @@ size_t	get_ntokens(char *temp)
 
 size_t	get_token_length(char *temp, size_t i)
 {
+	char	qoute;
+
 	if (is_quote(temp[i]))
 	{
+		qoute = temp[i];
 		i++;
-		while (temp[i] && !is_quote(temp[i]))
+		while (temp[i] && temp[i] != qoute)
 			i++;
 		return (i + 1);
 	}
