@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:51:55 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/16 20:21:18 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/21 10:48:50 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,40 +45,25 @@ void	print_env(t_commands *cmds, int pos)
 	free(tmp);
 }
 
-/**
- * @brief This function will print the string and if there was passed some env
- * variables it will print them.
- * @param cmds The commands structure.
- * @param i The pointer of the current word.
- * @return Void.
- * @note This will be called if the input was like this: echo "path is: $PATH"
- */
 void	print_double_quotes(t_commands *cmds, int *i)
 {
 	int	j;
-	int	flag;
 
 	j = 1;
-	flag = 0;
-	while (cmds->c[cmds->cc][*i])
+	while (cmds->c[cmds->cc][*i] && cmds->c[cmds->cc][*i][j])
 	{
-		if (flag)
-			j = 0;
-		while (cmds->c[cmds->cc][*i][j] && cmds->c[cmds->cc][*i][j] != '\"' )
+		if (cmds->c[cmds->cc][*i][j] == '\"')
+			break ;
+		if (cmds->c[cmds->cc][*i][j] == '$')
 		{
-			if (cmds->c[cmds->cc][*i][j] == '$')
-			{
-				print_env(cmds, *i);
-				break ;
-			}
-			else
-				printf("%c", cmds->c[cmds->cc][*i][j]);
 			j++;
+			j += process_env_var(cmds->c[cmds->cc][*i], j) - 1;
 		}
-		flag = 1;
-		printf(" ");
-		(*i)++;
+		else
+			printf("%c", cmds->c[cmds->cc][*i][j]);
+		j++;
 	}
+	(*i)++;
 }
 
 /**
@@ -122,16 +107,21 @@ void	normal_print(t_commands *cmds, int *i)
 	int	j;
 
 	j = 0;
-	while (cmds->c[cmds->cc][*i][j])
+	if (ft_strcmp(cmds->c[cmds->cc][*i], STATUS_CODE))
+		printf("%d", gs_status(0, GET_STATUS));
+	else
 	{
-		if (cmds->c[cmds->cc][*i][j] == '$')
+		while (cmds->c[cmds->cc][*i][j])
 		{
-			print_env(cmds, *i);
-			break ;
+			if (cmds->c[cmds->cc][*i][j] == '$')
+			{
+				print_env(cmds, *i);
+				break ;
+			}
+			else
+				printf("%c", cmds->c[cmds->cc][*i][j]);
+			j++;
 		}
-		else
-			printf("%c", cmds->c[cmds->cc][*i][j]);
-		j++;
 	}
 	(*i)++;
 	printf(" ");

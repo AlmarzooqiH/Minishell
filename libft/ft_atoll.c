@@ -6,9 +6,11 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 11:12:15 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/18 17:29:34 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/21 10:17:55 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 long long	ft_atoll(const char *str)
 {

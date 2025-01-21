@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/20 19:51:18 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/21 08:33:07 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ void	child_functions(t_commands *cmds)
 	else if (ft_strcmp(cmds->c[cmds->cc][0], ENV_COMMAND)
 		&& cmds->c[cmds->cc][1] == NULL)
 		builtin_env(cmds);
-	else if (ft_strcmp(cmds->c[cmds->cc][0], STATUS_CODE))
-		printf("%d\n", gs_status(0, GET_STATUS));
 	else
 		normal_execution(cmds);
 }

@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/20 17:36:03 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/21 09:41:32 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,4 +110,5 @@ void	process_space_quote(char c, t_quote_info *info);
 char	**get_command(char *temp);
 void	get_end(char *command, char split, int *j);
 int		is_valid_identifier(t_commands *cmds, int i);
+int		process_env_var(char *str, int j);
 #endif

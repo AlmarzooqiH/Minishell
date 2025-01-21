@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_signal.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 19:41:08 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/02 15:48:50 by root             ###   ########.fr       */
+/*   Updated: 2025/01/21 09:29:39 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	signal_handler(int signal_num)
 {
 	if (signal_num == SIGINT)
 	{
+		gs_status(130, SET_STATUS);
 		rl_replace_line("", 0);
 		printf("\n");
 		rl_on_new_line();
