@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/15 19:57:01 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/20 17:35:13 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	init2(t_commands *cmds)
 	cmds->nre = get_total_rediractions(cmds->c);
 	if (cmds->nre > 0)
 	{
-		cmds->rd = (int **)ft_calloc(cmds->nscmds + 1, sizeof(int *));
+		cmds->rd = (int **)ft_calloc(cmds->nre + 1, sizeof(int *));
 		cmds->files = (char **)ft_calloc(cmds->nre + 1, sizeof(char *));
 		if (!cmds->rd || !cmds->files)
 			return (free_cmds(cmds), perror("Failed to malloc redir/files"));

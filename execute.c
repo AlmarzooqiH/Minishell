@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/20 07:27:42 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/21 17:49:53 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	execute_one_pipe(t_commands *cmds)
 			cp(cmds->p[cmds->cp], 1);
 		else if (cmds->cc == 1 && cmds->p[cmds->cp][0] >= 0)
 			cp(cmds->p[cmds->cp], 0);
-		gs_status((exit_code >> 8), SET_STATUS);
+		return (gs_status((exit_code >> 8), SET_STATUS), ifp(cmds));
 	}
 }
 
@@ -71,6 +71,7 @@ void	execute_one(t_commands *cmds)
 	else if (cid > 0)
 		waitpid(cid, &exit_code, 0);
 	gs_status((exit_code >> 8), SET_STATUS);
+	ifp(cmds);
 }
 
 /**
@@ -104,6 +105,7 @@ void	execute_cmd(t_commands *cmds)
 			cp(cmds->p[cmds->cp - 1], 2);
 		cp(cmds->p[cmds->cp], 1);
 		gs_status((exit_code >> 8), SET_STATUS);
+		ifp(cmds);
 	}
 }
 
@@ -135,6 +137,7 @@ void	execute_last(t_commands *cmds)
 		waitpid(cid, &exit_code, 0);
 		cp(cmds->p[cmds->cp], 2);
 		gs_status((exit_code >> 8), SET_STATUS);
+		ifp(cmds);
 	}
 }
 
