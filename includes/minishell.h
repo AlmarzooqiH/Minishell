@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/21 22:04:04 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/22 19:27:21 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,4 +113,5 @@ int		is_valid_identifier(t_commands *cmds, int i);
 int		process_env_var(char *str, int j);
 void	increment(t_commands *cmds, int i);
 void	ifp(t_commands *cmds);
+void	init_child(void);
 #endif

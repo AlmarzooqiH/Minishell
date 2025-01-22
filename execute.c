@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/21 17:49:53 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/22 19:27:51 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	execute_one(t_commands *cmds)
 	exit_code = 0;
 	if (parent_functions(cmds))
 		return ;
+	init_child();
 	cid = fork();
 	if (!cid)
 	{
@@ -70,6 +71,7 @@ void	execute_one(t_commands *cmds)
 	}
 	else if (cid > 0)
 		waitpid(cid, &exit_code, 0);
+	init_signals();
 	gs_status((exit_code >> 8), SET_STATUS);
 	ifp(cmds);
 }

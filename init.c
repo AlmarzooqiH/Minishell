@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/20 17:35:13 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/22 21:18:58 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	free_cmds(t_commands *cmds)
 	if (cmds->files)
 		free_split(cmds->files);
 	if (cmds->rd)
-		free_arri(cmds->rd, cmds->nscmds + 1);
+		free_arri(cmds->rd, cmds->nre + 1);
 	if (cmds->is_bash)
 		free(cmds->is_bash);
 	if (cmds->nscmds > 1 && cmds->p)
