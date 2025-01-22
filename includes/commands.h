@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:24:25 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/21 22:04:10 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/22 23:43:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@
 /**
  * @brief This structure will hold the passed in command that will be prepro-
  * -ccessed.
- * @var	enviorment Will hold the PATH variable.
- * @var	bpath Will hold the splited PATH variable.
  * @var	c This will hold the tokenized commands.
  * @var	files This will hold the files that we will redirect to.
  * @var	rd This will hold the type of the redirection.
@@ -68,9 +66,7 @@
  */
 typedef struct s_commands
 {
-	char	*enviorment;
 	char	*previous_dir;
-	char	**bpath;
 	char	***c;
 	char	**files;
 	char	**envp;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/22 19:27:21 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/23 00:40:23 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	set_isbash(t_commands *cmds);
 void	set_files(t_commands *cmds);
 void	execute_binary(t_commands *cmds);
 void	execute_cmd(t_commands *cmds);
-void	execute_bash(t_commands *cmds);
 char	**extract_command(t_commands *cmds);
 int		has_flag(char *flag, char *flag_in);
 int		has_pipe(char *commands);
@@ -114,4 +113,5 @@ int		process_env_var(char *str, int j);
 void	increment(t_commands *cmds, int i);
 void	ifp(t_commands *cmds);
 void	init_child(void);
+int		get_path(char **envp);
 #endif

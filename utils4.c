@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/21 08:33:07 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/23 00:38:29 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,52 @@
  * @param cmds The commands structure.
  * @return Void.
  */
-void	normal_execution(t_commands *cmds)
-{
-	int		i;
-	char	**scmd;
+#include "includes/minishell.h"
 
-	scmd = extract_command(cmds);
-	if (!scmd)
-		return (perror("Failed to extract the command."), exit(EF));
-	i = 0;
-	while (cmds->bpath[i] && ft_execute(cmds->bpath[i], scmd))
-		i++;
-	free_split(scmd);
-	if (i == count_tokens(cmds->bpath))
-		return (perror(""), exit(127));
-	exit(ES);
+int get_path_index(char **envp)
+{
+    int i;
+
+    i = 0;
+    while (envp[i])
+    {
+        if (ft_isprefix(envp[i], "PATH="))
+            return (i);
+        i++;
+    }
+    return (-1);
 }
+
+/**
+ * @brief This function will execute the command from the PATH variable.
+ * @param cmds The commands structure.
+ * @return Void.
+ */
+void normal_execution(t_commands *cmds)
+{
+    int     i;
+    char    **bpath;
+    char    **scmd;
+    int     pidx;
+
+    scmd = extract_command(cmds);
+    if (!scmd)
+        return (perror("Failed to extract the command."), exit(EF));
+    pidx = get_path_index(cmds->envp);
+    if (pidx == -1)
+        return (perror("PATH variable not found."), free_split(scmd), exit(EF));
+    bpath = ft_split(cmds->envp[pidx] + 5, ':');
+    if (!bpath)
+        return (perror("Failed to parse the PATH variable."), free_split(scmd), exit(EF));
+    i = 0;
+    while (bpath[i] && ft_execute(bpath[i], scmd))
+		i++;
+	if (i == count_tokens(bpath))
+		return (perror("Command not found"), free_split(bpath),
+			free_split(scmd), exit(127));
+	return (free_split(scmd), free_split(bpath), exit(ES));
+}
+
 
 /**
  * @brief This function will check if the current command is a builtin command

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/22 21:18:58 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/22 23:45:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	free_cmds2(t_commands *cmds)
 	cmds->t = 0;
 	cmds->r = 0;
 	cmds->npipes = 0;
-	cmds->bpath = NULL;
 	cmds->c = NULL;
 	cmds->files = NULL;
 	cmds->rd = NULL;
@@ -47,8 +46,6 @@ void	free_cmds2(t_commands *cmds)
  */
 void	free_cmds(t_commands *cmds)
 {
-	if (cmds->bpath)
-		free_split(cmds->bpath);
 	if (cmds->c)
 		free_tokens(cmds->c, cmds->nscmds);
 	if (cmds->files)
@@ -137,12 +134,6 @@ void	init(t_commands *cmds, const char *command)
 {
 	if (!cmds)
 		return ;
-	cmds->enviorment = getenv("PATH");
-	if (!cmds->enviorment)
-		return (free_cmds(cmds), perror("Failed to get the PATH variable"));
-	cmds->bpath = ft_split(cmds->enviorment, ':');
-	if (!cmds->bpath)
-		return (free_cmds(cmds), perror("Failed to split the PATH variable"));
 	cmds->nscmds = has_pipe((char *)command);
 	cmds->c = (char ***)malloc(sizeof(char **) * (cmds->nscmds + 1));
 	if (!cmds->c)

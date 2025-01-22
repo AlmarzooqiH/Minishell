@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bash.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:31:03 by hamad             #+#    #+#             */
-/*   Updated: 2024/12/31 14:07:23 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/23 00:39:27 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,30 +58,3 @@ int	is_alone(char *s)
 	return (0);
 }
 
-/**
- * @brief This function will execute the command that is in bash syntax.
- * @param	cmds	This holds the commands struct.
- * @return Void.
- */
-void	execute_bash(t_commands *cmds)
-{
-	pid_t	cid;
-	int		i;
-	char	**scmd;
-
-	cid = fork();
-	if (!cid)
-	{
-		i = 0;
-		scmd = extract_command(cmds);
-		if (!scmd)
-			return (perror("Failed to extract the command"), exit(EF));
-		while (cmds->bpath[i] && ft_execute(cmds->bpath[i], scmd))
-			i++;
-		free_split(scmd);
-	}
-	else if (cid > 0)
-	{
-		waitpid(cid, NULL, 0);
-	}
-}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 22:06:08 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/21 17:28:29 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/23 00:40:37 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,13 +112,7 @@ void	create_files(t_commands *cmds)
  */
 void	process_redir(t_commands *cmds)
 {
-	int		i;
-	char	**scmd;
-
 	create_files(cmds);
-	scmd = extract_command(cmds);
-	if (!scmd)
-		return (perror("Failed to extract the command"), exit(EF));
 	if (cmds->hdp >= 0 && process_heredoc(cmds))
 		dup_heredoc(cmds);
 	if (cmds->p && dup_pipes(cmds) == -1)
@@ -131,8 +125,6 @@ void	process_redir(t_commands *cmds)
 		if (dup2(cmds->fd[cmds->cfd - 1], SOUT) == -1)
 			return (perror("Failed to dup2(rtf or ar, SOUT)"), exit(EF));
 	}
-	i = 0;
-	while (cmds->bpath[i] && ft_execute(cmds->bpath[i], scmd))
-		i++;
-	return (close_files(cmds), free_split(scmd));
+	child_functions(cmds);
+	return (close_files(cmds));
 }
