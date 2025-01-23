@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 21:11:39 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/14 19:59:16 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/23 19:23:09 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,29 @@ void	update_envp_helper(t_commands *cmds, char *name, char *expanded_value)
 	j = 0;
 	while (cmds->envp[j])
 	{
-		if (ft_strncmp(name, cmds->envp[j], ft_strlen(name)) == 0
-			&& cmds->envp[j][ft_strlen(name)] == '=')
+		if (ft_strncmp(cmds->envp[j], name, ft_strlen(name)) == 0
+			&& (cmds->envp[j][ft_strlen(name)] == '='
+			|| cmds->envp[j][ft_strlen(name)] == '\0'))
 		{
 			free(cmds->envp[j]);
-			cmds->envp[j] = expanded_value;
+			if (expanded_value[0] == '\0')
+				cmds->envp[j] = ft_strdup(name);
+			else
+				cmds->envp[j] = expanded_value;
 			return ;
 		}
 		j++;
 	}
-	cmds->envp[j] = expanded_value;
+	if (expanded_value[0] == '\0')
+		cmds->envp[j] = ft_strdup(name);
+	else
+		cmds->envp[j] = expanded_value;
 	cmds->envp[j + 1] = NULL;
+}
+
+void	handle_invalid_identifier(t_commands *cmds, int i, int *had_invalid)
+{
+	printf("export: `%s': not a valid identifier\n", cmds->c[cmds->cc][i]);
+	*had_invalid = 1;
+	gs_status(GET_STATUS, SET_STATUS);
 }

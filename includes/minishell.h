@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/23 14:32:36 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/23 20:00:02 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,4 +115,8 @@ void	increment(t_commands *cmds, int i);
 void	ifp(t_commands *cmds);
 void	init_child(void);
 int		get_path(char **envp);
+void	handle_valid_identifier(t_commands *cmds, int i);
+void	handle_invalid_identifier(t_commands *cmds, int i, int *had_invalid);
+void	update_envp(t_commands *cmds, int i);
+char	*expand_variable(t_commands *cmds, const char *str);
 #endif

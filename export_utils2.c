@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   export_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/01 20:10:04 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/23 17:56:52 by mthodi           ###   ########.fr       */
+/*   Created: 2025/01/23 18:35:30 by mthodi            #+#    #+#             */
+/*   Updated: 2025/01/23 18:35:35 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-/**
- * @brief Executes the env builtin command, printing the environment variables.
- * @param cmds The structure containing the parsed commands.
- * @param pos The starting position of the arguments for env.
- * @return Void.
- */
-void	builtin_env(t_commands *cmds)
+void	handle_valid_identifier(t_commands *cmds, int i)
 {
-	int	i;
+	char	*equal_pos;
+	char	*var_name;
+	char	*empty_value;
 
-	i = 0;
-	while (cmds->envp[i])
+	equal_pos = ft_strchr(cmds->c[cmds->cc][i], '=');
+	if (!equal_pos)
 	{
-		if (ft_strchr(cmds->envp[i], '=') != 0)
-			printf("%s\n", cmds->envp[i]);
-		i++;
+		var_name = ft_strdup(cmds->c[cmds->cc][i]);
+		empty_value = ft_strdup("");
+		update_envp_helper(cmds, var_name, empty_value);
+		free(var_name);
 	}
-	gs_status(GET_STATUS, SET_STATUS);
+	else
+		update_envp(cmds, i);
 }

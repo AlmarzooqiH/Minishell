@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:51:55 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/21 10:48:50 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/23 19:54:41 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	print_double_quotes(t_commands *cmds, int *i)
 			break ;
 		if (cmds->c[cmds->cc][*i][j] == '$')
 		{
+			if (cmds->c[cmds->cc][*i][j + 1] == '\"')
+				printf("$");
 			j++;
 			j += process_env_var(cmds->c[cmds->cc][*i], j) - 1;
 		}
@@ -63,6 +65,9 @@ void	print_double_quotes(t_commands *cmds, int *i)
 			printf("%c", cmds->c[cmds->cc][*i][j]);
 		j++;
 	}
+	if (*i < count_tokens(cmds->c[cmds->cc])
+		&& !is_quote (cmds->c[cmds->cc][*i][j]))
+		printf(" ");
 	(*i)++;
 }
 
@@ -90,7 +95,9 @@ void	print_literal(t_commands *cmds, int *i)
 			j++;
 		}
 		flag = 1;
-		printf(" ");
+		if (*i < count_tokens(cmds->c[cmds->cc])
+			&& !is_quote(cmds->c[cmds->cc][*i][j]))
+			printf(" ");
 		(*i)++;
 	}
 }
@@ -115,16 +122,20 @@ void	normal_print(t_commands *cmds, int *i)
 		{
 			if (cmds->c[cmds->cc][*i][j] == '$')
 			{
-				print_env(cmds, *i);
+				if (cmds->c[cmds->cc][*i][j + 1] == '\0')
+					printf("$");
+				else
+					print_env(cmds, *i);
 				break ;
 			}
-			else
+			else if (!is_quote(cmds->c[cmds->cc][*i][j]))
 				printf("%c", cmds->c[cmds->cc][*i][j]);
 			j++;
 		}
 	}
 	(*i)++;
-	printf(" ");
+	if (*i < count_tokens(cmds->c[cmds->cc]))
+		printf(" ");
 }
 
 /**
