@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:16:48 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/23 09:29:03 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/23 14:35:18 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,20 +81,20 @@ int	cife(char ***tokens, int *i, int *j)
 	{
 		(*j)++;
 		if (!tokens[*i][*j])
-			return (perror("No file/delimeter after redirection"), 0);
+			return (perror(NAR), gs_status(2, SET_STATUS), 0);
 		file = ft_strdup(tokens[*i][*j]);
 	}
 	else
 		file = gfn(tokens[*i][*j], redirection_type);
 	if (!file)
-		return (perror("Failed to get file/delimeter"), 0);
+		return (perror(FTFOD), 0);
 	if (redirection_type == e_rti)
 	{
 		if (access(file, F_OK) == -1)
-			return (perror("File does not exist"), 0);
+			return (perror(FDNE), gs_status(1, SET_STATUS), 0);
 	}
 	else if (redirection_type == e_hdr && is_redirection(file) >= 0)
-		return (perror("Invalid delimeter"), 0);
+		return (perror(I_D), gs_status(2, SET_STATUS), 0);
 	if (file)
 		free(file);
 	return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:19:09 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/20 13:58:00 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/23 14:36:05 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	validate_quotes(char ***tokens, int i, int j)
 		if (is_quote_closed_in_token(tokens[i][j], quote_char))
 			return (1);
 		else if (!find_closing_quote(tokens[i], j, i, quote_char))
-			return (perror("Unclosed quote in command"), 0);
+			return (perror(UQIC), 0);
 	}
 	return (1);
 }

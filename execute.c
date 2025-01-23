@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/22 19:27:51 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/23 14:36:47 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	execute_one(t_commands *cmds)
 	exit_code = 0;
 	if (parent_functions(cmds))
 		return ;
-	init_child();
 	cid = fork();
 	if (!cid)
 	{
@@ -71,7 +70,6 @@ void	execute_one(t_commands *cmds)
 	}
 	else if (cid > 0)
 		waitpid(cid, &exit_code, 0);
-	init_signals();
 	gs_status((exit_code >> 8), SET_STATUS);
 	ifp(cmds);
 }
@@ -151,7 +149,7 @@ void	execute_last(t_commands *cmds)
 void	execute_binary(t_commands *cmds)
 {
 	if (cmds->nscmds == 1)
-		return (execute_one(cmds));
+		return (execute_one(cmds), init_signals());
 	if (cmds->nscmds == 2 && cmds->npipes == 1)
 	{
 		while (cmds->cc < cmds->nscmds)
@@ -160,18 +158,19 @@ void	execute_binary(t_commands *cmds)
 			execute_one_pipe(cmds);
 			cmds->cc++;
 			cmds->bltin = 0;
+			init_signals();
 		}
 		return ;
 	}
 	while (cmds->cc < cmds->nscmds - 1)
 	{
+		init_signals();
 		isbuiltin(cmds);
 		execute_cmd(cmds);
 		cmds->cc++;
 		cmds->cp++;
 		cmds->bltin = 0;
+		init_signals();
 	}
-	isbuiltin(cmds);
-	cmds->cp--;
-	execute_last(cmds);
+	return (isbuiltin(cmds), cmds->cp--, execute_last(cmds));
 }

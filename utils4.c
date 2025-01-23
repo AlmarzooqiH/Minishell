@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/23 13:09:49 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/23 14:28:08 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ void	normal_execution(t_commands *cmds)
 	i = 0;
 	while (bpath[i] && ft_execute(bpath[i], scmd))
 		i++;
+	if (ft_strcmp(cmds->c[cmds->cc][0], "$?") && i == count_tokens(bpath))
+		return (printf("%d: Command not found\n", gs_status(0, GET_STATUS)),
+			free_split(scmd), exit(127));
 	if (i == count_tokens(bpath))
 		return (perror("Command not found"), free_split(bpath),
 			free_split(scmd), exit(127));
