@@ -3,35 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/23 00:38:29 by hamalmar         ###   ########.fr       */
+/*   Updated: 2025/01/23 07:48:06 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-/**
- * @brief This function will execute the command from the PATH variable.
- * @param cmds The commands structure.
- * @return Void.
- */
-#include "includes/minishell.h"
-
-int get_path_index(char **envp)
-{
-    int i;
-
-    i = 0;
-    while (envp[i])
-    {
-        if (ft_isprefix(envp[i], "PATH="))
-            return (i);
-        i++;
-    }
-    return (-1);
-}
 
 /**
  * @brief This function will execute the command from the PATH variable.
@@ -48,7 +27,7 @@ void normal_execution(t_commands *cmds)
     scmd = extract_command(cmds);
     if (!scmd)
         return (perror("Failed to extract the command."), exit(EF));
-    pidx = get_path_index(cmds->envp);
+    pidx = get_path(cmds->envp);
     if (pidx == -1)
         return (perror("PATH variable not found."), free_split(scmd), exit(EF));
     bpath = ft_split(cmds->envp[pidx] + 5, ':');
