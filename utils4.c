@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/23 07:48:06 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/23 13:09:49 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,31 +17,31 @@
  * @param cmds The commands structure.
  * @return Void.
  */
-void normal_execution(t_commands *cmds)
+void	normal_execution(t_commands *cmds)
 {
-    int     i;
-    char    **bpath;
-    char    **scmd;
-    int     pidx;
+	int		i;
+	char	**bpath;
+	char	**scmd;
+	int		pidx;
 
-    scmd = extract_command(cmds);
-    if (!scmd)
-        return (perror("Failed to extract the command."), exit(EF));
-    pidx = get_path(cmds->envp);
-    if (pidx == -1)
-        return (perror("PATH variable not found."), free_split(scmd), exit(EF));
-    bpath = ft_split(cmds->envp[pidx] + 5, ':');
-    if (!bpath)
-        return (perror("Failed to parse the PATH variable."), free_split(scmd), exit(EF));
-    i = 0;
-    while (bpath[i] && ft_execute(bpath[i], scmd))
+	scmd = extract_command(cmds);
+	if (!scmd)
+		return (perror("Failed to extract the command."), exit(EF));
+	pidx = get_path(cmds->envp);
+	if (pidx == -1)
+		return (perror("PATH variable not found."), free_split(scmd), exit(EF));
+	bpath = ft_split(cmds->envp[pidx] + 5, ':');
+	if (!bpath)
+		return (perror("Failed to parse the PATH variable."),
+			free_split(scmd), exit(EF));
+	i = 0;
+	while (bpath[i] && ft_execute(bpath[i], scmd))
 		i++;
 	if (i == count_tokens(bpath))
 		return (perror("Command not found"), free_split(bpath),
 			free_split(scmd), exit(127));
 	return (free_split(scmd), free_split(bpath), exit(ES));
 }
-
 
 /**
  * @brief This function will check if the current command is a builtin command
