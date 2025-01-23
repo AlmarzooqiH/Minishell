@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 17:29:52 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/23 15:32:16 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/23 15:46:36 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void	set_files(t_commands *cmds)
 
 	c = 0;
 	f = 0;
-	while (cmds->c[c])
+	while (c < cmds->nscmds && cmds->c[c])
 	{
 		t = 0;
-		while (cmds->c[c][t])
+		while (t < count_tokens(cmds->c[c]) && cmds->c[c][t])
 		{
 			if (cmds->rd[c][t] >= 0)
 			{

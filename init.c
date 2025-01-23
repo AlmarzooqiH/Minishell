@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/23 15:20:10 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/23 16:11:11 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	free_cmds(t_commands *cmds)
 	if (cmds->files)
 		free_split(cmds->files);
 	if (cmds->rd)
-		free_arri(cmds->rd, cmds->nre + 1);
+		free_arri(cmds->rd, cmds->nscmds + 1);
 	if (cmds->is_bash)
 		free(cmds->is_bash);
 	if (cmds->nscmds > 1 && cmds->p)
@@ -103,7 +103,7 @@ void	init2(t_commands *cmds)
 	cmds->nre = get_total_rediractions(cmds->c);
 	if (cmds->nre > 0)
 	{
-		cmds->rd = (int **)ft_calloc(cmds->nre + 1, sizeof(int *));
+		cmds->rd = (int **)ft_calloc(cmds->nscmds + 1, sizeof(int *));
 		cmds->files = (char **)ft_calloc(cmds->nre + 1, sizeof(char *));
 		if (!cmds->rd || !cmds->files)
 			return (free_cmds(cmds), perror("Failed to malloc redir/files"));
