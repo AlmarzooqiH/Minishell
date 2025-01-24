@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/23 14:28:08 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/24 19:10:07 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	normal_execution(t_commands *cmds)
 		return (perror("Failed to parse the PATH variable."),
 			free_split(scmd), exit(EF));
 	i = 0;
-	while (bpath[i] && ft_execute(bpath[i], scmd))
+	while (bpath[i] && ft_execute(bpath[i], scmd, cmds->envp))
 		i++;
 	if (ft_strcmp(cmds->c[cmds->cc][0], "$?") && i == count_tokens(bpath))
 		return (printf("%d: Command not found\n", gs_status(0, GET_STATUS)),
@@ -61,10 +61,11 @@ void	child_functions(t_commands *cmds)
 	else if (ft_strcmp(cmds->c[cmds->cc][0], ENV_COMMAND)
 		&& cmds->c[cmds->cc][1] == NULL)
 		builtin_env(cmds);
+	else if (ft_strcmp(cmds->c[cmds->cc][0], EXPORT_COMMAND))
+		return (builtin_export(cmds));
 	else
 		normal_execution(cmds);
 }
-
 /**
  * @brief This function execute the builtin commands that should be executed
  * by the parent process.
@@ -77,8 +78,6 @@ int	parent_functions(t_commands *cmds)
 		return (builtin_exit(cmds), 1);
 	else if (ft_strcmp(cmds->c[cmds->cc][0], CD_COMMAND))
 		return (builtin_cd(cmds), 1);
-	else if (ft_strcmp(cmds->c[cmds->cc][0], EXPORT_COMMAND))
-		return (builtin_export(cmds), 1);
 	else if (ft_strcmp(cmds->c[cmds->cc][0], UNSET_COMMAND))
 		return (builtin_unset(cmds), 1);
 	return (0);

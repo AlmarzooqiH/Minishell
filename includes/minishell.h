@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/23 20:00:02 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/24 17:19:18 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	process_input(const char *command, char **envp);
 int		validate_command(char *command);
 int		ciec(char ***tokens, int i, int npipes);
 int		cife(char ***token, int *i, int *j);
-void	init(t_commands *cmds, const char *command);
+void	init(t_commands *cmds, const char *command, char **env);
 void	init2(t_commands *cmds);
 void	init3(t_commands *cmds);
 void	set_redirectons(t_commands *cmds);
@@ -49,8 +49,8 @@ void	execute_cmd(t_commands *cmds);
 char	**extract_command(t_commands *cmds);
 int		has_flag(char *flag, char *flag_in);
 int		has_pipe(char *commands);
-int		ft_execute(char *pvar, char **commands);
-int		ft_execute2(char **commands);
+int		ft_execute(char *pvar, char **commands, char **envp);
+int		ft_execute2(char **commands, char **envp);
 void	normal_execution(t_commands *cmds);
 void	get_tokens(char *command, char ***tokens, char split);
 void	free_tokens(char ***tokens, int n_tokens);

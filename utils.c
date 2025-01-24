@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:26:39 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/22 21:30:38 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/24 19:44:38 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	has_flag(char *flag, char *flag_in)
  * @return	0 if successful. 1 if failure.
  * @note	Might rewrite it later. It is too messy rn.
  */
-int	ft_execute2(char **commands)
+int	ft_execute2(char **commands, char **envp)
 {
 	char	*b;
 	char	**t;
@@ -86,7 +86,7 @@ int	ft_execute2(char **commands)
 	s = ft_join_split(y, u);
 	if (!s)
 		return (free_variables(t, y, u, NULL), free(b), 1);
-	if (!access(b, X_OK) && execve(b, s, NULL) == -1)
+	if (!access(b, X_OK) && execve(b, s, envp) == -1)
 		return (perror("execve failed"), free(b), 1);
 	return (free_variables(t, y, y, s), free(b), 0);
 }
@@ -100,7 +100,7 @@ int	ft_execute2(char **commands)
 						temp/binary or temp/exectuable.
 	@return				0 if successful. 1 if failure.
 */
-int	ft_execute(char	*pvar, char **commands)
+int	ft_execute(char	*pvar, char **commands, char **envp)
 {
 	char	*temp;
 	char	*bpath;
@@ -115,11 +115,11 @@ int	ft_execute(char	*pvar, char **commands)
 			return (perror("Failed to join"), free(temp), 1);
 		if (access(bpath, X_OK) == -1)
 			return (free(temp), free(bpath), 1);
-		if (execve(bpath, commands, NULL) == -1)
+		if (execve(bpath, commands, envp) == -1)
 			return (perror("execve failed"), free(temp), free(bpath), 1);
 		return (free(temp), free(bpath), 0);
 	}
-	return (ft_execute2(commands));
+	return (ft_execute2(commands, envp));
 }
 
 /**
