@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:38:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/23 20:15:27 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/24 22:56:46 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	builtin_exit(t_commands *cmds)
 			ft_putstr_fd(cmds->c[cmds->cc][1], 2);
 			ft_putendl_fd("exit: numeric argument required", 2);
 			free_cmds(cmds);
+			gs_envp(NULL, EXIT_ENVP);
 			exit(255);
 		}
 		if (count_tokens(cmds->c[cmds->cc]) >= 3)
@@ -90,5 +91,6 @@ void	builtin_exit(t_commands *cmds)
 		es = gs_status(0, GET_STATUS);
 	if (cmds)
 		free_cmds(cmds);
+	gs_envp(NULL, EXIT_ENVP);
 	exit((int)es);
 }

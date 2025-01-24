@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/24 19:10:07 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/25 00:08:48 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,10 @@ void	child_functions(t_commands *cmds)
 	else if (ft_strcmp(cmds->c[cmds->cc][0], ENV_COMMAND)
 		&& cmds->c[cmds->cc][1] == NULL)
 		builtin_env(cmds);
-	else if (ft_strcmp(cmds->c[cmds->cc][0], EXPORT_COMMAND))
-		return (builtin_export(cmds));
 	else
 		normal_execution(cmds);
 }
+
 /**
  * @brief This function execute the builtin commands that should be executed
  * by the parent process.
@@ -80,6 +79,8 @@ int	parent_functions(t_commands *cmds)
 		return (builtin_cd(cmds), 1);
 	else if (ft_strcmp(cmds->c[cmds->cc][0], UNSET_COMMAND))
 		return (builtin_unset(cmds), 1);
+	else if (ft_strcmp(cmds->c[cmds->cc][0], EXPORT_COMMAND))
+		return (builtin_export(cmds), 1);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/24 20:12:16 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/24 22:35:44 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,9 @@ void	init(t_commands *cmds, const char *command)
 {
 	if (!cmds)
 		return ;
+	cmds->envp = gs_envp(NULL, GET_ENVP);
+	if (!cmds->envp)
+		return (free_cmds(cmds), perror("Failed to malloc envp"));
 	cmds->nscmds = has_pipe((char *)command);
 	cmds->c = (char ***)malloc(sizeof(char **) * (cmds->nscmds + 1));
 	if (!cmds->c)

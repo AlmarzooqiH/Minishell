@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/24 20:11:12 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/24 23:51:45 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 //If we decide to add clear function, we just need to printf this: \033[H\033[J
 int		gs_status(int st, int gors);
-void	process_input(const char *command, char **envp);
+void	process_input(const char *command);
 int		validate_command(char *command);
 int		ciec(char ***tokens, int i, int npipes);
 int		cife(char ***token, int *i, int *j);
@@ -65,6 +65,8 @@ int		count_redirections(char **command);
 int		is_bashsyntax(char **command);
 int		is_alone(char *s);
 int		get_total_rediractions(char ***commands);
+int		cet(char **envp, char *name);
+char	*update_envp2(char *name, char *exp);
 char	*gfn(char *command, int redirection);
 int		has_redirection(t_commands *cmds);
 void	process_redir(t_commands *cmds);
@@ -119,4 +121,5 @@ void	handle_valid_identifier(t_commands *cmds, int i);
 void	handle_invalid_identifier(t_commands *cmds, int i, int *had_invalid);
 void	update_envp(t_commands *cmds, int i);
 char	*expand_variable(t_commands *cmds, const char *str);
+char	**gs_envp(char **envp, int gore);
 #endif

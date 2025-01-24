@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:41:00 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/24 19:16:02 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/25 00:08:29 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,28 @@ int	gs_status(int st, int gors)
 	return (status);
 }
 
+char	**gs_envp(char **envp, int gore)
+{
+	static char	**env;
+
+	if (gore == INIT_ENVP && envp != NULL)
+	{
+		env = ft_dup_split(envp);
+		if (!env || !env[0])
+			return (perror("Failed to dup env"), NULL);
+	}
+	if (gore == GET_ENVP)
+		return (env);
+	else if (gore == SET_ENVP)
+		env = envp;
+	else if (gore == EXIT_ENVP)
+	{
+		if (envp)
+			free_split(env);
+	}
+	return (NULL);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char	*line;
@@ -62,6 +84,7 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	init_signals();
+	gs_envp(envp, INIT_ENVP);
 	while (1)
 	{
 		line = readline("Martho shell# ");
@@ -72,7 +95,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		if (line)
 		{
-			process_input(line, envp);
+			process_input(line);
 			add_history(line);
 			free(line);
 		}
