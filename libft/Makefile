@@ -28,7 +28,7 @@ BONUS_PART = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c \
 BONUS_OBJECTS = $(BONUS_PART:.c=.o)
 
 COMPILER = cc
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
