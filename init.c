@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/24 16:58:28 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/24 20:12:16 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ void	free_cmds2(t_commands *cmds)
  */
 void	free_cmds(t_commands *cmds)
 {
-	if (cmds->envp)
-		free_split(cmds->envp);
 	if (cmds->c)
 		free_tokens(cmds->c, cmds->nscmds);
 	if (cmds->files)
@@ -132,13 +130,10 @@ void	init2(t_commands *cmds)
  * @param	command	This will holds the command that was passed.
  * @return Void.
  */
-void	init(t_commands *cmds, const char *command, char **env)
+void	init(t_commands *cmds, const char *command)
 {
 	if (!cmds)
 		return ;
-	cmds->envp = ft_dup_split(env);
-	if (!cmds->envp)
-		return (free_cmds(cmds), perror("Failed to malloc envp"));
 	cmds->nscmds = has_pipe((char *)command);
 	cmds->c = (char ***)malloc(sizeof(char **) * (cmds->nscmds + 1));
 	if (!cmds->c)

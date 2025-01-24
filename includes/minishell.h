@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/24 17:19:18 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/24 20:11:12 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	process_input(const char *command, char **envp);
 int		validate_command(char *command);
 int		ciec(char ***tokens, int i, int npipes);
 int		cife(char ***token, int *i, int *j);
-void	init(t_commands *cmds, const char *command, char **env);
+void	init(t_commands *cmds, const char *command);
 void	init2(t_commands *cmds);
 void	init3(t_commands *cmds);
 void	set_redirectons(t_commands *cmds);
