@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:33:51 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/21 21:18:25 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/24 18:56:11 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	get_end(char *command, char split, int *j)
 			(*j)++;
 			while (command[*j] && !is_quote(command[*j]))
 				(*j)++;
-			(*j)++;
+			if (command[*j])
+				(*j)++;
 		}
 		else
 			(*j)++;

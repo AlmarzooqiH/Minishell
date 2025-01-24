@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:24:25 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/22 23:43:04 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/24 22:40:17 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,17 @@
 
 # define SIN STDIN_FILENO
 # define SOUT STDOUT_FILENO
+
 # define EF EXIT_FAILURE
 # define ES EXIT_SUCCESS
+
 # define GET_STATUS 1
 # define SET_STATUS 0
+
+# define INIT_ENVP 0
+# define GET_ENVP 1
+# define SET_ENVP 2
+# define EXIT_ENVP 3
 /**
  * @brief This structure will hold the passed in command that will be prepro-
  * -ccessed.

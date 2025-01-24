@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:26:57 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/16 20:26:40 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/23 20:16:11 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	init_quote_tracking(t_quote_info *info)
  */
 int	is_quote(char c)
 {
-	return (c == '"' || c == '\'');
+	return (c == '\"' || c == '\'');
 }
 
 /**

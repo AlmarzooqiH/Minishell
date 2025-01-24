@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 21:11:39 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/14 19:59:16 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/25 00:07:55 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,22 +68,37 @@ char	*get_env_value(t_commands *cmds, const char *var_name)
 	return (NULL);
 }
 
-void	update_envp_helper(t_commands *cmds, char *name, char *expanded_value)
+void	update_envp_helper(t_commands *cmds, char *name, char *expv)
 {
-	int		j;
+	int		i;
+	char	**new_envp;
 
-	j = 0;
-	while (cmds->envp[j])
+	new_envp = ft_calloc(sizeof(char *), count_tokens(cmds->envp) + 2);
+	if (!new_envp)
+		return (perror("Failed to allocate memory for n_envp."),
+			exit(GET_STATUS));
+	i = 0;
+	while (i < count_tokens(cmds->envp))
 	{
-		if (ft_strncmp(name, cmds->envp[j], ft_strlen(name)) == 0
-			&& cmds->envp[j][ft_strlen(name)] == '=')
-		{
-			free(cmds->envp[j]);
-			cmds->envp[j] = expanded_value;
-			return ;
-		}
-		j++;
+		if (ft_isprefix(cmds->envp[i], name))
+			new_envp[i] = update_envp2(name, expv);
+		else
+			new_envp[i] = ft_strdup(cmds->envp[i]);
+		if (!new_envp[i])
+			return (free_split(new_envp), perror("Failed to allocate memory."),
+				exit(GET_STATUS));
+		i++;
 	}
-	cmds->envp[j] = expanded_value;
-	cmds->envp[j + 1] = NULL;
+	free_split(cmds->envp);
+	cmds->envp = new_envp;
+	cmds->envp[i + 1] = NULL;
+	free(expv);
+	gs_envp(new_envp, SET_ENVP);
+}
+
+void	handle_invalid_identifier(t_commands *cmds, int i, int *had_invalid)
+{
+	printf("export: `%s': not a valid identifier\n", cmds->c[cmds->cc][i]);
+	*had_invalid = 1;
+	gs_status(GET_STATUS, SET_STATUS);
 }

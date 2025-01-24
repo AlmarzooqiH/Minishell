@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:38:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/20 14:56:27 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/24 22:56:46 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,16 @@ int	is_numeric(const char *str)
 
 	if (!str)
 		return (0);
-	i = 0;
-	if (str[0] == '-' || str[0] == '+')
+	if (is_quote(str[0]))
+		i = 1;
+	else
+		i = 0;
+	if (str[i] == '-' || str[i] == '+')
 		i++;
 	while (str[i])
 	{
+		if (is_quote(str[i]))
+			break ;
 		if (!ft_isdigit(str[i]))
 			return (0);
 		i++;
@@ -73,14 +78,12 @@ void	builtin_exit(t_commands *cmds)
 			ft_putstr_fd(cmds->c[cmds->cc][1], 2);
 			ft_putendl_fd("exit: numeric argument required", 2);
 			free_cmds(cmds);
+			gs_envp(NULL, EXIT_ENVP);
 			exit(255);
 		}
 		if (count_tokens(cmds->c[cmds->cc]) >= 3)
-		{
-			ft_putendl_fd("exit: too many arguments", 2);
-			gs_status(1, SET_STATUS);
-			return ;
-		}
+			return (gs_status(1, SET_STATUS),
+				ft_putendl_fd("exit: too many arguments", 2));
 		es = ft_atoll(cmds->c[cmds->cc][1]);
 		es = es & 255;
 	}
@@ -88,5 +91,6 @@ void	builtin_exit(t_commands *cmds)
 		es = gs_status(0, GET_STATUS);
 	if (cmds)
 		free_cmds(cmds);
+	gs_envp(NULL, EXIT_ENVP);
 	exit((int)es);
 }

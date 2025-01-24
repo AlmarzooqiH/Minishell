@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 20:18:19 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/20 07:05:28 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/24 23:13:23 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,41 +57,46 @@ char	*expand_variable(t_commands *cmds, const char *str)
 
 void	update_envp(t_commands *cmds, int i)
 {
-	char	*name;
+	char	*var_name;
 	char	*equal_pos;
 	char	*expanded_value;
+	char	*empty_value;
 
 	equal_pos = ft_strchr(cmds->c[cmds->cc][i], '=');
-	if (!equal_pos)
+	if (equal_pos)
 	{
-		gs_status(GET_STATUS, SET_STATUS);
-		return ;
+		var_name = ft_substr(cmds->c[cmds->cc][i], 0,
+				equal_pos - cmds->c[cmds->cc][i]);
+		expanded_value = expand_variable(cmds, cmds->c[cmds->cc][i]);
+		update_envp_helper(cmds, var_name, expanded_value);
+		free(var_name);
 	}
-	name = ft_substr(cmds->c[cmds->cc][i], 0, equal_pos - cmds->c[cmds->cc][i]);
-	expanded_value = expand_variable(cmds, cmds->c[cmds->cc][i]);
-	update_envp_helper(cmds, name, expanded_value);
-	free(name);
+	else
+	{
+		var_name = ft_strdup(cmds->c[cmds->cc][i]);
+		empty_value = ft_strdup("");
+		update_envp_helper(cmds, var_name, empty_value);
+		free(var_name);
+	}
 }
 
 void	builtin_export(t_commands *cmds)
 {
-	int	i;
+	int		i;
+	int		had_invalid;
 
+	had_invalid = 0;
 	if (!cmds->c[cmds->cc][1])
 		return (gs_status(SET_STATUS, SET_STATUS), print_envp(cmds->envp));
 	i = 1;
 	while (cmds->c[cmds->cc][i])
 	{
 		if (!is_valid_identifier(cmds, i))
-		{
-			printf("export: `%s': not a valid identifier\n",
-				cmds->c[cmds->cc][i]);
-			gs_status(GET_STATUS, SET_STATUS);
-			return ;
-		}
+			handle_invalid_identifier(cmds, i, &had_invalid);
 		else
-			update_envp(cmds, i);
+			handle_valid_identifier(cmds, i);
 		i++;
 	}
-	gs_status(SET_STATUS, SET_STATUS);
+	if (had_invalid)
+		gs_status(GET_STATUS, SET_STATUS);
 }
