@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 18:35:30 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/25 00:07:33 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/26 21:53:10 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,21 @@ char	*update_envp2(char *name, char *exp)
 	if (!name || !exp)
 		return (NULL);
 	new_s = ft_strjoin(name, ft_strchr(exp, '='));
+	if (!new_s)
+		return (perror("Failed to join env"), NULL);
 	return (new_s);
+}
+
+int	is_in(char **envp, char *name)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_isprefix(envp[i], name))
+			return (1);
+		i++;
+	}
+	return (0);
 }

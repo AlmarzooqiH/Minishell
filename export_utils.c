@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 21:11:39 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/25 00:07:55 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/26 21:57:01 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,11 @@ void	update_envp_helper(t_commands *cmds, char *name, char *expv)
 				exit(GET_STATUS));
 		i++;
 	}
+	if (!is_in(cmds->envp, name))
+		new_envp[i++] = ft_strdup(expv);
+	new_envp[i] = NULL;
 	free_split(cmds->envp);
-	cmds->envp = new_envp;
-	cmds->envp[i + 1] = NULL;
-	free(expv);
-	gs_envp(new_envp, SET_ENVP);
+	return (cmds->envp = new_envp, gs_envp(new_envp, SET_ENVP), free(expv));
 }
 
 void	handle_invalid_identifier(t_commands *cmds, int i, int *had_invalid)
