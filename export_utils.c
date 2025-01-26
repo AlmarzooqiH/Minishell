@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 21:11:39 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/26 22:45:51 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/27 03:18:33 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ void	update_envp_helper(t_commands *cmds, char *name, char *expv)
 
 	new_envp = ft_calloc(sizeof(char *), count_tokens(cmds->envp) + 2);
 	if (!new_envp)
-		return (perror("Failed to allocate memory for n_envp."),
-			exit(GET_STATUS));
+		return (perror(FAME), exit(GET_STATUS));
 	i = 0;
 	while (i < count_tokens(cmds->envp))
 	{
@@ -85,8 +84,7 @@ void	update_envp_helper(t_commands *cmds, char *name, char *expv)
 		else
 			new_envp[i] = ft_strdup(cmds->envp[i]);
 		if (!new_envp[i])
-			return (free_split(new_envp), perror("Failed to allocate memory."),
-				exit(GET_STATUS));
+			return (free_split(new_envp), perror(FAM), exit(GET_STATUS));
 		i++;
 	}
 	if (!is_in(cmds->envp, name))
