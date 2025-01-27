@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/27 06:55:33 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/27 14:27:48 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	feasage(t_commands *cmds, char **new_envp, char *expv);
 char	**trim_command(char **commands);
 void	set_fds(int *fd, int which);
 int		dup_pipes(t_commands *cmds);
+void	update_pwd(t_commands *cmds);
 int		init_pipes(int (**p)[2], int clen);
 int		is_redirection(char *command);
 int		count_redirections(char **command);
@@ -81,7 +82,7 @@ void	free_variables(char **t, char **y, char **u, char **s);
 int		parent_functions(t_commands *cmds);
 void	child_functions(t_commands *cmds);
 void	builtin_cd(t_commands *cmds);
-void	cd_home(void);
+void	cd_home(t_commands *cmds);
 void	cd_previous(t_commands *cmds);
 void	cd_change_directory(t_commands *cmds);
 void	builtin_exit(t_commands *cmds);
