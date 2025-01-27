@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 21:11:39 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/27 03:18:33 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/27 06:54:43 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,7 @@ void	update_envp_helper(t_commands *cmds, char *name, char *expv)
 	if (!is_in(cmds->envp, name))
 		new_envp[i++] = ft_strdup(expv);
 	new_envp[i] = NULL;
-	free_split(cmds->envp);
-	cmds->envp = new_envp;
-	gs_envp(new_envp, SET_ENVP);
+	feasage(cmds, new_envp, expv);
 }
 
 void	handle_invalid_identifier(t_commands *cmds, int i, int *had_invalid)

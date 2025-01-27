@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 18:35:30 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/26 22:50:46 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/27 06:54:59 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,14 @@ int	is_in(char **envp, char *name)
 		i++;
 	}
 	return (0);
+}
+
+//free expv and set and get envp
+void	feasage(t_commands *cmds, char **new_envp, char *expv)
+{
+	free_split(cmds->envp);
+	gs_envp(new_envp, SET_ENVP);
+	if (expv && expv[0] != '\0')
+		free(expv);
+	cmds->envp = gs_envp(NULL, GET_ENVP);
 }
