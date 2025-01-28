@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 18:35:30 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/27 06:54:59 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/28 08:05:23 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	cet(char **envp, char *name)
 	count = 0;
 	while (envp[i])
 	{
-		if (!ft_isprefix(envp[i], name))
+		if (!ft_exp_isprefix(envp[i], name))
 			count++;
 		i++;
 	}
@@ -51,9 +51,13 @@ int	cet(char **envp, char *name)
 char	*update_envp2(char *name, char *exp)
 {
 	char	*new_s;
+	char	*equals;
 
-	if (!name || !exp)
+	if (!name)
 		return (NULL);
+	equals = ft_strchr(exp, '=');
+	if (!equals)
+		return (ft_strdup(name));
 	new_s = ft_strjoin(name, ft_strchr(exp, '='));
 	if (!new_s)
 		return (perror("Failed to join env"), NULL);
@@ -67,7 +71,7 @@ int	is_in(char **envp, char *name)
 	i = 0;
 	while (envp[i])
 	{
-		if (ft_isprefix(envp[i], name))
+		if (ft_exp_isprefix(envp[i], name))
 			return (1);
 		i++;
 	}

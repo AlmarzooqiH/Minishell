@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 21:11:39 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/27 06:54:43 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/28 08:05:35 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	update_envp_helper(t_commands *cmds, char *name, char *expv)
 	i = 0;
 	while (i < count_tokens(cmds->envp))
 	{
-		if (ft_isprefix(cmds->envp[i], name))
+		if (ft_exp_isprefix(cmds->envp[i], name))
 			new_envp[i] = update_envp2(name, expv);
 		else
 			new_envp[i] = ft_strdup(cmds->envp[i]);
@@ -88,7 +88,12 @@ void	update_envp_helper(t_commands *cmds, char *name, char *expv)
 		i++;
 	}
 	if (!is_in(cmds->envp, name))
-		new_envp[i++] = ft_strdup(expv);
+	{
+		if (expv[0] != '\0')
+			new_envp[i++] = ft_strdup(expv);
+		else
+			new_envp[i++] = ft_strdup(name);
+	}
 	new_envp[i] = NULL;
 	feasage(cmds, new_envp, expv);
 }
