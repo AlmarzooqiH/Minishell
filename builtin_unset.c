@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 17:42:18 by root              #+#    #+#             */
-/*   Updated: 2025/01/23 18:33:17 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/28 07:57:37 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ void	unset_env_var(char **envp, const char *var)
 	j = 0;
 	while (envp[j])
 	{
-		if (ft_strncmp(var, envp[j], ft_strlen(var)) == 0)
+		if (ft_strncmp(var, envp[j], ft_strlen(var)) == 0
+			&& (envp[j][ft_strlen(var)]
+			== '=' || envp[j][ft_strlen(var)] == '\0'))
 		{
 			remove_env_var(envp, j);
 			break ;

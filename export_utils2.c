@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 18:35:30 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/25 00:07:33 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/28 08:05:23 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	cet(char **envp, char *name)
 	count = 0;
 	while (envp[i])
 	{
-		if (!ft_isprefix(envp[i], name))
+		if (!ft_exp_isprefix(envp[i], name))
 			count++;
 		i++;
 	}
@@ -51,9 +51,39 @@ int	cet(char **envp, char *name)
 char	*update_envp2(char *name, char *exp)
 {
 	char	*new_s;
+	char	*equals;
 
-	if (!name || !exp)
+	if (!name)
 		return (NULL);
+	equals = ft_strchr(exp, '=');
+	if (!equals)
+		return (ft_strdup(name));
 	new_s = ft_strjoin(name, ft_strchr(exp, '='));
+	if (!new_s)
+		return (perror("Failed to join env"), NULL);
 	return (new_s);
+}
+
+int	is_in(char **envp, char *name)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_exp_isprefix(envp[i], name))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+//free expv and set and get envp
+void	feasage(t_commands *cmds, char **new_envp, char *expv)
+{
+	free_split(cmds->envp);
+	gs_envp(new_envp, SET_ENVP);
+	if (expv && expv[0] != '\0')
+		free(expv);
+	cmds->envp = gs_envp(NULL, GET_ENVP);
 }

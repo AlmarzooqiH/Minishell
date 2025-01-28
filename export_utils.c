@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 21:11:39 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/25 00:07:55 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/28 13:47:28 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,25 +75,26 @@ void	update_envp_helper(t_commands *cmds, char *name, char *expv)
 
 	new_envp = ft_calloc(sizeof(char *), count_tokens(cmds->envp) + 2);
 	if (!new_envp)
-		return (perror("Failed to allocate memory for n_envp."),
-			exit(GET_STATUS));
+		return (perror(FAME), exit(GET_STATUS));
 	i = 0;
 	while (i < count_tokens(cmds->envp))
 	{
-		if (ft_isprefix(cmds->envp[i], name))
+		if (ft_exp_isprefix(cmds->envp[i], name))
 			new_envp[i] = update_envp2(name, expv);
 		else
 			new_envp[i] = ft_strdup(cmds->envp[i]);
 		if (!new_envp[i])
-			return (free_split(new_envp), perror("Failed to allocate memory."),
-				exit(GET_STATUS));
+			return (free_split(new_envp), perror(FAM), exit(GET_STATUS));
 		i++;
 	}
-	free_split(cmds->envp);
-	cmds->envp = new_envp;
-	cmds->envp[i + 1] = NULL;
-	free(expv);
-	gs_envp(new_envp, SET_ENVP);
+	if (!is_in(cmds->envp, name))
+	{
+		if (expv[0] != '\0')
+			new_envp[i++] = ft_strdup(expv);
+		else
+			new_envp[i++] = ft_strdup(name);
+	}
+	return (new_envp[i] = NULL, feasage(cmds, new_envp, expv));
 }
 
 void	handle_invalid_identifier(t_commands *cmds, int i, int *had_invalid)

@@ -6,17 +6,43 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 23:50:03 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/24 18:00:02 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/27 14:31:31 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+void	update_pwd(t_commands *cmds)
+{
+	int		i;
+	char	*pwd;
+
+	i = 0;
+	pwd = NULL;
+	while (cmds->envp[i])
+	{
+		if (ft_isprefix(cmds->envp[i], "PWD="))
+		{
+			free(cmds->envp[i]);
+			pwd = getcwd(pwd, BUFFER_SIZE);
+			if (!pwd)
+				return (perror("update_pwd: getcwd"));
+			cmds->envp[i] = ft_strjoin("PWD=", pwd);
+			if (!cmds->envp[i])
+				return (perror("update_pwd: ft_strjoin"));
+			free(pwd);
+			break ;
+		}
+		i++;
+	}
+}
+
 /**
  * @brief This function will change the current directory to the home directory.
  * @param cmds The commands structure.
  * @return Void.
  */
-void	cd_home(void)
+void	cd_home(t_commands *cmds)
 {
 	char	*home;
 
@@ -28,6 +54,7 @@ void	cd_home(void)
 	}
 	else
 		return (perror("cd: HOME not set\n"));
+	update_pwd(cmds);
 }
 
 /**
@@ -83,7 +110,7 @@ void	builtin_cd(t_commands *cmds)
 	char	*current_dir;
 
 	if (count_tokens(cmds->c[cmds->cc]) == 1)
-		return (cd_home());
+		return (cd_home(cmds));
 	current_dir = (char *)malloc(sizeof(char) * BUFFER_SIZE);
 	if (!current_dir)
 		return (perror("current_dir"));
@@ -95,4 +122,5 @@ void	builtin_cd(t_commands *cmds)
 	}
 	cd_change_directory(cmds);
 	free(current_dir);
+	update_pwd(cmds);
 }

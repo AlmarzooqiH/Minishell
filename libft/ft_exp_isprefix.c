@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_exp_isprefix.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/04 22:07:41 by hamalmar          #+#    #+#             */
-/*   Updated: 2025/01/26 22:21:22 by hamad            ###   ########.fr       */
+/*   Created: 2025/01/28 07:59:38 by mthodi            #+#    #+#             */
+/*   Updated: 2025/01/28 08:04:33 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s1)
+int	ft_exp_isprefix(const char *s1, const char *prefix)
 {
-	char	*new_s;
-	int		i;
+	size_t	i;
 
-	new_s = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1));
-	if (new_s == 0)
+	if (!s1 || !prefix || ft_strlen(s1) < ft_strlen(prefix))
 		return (0);
 	i = 0;
-	while (s1[i] != '\0')
-	{
-		new_s[i] = s1[i];
+	while (s1[i] != '\0' && prefix[i] != '\0' && prefix[i] == s1[i])
 		i++;
-	}
-	new_s[i] = '\0';
-	return (new_s);
+	return (!prefix[i] && (s1[i] == '\0' || !ft_isalnum(s1[i])));
 }

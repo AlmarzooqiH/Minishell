@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/24 23:51:45 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/27 14:27:48 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,12 @@ void	get_tokens(char *command, char ***tokens, char split);
 void	free_tokens(char ***tokens, int n_tokens);
 void	cps(int (*p)[2], size_t npipes);
 void	cp(int *p, int which);
+int		is_in(char **envp, char *name);
+void	feasage(t_commands *cmds, char **new_envp, char *expv);
 char	**trim_command(char **commands);
 void	set_fds(int *fd, int which);
 int		dup_pipes(t_commands *cmds);
+void	update_pwd(t_commands *cmds);
 int		init_pipes(int (**p)[2], int clen);
 int		is_redirection(char *command);
 int		count_redirections(char **command);
@@ -79,7 +82,7 @@ void	free_variables(char **t, char **y, char **u, char **s);
 int		parent_functions(t_commands *cmds);
 void	child_functions(t_commands *cmds);
 void	builtin_cd(t_commands *cmds);
-void	cd_home(void);
+void	cd_home(t_commands *cmds);
 void	cd_previous(t_commands *cmds);
 void	cd_change_directory(t_commands *cmds);
 void	builtin_exit(t_commands *cmds);
