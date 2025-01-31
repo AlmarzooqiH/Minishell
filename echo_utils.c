@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 09:41:14 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/21 09:41:21 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/01/30 17:45:36 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,31 @@
  * @return Void.
  * @note This will be called if the input was like this: echo "path is: $PATH"
  */
-int	process_env_var(char *str, int j)
+int	process_env_var(t_commands *cmds, char *str, int j)
 {
 	int		var_len;
-	char	*var_name;
 	char	*var;
-	char	*env_value;
+	int		i;
 
-	var_name = &str[j];
 	var_len = 0;
-	while (var_name[var_len] && (ft_isalnum(var_name[var_len])
-			|| var_name[var_len] == '_'))
+	while (str[j + var_len] && (ft_isalnum(str[j + var_len])
+			|| str[j + var_len] == '_'))
 		var_len++;
 	var = malloc(var_len + 1);
 	if (!var)
 		return (perror("malloc"), 0);
-	ft_strlcpy(var, var_name, var_len + 1);
-	env_value = getenv(var);
-	if (env_value)
-		printf("%s", env_value);
+	ft_strlcpy(var, &str[j], var_len + 1);
+	i = 0;
+	while (cmds->envp[i])
+	{
+		if (ft_exp_isprefix(cmds->envp[i], var))
+		{
+			printf("%s", ft_strchr(cmds->envp[i], '=') + 1);
+			free(var);
+			return (var_len);
+		}
+		i++;
+	}
 	free(var);
 	return (var_len);
 }

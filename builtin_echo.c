@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:51:55 by mthodi            #+#    #+#             */
-/*   Updated: 2025/01/24 19:50:26 by hamad            ###   ########.fr       */
+/*   Updated: 2025/01/30 17:46:33 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	print_env(t_commands *cmds, int pos)
 	i = 0;
 	while (cmds->envp[i])
 	{
-		if (ft_isprefix(cmds->envp[i], env))
+		if (ft_exp_isprefix(cmds->envp[i], env))
 		{
 			printf("%s", ft_strchr(cmds->envp[i], '=') + 1);
 			break ;
@@ -59,7 +59,7 @@ void	print_double_quotes(t_commands *cmds, int *i)
 			if (cmds->c[cmds->cc][*i][j + 1] == '\"')
 				printf("$");
 			j++;
-			j += process_env_var(cmds->c[cmds->cc][*i], j) - 1;
+			j += process_env_var(cmds, cmds->c[cmds->cc][*i], j) - 1;
 		}
 		else
 			printf("%c", cmds->c[cmds->cc][*i][j]);
