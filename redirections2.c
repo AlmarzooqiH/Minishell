@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 20:05:16 by hamad             #+#    #+#             */
-/*   Updated: 2025/02/01 18:54:03 by hamad            ###   ########.fr       */
+/*   Updated: 2025/02/01 19:13:05 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	close_files(t_commands *cmds)
 		{
 			close(cmds->fd[i]);
 			cmds->fd[i] = -1;
-		}	
+		}
 		i++;
 	}
 	cmds->bfdp = cmds->efdp;

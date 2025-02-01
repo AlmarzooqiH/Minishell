@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 22:06:08 by hamad             #+#    #+#             */
-/*   Updated: 2025/02/01 17:49:54 by hamad            ###   ########.fr       */
+/*   Updated: 2025/02/01 19:12:38 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,5 @@ void	predir(t_commands *cmds)
 			return (perror("Failed to dup2(rtf or ar, SOUT)"), exit(EF));
 	}
 	child_functions(cmds);
-	close_files(cmds); 
+	close_files(cmds);
 }
