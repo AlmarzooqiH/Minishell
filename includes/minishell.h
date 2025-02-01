@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/27 14:27:48 by hamad            ###   ########.fr       */
+/*   Updated: 2025/02/01 10:09:59 by hamalmar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@
 # include <termios.h>
 # include <stdlib.h>
 
-//If we decide to add clear function, we just need to printf this: \033[H\033[J
+//If we decide to add clear function, we just need to printf this: \033[H\033[J;
+void	rl_replace_line(const char *text, int clear_undo);
 int		gs_status(int st, int gors);
 void	process_input(const char *command);
 int		validate_command(char *command);
