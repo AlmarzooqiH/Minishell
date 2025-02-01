@@ -6,20 +6,35 @@
 /*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 17:42:18 by root              #+#    #+#             */
-/*   Updated: 2025/01/28 07:57:37 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/02/01 10:43:33 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-void	remove_env_var(char **envp, int index)
+void	remove_env_var(t_commands *cmds, int index)
 {
-	while (envp[index])
+	int		i;
+	char	**new_envp;
+
+	new_envp = ft_calloc(sizeof(char *), count_tokens(cmds->envp) + 1);
+	if (!new_envp)
+		return (perror(FAME), exit(GET_STATUS));
+	i = 0;
+	while (i < index)
 	{
-		envp[index] = envp[index + 1];
-		index++;
+		new_envp[i] = ft_strdup(cmds->envp[i]);
+		i++;
 	}
-	free(envp[index]);
+	i++;
+	while (cmds->envp[i])
+	{
+		new_envp[i - 1] = ft_strdup(cmds->envp[i]);
+		i++;
+	}
+	gs_envp(new_envp, SET_ENVP);
+	free_split(cmds->envp);
+	cmds->envp = new_envp;
 }
 
 int	is_valid_unset_identifier(const char *str)
@@ -43,18 +58,18 @@ void	print_unset_error(const char *identifier)
 	ft_putstr_fd("': not a valid identifier\n", 2);
 }
 
-void	unset_env_var(char **envp, const char *var)
+void	unset_env_var(t_commands *cmds, const char *var)
 {
 	int	j;
 
 	j = 0;
-	while (envp[j])
+	while (cmds->envp[j])
 	{
-		if (ft_strncmp(var, envp[j], ft_strlen(var)) == 0
-			&& (envp[j][ft_strlen(var)]
-			== '=' || envp[j][ft_strlen(var)] == '\0'))
+		if (ft_strncmp(var, cmds->envp[j], ft_strlen(var)) == 0
+			&& (cmds->envp[j][ft_strlen(var)]
+			== '=' || cmds->envp[j][ft_strlen(var)] == '\0'))
 		{
-			remove_env_var(envp, j);
+			remove_env_var(cmds, j);
 			break ;
 		}
 		j++;
@@ -71,7 +86,7 @@ void	builtin_unset(t_commands *cmds)
 		if (!is_valid_unset_identifier(cmds->c[cmds->cc][i]))
 			print_unset_error(cmds->c[cmds->cc][i]);
 		else
-			unset_env_var(cmds->envp, cmds->c[cmds->cc][i]);
+			unset_env_var(cmds, cmds->c[cmds->cc][i]);
 		i++;
 	}
 	gs_status(SET_STATUS, SET_STATUS);

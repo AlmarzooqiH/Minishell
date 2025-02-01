@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/02/01 10:09:59 by hamalmar         ###   ########.fr       */
+/*   Updated: 2025/02/01 14:22:01 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	process_space_quote(char c, t_quote_info *info);
 char	**get_command(char *temp);
 void	get_end(char *command, char split, int *j);
 int		is_valid_identifier(t_commands *cmds, int i);
-int		process_env_var(char *str, int j);
+int		process_env_var(t_commands *cmds, char *str, int j);
 void	increment(t_commands *cmds, int i);
 void	ifp(t_commands *cmds);
 void	init_child(void);
