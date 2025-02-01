@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:25:49 by hamad             #+#    #+#             */
-/*   Updated: 2025/02/01 15:22:18 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/02/01 16:48:22 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,13 @@ void	normal_execution(t_commands *cmds)
 
 	scmd = extract_command(cmds);
 	if (!scmd)
-		return (perror("Failed to extract the command."), exit(EF));
+		return (perror(FTESC), exit(EF));
 	pidx = get_path(cmds->envp);
 	if (pidx == -1)
-		return (perror("PATH variable not found."),
-			free_tings(cmds, scmd, NULL), exit(EF));
+		return (perror(PVNF), free_tings(cmds, scmd, NULL), exit(EF));
 	bpath = ft_split(cmds->envp[pidx] + 5, ':');
 	if (!bpath)
-		return (perror("Failed to parse the PATH variable."),
-			free_tings(cmds, scmd, bpath), exit(EF));
+		return (perror(FTPTPV), free_tings(cmds, scmd, bpath), exit(EF));
 	i = 0;
 	while (bpath[i] && ft_execute(bpath[i], scmd, cmds->envp))
 		i++;

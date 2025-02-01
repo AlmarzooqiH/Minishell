@@ -26,11 +26,11 @@ int	get_path(char **envp)
 	return (-1);
 }
 
-void free_tings(t_commands *cmds, char **scmd, char **bpath)
+void	free_tings(t_commands *cmds, char **scmd, char **bpath)
 {
-	if(scmd)
+	if (scmd)
 		free_split(scmd);
-	if(bpath)
+	if (bpath)
 		free_split(bpath);
 	gs_envp(NULL, EXIT_ENVP);
 	free_cmds(cmds);

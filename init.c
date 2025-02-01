@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/02/01 15:45:12 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/02/01 16:44:30 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	free_cmds2(t_commands *cmds)
  */
 void	free_cmds(t_commands *cmds)
 {
-	
 	if (cmds->c)
 		free_tokens(cmds->c, cmds->nscmds);
 	if (cmds->files)

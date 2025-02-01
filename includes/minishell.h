@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/02/01 15:30:22 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/02/01 16:35:09 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,6 @@ void	handle_invalid_identifier(t_commands *cmds, int i, int *had_invalid);
 void	update_envp(t_commands *cmds, int i);
 char	*expand_variable(t_commands *cmds, const char *str);
 char	**gs_envp(char **envp, int gore);
-void free_tings(t_commands *cmds, char **scmd, char **bpath);
+void	free_tings(t_commands *cmds, char **scmd, char **bpath);
 
 #endif

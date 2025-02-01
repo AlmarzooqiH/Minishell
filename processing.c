@@ -6,7 +6,7 @@
 /*   By: mthodi <mthodi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:03:10 by hamad             #+#    #+#             */
-/*   Updated: 2025/02/01 15:45:34 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/02/01 16:52:27 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,4 @@ void	process_input(const char *command)
 	free_cmds(cmds);
 	free(cmds);
 	cmds = NULL;
-	fprintf(stderr, "hereee\n");
 }
