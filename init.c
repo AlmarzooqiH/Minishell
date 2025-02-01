@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/24 22:35:44 by hamad            ###   ########.fr       */
+/*   Updated: 2025/02/01 18:54:16 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
  */
 void	free_cmds2(t_commands *cmds)
 {
+	cmds->nre = 0;
+	cmds->cp = 0;
 	cmds->cc = 0;
 	cmds->cf = 0;
 	cmds->cr = 0;
@@ -65,8 +67,6 @@ void	free_cmds(t_commands *cmds)
 		free(cmds->previous_dir);
 	cmds->nscmds = 0;
 	cmds->npipes = 0;
-	cmds->nre = 0;
-	cmds->cp = 0;
 	free_cmds2(cmds);
 }
 

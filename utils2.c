@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:23:52 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/23 15:26:03 by hamad            ###   ########.fr       */
+/*   Updated: 2025/02/01 16:52:34 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ char	**trim_command(char	**commands)
 char	*gfn(char *command, int redirection)
 {
 	char	*filename;
+	char	*tmp;
 	size_t	i;
 
 	if (!command)
@@ -132,9 +133,14 @@ char	*gfn(char *command, int redirection)
 		i = 2;
 	else if (redirection == e_hdr)
 		i = 2;
-	filename = ft_substr(command, i, ft_strlen(command));
+	tmp = ft_substr(command, i, ft_strlen(command));
+	if (!tmp)
+		return (NULL);
+	filename = ft_strtrim(tmp, "\"\'");
 	if (!filename)
 		return (NULL);
+	if (tmp)
+		free(tmp);
 	return (filename);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 14:31:21 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/27 02:30:59 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/02/01 16:40:34 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,4 +19,8 @@
 # define UQIC "Unclosed quote in command"
 # define FAME "Failed to allocate memory for n_envp."
 # define FAM "Failed to allocate memory."
+# define PVNF "PATH variable not found."
+# define FTESC "Failed to extract the command."
+# define FTPTPV "Failed to parse the PATH variable."
+# define FTDP "Failed to dup pipes"
 #endif

@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/23 14:36:47 by hamad            ###   ########.fr       */
+/*   Updated: 2025/02/01 18:44:25 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,10 @@ void	execute_one_pipe(t_commands *cmds)
 	if (!cid)
 	{
 		if (cmds->rd && has_redirection(cmds))
-			return (process_redir(cmds), exit(ES));
+			return (predir(cmds), free_tings(cmds, NULL, NULL), exit(ES));
 		if (dup_pipes(cmds) == -1)
-			return (perror("Failed to dup pipes"), exit(EF));
-		child_functions(cmds);
-		exit(ES);
+			return (perror(FTDP), free_tings(cmds, NULL, NULL), exit(EF));
+		return (child_functions(cmds), free_tings(cmds, NULL, NULL), exit(ES));
 	}
 	else if (cid > 0)
 	{
@@ -64,9 +63,8 @@ void	execute_one(t_commands *cmds)
 	if (!cid)
 	{
 		if (has_redirection(cmds))
-			return (process_redir(cmds), exit(ES));
-		child_functions(cmds);
-		exit(ES);
+			return (predir(cmds), free_tings(cmds, NULL, NULL), exit(ES));
+		return (child_functions(cmds), free_tings(cmds, NULL, NULL), exit(ES));
 	}
 	else if (cid > 0)
 		waitpid(cid, &exit_code, 0);
@@ -92,11 +90,10 @@ void	execute_cmd(t_commands *cmds)
 	if (!cid)
 	{
 		if (cmds->rd && has_redirection(cmds))
-			return (process_redir(cmds), exit(ES));
+			return (predir(cmds), free_tings(cmds, NULL, NULL), exit(ES));
 		if (dup_pipes(cmds) == -1)
-			return (perror("Failed to dup pipes"), exit(EF));
-		child_functions(cmds);
-		exit(ES);
+			return (perror(FTDP), free_tings(cmds, NULL, NULL), exit(EF));
+		return (child_functions(cmds), free_tings(cmds, NULL, NULL), exit(ES));
 	}
 	else if (cid > 0)
 	{
@@ -104,8 +101,7 @@ void	execute_cmd(t_commands *cmds)
 		if (cmds->cp > 0)
 			cp(cmds->p[cmds->cp - 1], 2);
 		cp(cmds->p[cmds->cp], 1);
-		gs_status((exit_code >> 8), SET_STATUS);
-		ifp(cmds);
+		return (gs_status((exit_code >> 8), SET_STATUS), ifp(cmds));
 	}
 }
 
@@ -126,11 +122,10 @@ void	execute_last(t_commands *cmds)
 	if (!cid)
 	{
 		if (has_redirection(cmds))
-			return (process_redir(cmds), exit(ES));
+			return (predir(cmds), free_tings(cmds, NULL, NULL), exit(ES));
 		if (dup_pipes(cmds) == -1)
-			return (perror("Failed to dup pipes"), exit(EF));
-		child_functions(cmds);
-		exit(ES);
+			return (perror(FTDP), exit(EF));
+		return (child_functions(cmds), free_tings(cmds, NULL, NULL), exit(ES));
 	}
 	else if (cid > 0)
 	{
