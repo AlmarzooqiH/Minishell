@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 21:38:22 by hamad             #+#    #+#             */
-/*   Updated: 2025/02/01 17:03:51 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/02/01 18:44:25 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,10 @@ void	execute_one_pipe(t_commands *cmds)
 	if (!cid)
 	{
 		if (cmds->rd && has_redirection(cmds))
-			return (predir(cmds), exit(ES));
+			return (predir(cmds), free_tings(cmds, NULL, NULL), exit(ES));
 		if (dup_pipes(cmds) == -1)
 			return (perror(FTDP), free_tings(cmds, NULL, NULL), exit(EF));
-		return (child_functions(cmds), free(cmds), gs_envp(NULL, EXIT_ENVP),
-			free_cmds(cmds), exit(ES));
+		return (child_functions(cmds), free_tings(cmds, NULL, NULL), exit(ES));
 	}
 	else if (cid > 0)
 	{
@@ -64,12 +63,8 @@ void	execute_one(t_commands *cmds)
 	if (!cid)
 	{
 		if (has_redirection(cmds))
-			return (printf("before\n"), predir(cmds), printf("After\n"), free_tings(cmds, NULL, NULL), exit(ES));
-		child_functions(cmds);
-		free_cmds(cmds);
-		free(cmds);
-		gs_envp(NULL, EXIT_ENVP);
-		exit(ES);
+			return (predir(cmds), free_tings(cmds, NULL, NULL), exit(ES));
+		return (child_functions(cmds), free_tings(cmds, NULL, NULL), exit(ES));
 	}
 	else if (cid > 0)
 		waitpid(cid, &exit_code, 0);
@@ -98,8 +93,7 @@ void	execute_cmd(t_commands *cmds)
 			return (predir(cmds), free_tings(cmds, NULL, NULL), exit(ES));
 		if (dup_pipes(cmds) == -1)
 			return (perror(FTDP), free_tings(cmds, NULL, NULL), exit(EF));
-		return (child_functions(cmds), free(cmds), gs_envp(NULL, EXIT_ENVP),
-			free_cmds(cmds), exit(ES));
+		return (child_functions(cmds), free_tings(cmds, NULL, NULL), exit(ES));
 	}
 	else if (cid > 0)
 	{
@@ -131,8 +125,7 @@ void	execute_last(t_commands *cmds)
 			return (predir(cmds), free_tings(cmds, NULL, NULL), exit(ES));
 		if (dup_pipes(cmds) == -1)
 			return (perror(FTDP), exit(EF));
-		return (child_functions(cmds), free(cmds), gs_envp(NULL, EXIT_ENVP),
-			free_cmds(cmds), exit(ES));
+		return (child_functions(cmds), free_tings(cmds, NULL, NULL), exit(ES));
 	}
 	else if (cid > 0)
 	{

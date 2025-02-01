@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 13:38:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/24 22:56:46 by hamad            ###   ########.fr       */
+/*   Updated: 2025/02/01 18:48:18 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,7 @@ void	builtin_exit(t_commands *cmds)
 		{
 			ft_putstr_fd(cmds->c[cmds->cc][1], 2);
 			ft_putendl_fd("exit: numeric argument required", 2);
-			free_cmds(cmds);
-			gs_envp(NULL, EXIT_ENVP);
-			exit(255);
+			return (free_cmds(cmds), gs_envp(NULL, EXIT_ENVP), exit(255));
 		}
 		if (count_tokens(cmds->c[cmds->cc]) >= 3)
 			return (gs_status(1, SET_STATUS),
@@ -90,7 +88,10 @@ void	builtin_exit(t_commands *cmds)
 	else
 		es = gs_status(0, GET_STATUS);
 	if (cmds)
+	{
 		free_cmds(cmds);
+		free(cmds);
+	}
 	gs_envp(NULL, EXIT_ENVP);
 	exit((int)es);
 }

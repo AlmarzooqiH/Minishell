@@ -6,7 +6,7 @@
 /*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 20:05:16 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/14 15:56:06 by hamad            ###   ########.fr       */
+/*   Updated: 2025/02/01 18:54:03 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ void	close_files(t_commands *cmds)
 {
 	int	i;
 
+	if (!cmds->fd || !cmds->rd)
+		return ;
 	i = cmds->bfdp;
 	if (access(TEMP_FILE, F_OK) == 0)
 	{
@@ -85,8 +87,11 @@ void	close_files(t_commands *cmds)
 	}
 	while (i < cmds->efdp)
 	{
-		close(cmds->fd[i]);
-		cmds->fd[i] = -1;
+		if (cmds->fd[i] >= 0)
+		{
+			close(cmds->fd[i]);
+			cmds->fd[i] = -1;
+		}	
 		i++;
 	}
 	cmds->bfdp = cmds->efdp;

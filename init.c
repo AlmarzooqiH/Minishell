@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:37:31 by hamad             #+#    #+#             */
-/*   Updated: 2025/02/01 16:44:30 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/02/01 18:54:16 by hamad            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,7 @@ void	free_cmds(t_commands *cmds)
 	if (cmds->files)
 		free_split(cmds->files);
 	if (cmds->rd)
-	{
-		close_files(cmds);
 		free_arri(cmds->rd, cmds->nscmds + 1);
-	}
 	if (cmds->is_bash)
 		free(cmds->is_bash);
 	if (cmds->nscmds > 1 && cmds->p)
