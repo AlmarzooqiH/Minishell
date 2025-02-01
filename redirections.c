@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamalmar <hamalmar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 22:06:08 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/23 00:40:37 by hamalmar         ###   ########.fr       */
+/*   Updated: 2025/02/01 15:38:07 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void	check_if_success(t_commands *cmds)
 	{
 		if (cmds->fd[i] < 0)
 			return (gs_status(GET_STATUS, SET_STATUS),
-				perror("Failed to open file"), exit(EF));
+				perror("Failed to open file"),
+				free_tings(cmds, NULL, NULL), exit(EF));
 		i++;
 	}
 	gs_status(SET_STATUS, SET_STATUS);
@@ -110,7 +111,7 @@ void	create_files(t_commands *cmds)
  * @param cmds This holds the commands struct.
  * @return Void.
  */
-void	process_redir(t_commands *cmds)
+void	predir(t_commands *cmds)
 {
 	create_files(cmds);
 	if (cmds->hdp >= 0 && process_heredoc(cmds))

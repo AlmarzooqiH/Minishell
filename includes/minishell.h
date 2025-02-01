@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mthodi <mthodi@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:22:44 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/30 16:57:21 by mthodi           ###   ########.fr       */
+/*   Updated: 2025/02/01 15:30:22 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int		cet(char **envp, char *name);
 char	*update_envp2(char *name, char *exp);
 char	*gfn(char *command, int redirection);
 int		has_redirection(t_commands *cmds);
-void	process_redir(t_commands *cmds);
+void	predir(t_commands *cmds);
 void	create_files(t_commands *cmds);
 int		check_file(t_commands *cmds);
 int		process_heredoc(t_commands *cmds);
@@ -125,4 +125,6 @@ void	handle_invalid_identifier(t_commands *cmds, int i, int *had_invalid);
 void	update_envp(t_commands *cmds, int i);
 char	*expand_variable(t_commands *cmds, const char *str);
 char	**gs_envp(char **envp, int gore);
+void free_tings(t_commands *cmds, char **scmd, char **bpath);
+
 #endif

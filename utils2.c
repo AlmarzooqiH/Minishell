@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 14:23:52 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/23 15:26:03 by hamad            ###   ########.fr       */
+/*   Updated: 2025/02/01 14:29:11 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	free_tokens(char ***tokens, int n_tokens)
 {
 	int	i;
 
+	fprintf(stderr, "handgun2\n");
 	if (!tokens || !tokens[0])
 		return ;
 	i = 0;

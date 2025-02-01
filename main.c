@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 20:41:00 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/25 00:08:29 by hamad            ###   ########.fr       */
+/*   Updated: 2025/02/01 14:58:09 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	**gs_envp(char **envp, int gore)
 		env = envp;
 	else if (gore == EXIT_ENVP)
 	{
-		if (envp)
+		if (env)
 			free_split(env);
 	}
 	return (NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hamad <hamad@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mthodi <mthodi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 13:03:10 by hamad             #+#    #+#             */
-/*   Updated: 2025/01/24 22:35:58 by hamad            ###   ########.fr       */
+/*   Updated: 2025/02/01 15:45:34 by mthodi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ void	process_input(const char *command)
 	if (!validate_command((char *)command))
 		return ;
 	cmds = (t_commands *)malloc(sizeof(t_commands));
-	init(cmds, command);
 	if (!cmds)
 		return ;
+	init(cmds, command);
 	execute_binary(cmds);
 	free_cmds(cmds);
 	free(cmds);
 	cmds = NULL;
+	fprintf(stderr, "hereee\n");
 }
