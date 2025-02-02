@@ -11,7 +11,7 @@ Special thanks to [ii-mnwr](https://github.com/ii-mnwr) for being my project par
 - **Basic Shell Operations**: Execute commands like `ls`, `echo`, `pwd`, etc.
 - **Change Directories**: Use `cd` to navigate through the file system.
 - **Pipes**: Handle pipes (`|`) to connect multiple commands.
-- **Redirections**: Support input (`<`), output (`>`), append (`>>`) and heredoc(`<<`) redirections.
+- **Redirections**: Support input (`<`), output (`>`), append (`>>`) and heredoc (`<<`) redirections.
 - **Built-in Commands**: Implement built-in commands like `cd`, `echo`, `pwd`, `export`, `unset`, `env`, and `exit`.
 - **Environment Variables**: Manage and expand environment variables.
 - **Signal Handling**: Properly handle signals like `Ctrl+C`, `Ctrl+D` and `Ctrl+\`.
