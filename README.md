@@ -28,7 +28,7 @@ To get started with Minishell, follow these steps:
 1. **Clone the repository**:
     ```sh
     git clone https://github.com/AlmarzooqiH/Minishell.git
-    cd minishell
+    cd Minishell
     ```
 
 2. **Compile the project**:
